@@ -13,7 +13,7 @@ module.exports = (env, options) => {
     watch: !isProduction,
     entry: {
       main: './src/index.ts',
-      authorization: './src/Pages/authorization/index.authorization.ts'
+      authorization: './src/Pages/Authorization/index.authorization.ts'
     },
     output: {
       filename: '[name].[contenthash].js',
