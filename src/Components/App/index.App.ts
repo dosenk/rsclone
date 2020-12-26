@@ -1,10 +1,13 @@
 import Observer from '../../Observer/index.Observer';
 
 export default class App {
+  private mainElement: HTMLElement;
+
+  private observer = new Observer();
+
   constructor() {
-    const parentElem = document.body;
+    const parentElem: Element = document.body;
     this.mainElement = document.createElement('main');
-    this.observer = new Observer();
 
     // this.table = new Table(
     //   this.mainElement,
@@ -14,7 +17,7 @@ export default class App {
     parentElem.append(this.mainElement);
   }
 
-  start() {
+  public start() {
     // this.observer.actions.fetchData();
     // this.observer.subscribe(this.table, ...etc);
   }

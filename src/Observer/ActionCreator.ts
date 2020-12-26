@@ -1,11 +1,14 @@
+import Observer from './index.Observer';
 import { LOADING } from './actionTypes';
 
 export default class ActionCreator {
-  constructor(observer) {
+  private observer: Observer;
+
+  constructor(observer: Observer) {
     this.observer = observer;
   }
 
-  setLoading(isLoading = true) {
+  setLoading(isLoading: boolean = true) {
     if (this.observer.getState().loading === isLoading) return;
 
     this.observer.dispatch({
