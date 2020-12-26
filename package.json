@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx cross-env NODE_ENV=development webpack --mode development",
+    "watch": "npx cross-env NODE_ENV=development webpack serve --mode development",
     "build": "npx cross-env NODE_ENV=production webpack --mode production",
-    "start": "npx cross-env NODE_ENV=development webpack serve --mode development",
+    "heroku-postbuild": "webpack --mode production",
+    "start": "node index",
     "lint": "npx eslint --fix src/**/*.js",
     "test": "npx jest"
   },
@@ -41,5 +43,8 @@
     "webpack": "^5.11.0",
     "webpack-cli": "^4.3.0",
     "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }

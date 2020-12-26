@@ -11,7 +11,10 @@ module.exports = (env, options) => {
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? false : 'source-map',
     watch: !isProduction,
-    entry: ['./src/index.ts'],
+    entry: {
+      main: './src/index.ts',
+      authorization: './src/Pages/authorization/index.authorization.ts'
+    },
     output: {
       filename: '[name].[contenthash].js',
       path: isProduction
@@ -77,7 +80,14 @@ module.exports = (env, options) => {
         filename: 'index.html',
         template: './src/index.html',
         title: 'RSClone',
+        chunks: ['main'],
         // favicon: './src/assets/ico/favicon.ico',
+      }),
+      new HTMLWebpackPlugin({
+        filename: 'login.html',
+        template: './src/Pages/Authorization/authorizarion.html',
+        title: 'Login',
+        chunks: ['authorization'],
       }),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
