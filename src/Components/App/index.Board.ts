@@ -14,7 +14,7 @@ export default class Board {
   private render() {
     const body: Element = document.body;
     this.board = document.createElement("canvas");
-    this.board.setAttribute("id", "board");
+    this.board.classList.add("board");
     this.board.style.cursor = "url(/src/assets/images/cursor1.png), auto";
     body.append(this.board);
   }

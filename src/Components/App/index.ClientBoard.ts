@@ -10,7 +10,7 @@ export default class ClientBoard {
   private render() {
     const body: Element = document.body;
     this.board = document.createElement("canvas");
-    this.board.setAttribute("id", "board1");
+    this.board.classList.add("board1");
     this.board.style.cursor = "url(/src/assets/images/cursor1.png), auto";
     body.append(this.board);
     this.context = this.board.getContext("2d");
