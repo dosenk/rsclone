@@ -1,4 +1,4 @@
-import Observer from '../../Observer/index.Observer';
+import Observer from "../../Observer/index.Observer";
 
 export default class App {
   private mainElement: HTMLElement;
@@ -7,7 +7,7 @@ export default class App {
 
   constructor() {
     const parentElem: Element = document.body;
-    this.mainElement = document.createElement('main');
+    this.mainElement = document.createElement("main");
 
     // this.table = new Table(
     //   this.mainElement,
