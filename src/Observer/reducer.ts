@@ -1,10 +1,11 @@
 import { LOADING, INIT } from './actionTypes';
+import IAction from './Interfaces/IAction';
+import IState from './Interfaces/IState';
 
-export default (state, action) => {
+export default (state: IState, action: IAction) => {
   switch (action.type) {
     case INIT:
       return {
-        loading: true,
         ...state,
       };
     case LOADING:
