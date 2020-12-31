@@ -4,7 +4,6 @@ import IAction from './Interfaces/IAction';
 import { INIT } from './actionTypes';
 import reducer from './reducer';
 import IState from './Interfaces/IState';
-import IIncompleteState from './Interfaces/IIncompleteState';
 
 export default class Observer {
   private state: IState;
@@ -13,7 +12,7 @@ export default class Observer {
 
   public actions: ActionCreator;
 
-  constructor(initialState: IIncompleteState = {}) {
+  constructor(initialState: Partial<IState> = {}) {
     const state: IState = {
       loading: true,
       langData: {},
