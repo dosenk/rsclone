@@ -1,9 +1,12 @@
 import Observer from '../../Observer/index.Observer';
+import SocketClient from '../../SocketClient/index.SocketClient';
 
 export default class App {
   private mainElement: HTMLElement;
 
-  private observer = new Observer();
+  private readonly observer = new Observer();
+
+  private readonly socketClient = new SocketClient(this.observer);
 
   constructor() {
     const parentElem: Element = document.body;
