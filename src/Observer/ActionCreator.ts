@@ -1,5 +1,6 @@
 import Observer from './index.Observer';
-import { LOADING } from './actionTypes';
+import { LANG, LOADING } from './actionTypes';
+import langItem from '../LangDictionaries/en';
 
 export default class ActionCreator {
   private observer: Observer;
@@ -8,12 +9,19 @@ export default class ActionCreator {
     this.observer = observer;
   }
 
-  setLoading(isLoading: boolean = true) {
+  setLoading(isLoading: boolean = true): void {
     if (this.observer.getState().loading === isLoading) return;
 
     this.observer.dispatch({
       type: LOADING,
       payload: isLoading,
+    });
+  }
+
+  setLang(lang: typeof langItem): void {
+    this.observer.dispatch({
+      type: LANG,
+      payload: lang,
     });
   }
 }
