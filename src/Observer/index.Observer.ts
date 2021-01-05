@@ -1,18 +1,25 @@
 import ActionCreator from './ActionCreator';
-import ISubscriber from './ISubscriber';
-import IAction from './IAction';
+import ISubscriber from './Interfaces/ISubscriber';
+import IAction from './Interfaces/IAction';
 import { INIT } from './actionTypes';
 import reducer from './reducer';
+import IState from './Interfaces/IState';
 
 export default class Observer {
-  private state: Object;
+  private state: IState;
 
   private subscribers: Array<ISubscriber> = [];
 
   public actions: ActionCreator;
 
-  constructor(initialState: Object = {}) {
-    this.state = reducer(initialState, { type: INIT });
+  constructor(initialState: Partial<IState> = {}) {
+    const state: IState = {
+      loading: true,
+      langData: {},
+      ...initialState,
+    };
+
+    this.state = reducer(state, { type: INIT });
     this.actions = new ActionCreator(this);
   }
 
@@ -27,7 +34,7 @@ export default class Observer {
     this.subscribers.push(...subscriber);
   }
 
-  getState(): Object {
+  getState(): IState {
     return this.state;
   }
 }
