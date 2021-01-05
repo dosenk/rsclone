@@ -12,9 +12,10 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'prettier'],
   extends: [
     'airbnb-typescript/base',
+    'plugin:prettier/recommended',
     'prettier',
     'prettier/@typescript-eslint',
   ],
