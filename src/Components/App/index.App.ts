@@ -12,7 +12,7 @@ export default class App {
     this.observer = new Observer({ langData });
 
     const parentElem: Element = document.body;
-    this.mainElement = document.createElement("main");
+    this.mainElement = document.createElement('main');
 
     // this.table = new Table(
     //   this.mainElement,

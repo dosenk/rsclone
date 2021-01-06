@@ -1,21 +1,21 @@
-const path = require("path");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env, options) => {
-  const isProduction = options.mode === "production";
+  const isProduction = options.mode === 'production';
 
   const config = {
-    mode: isProduction ? "production" : "development",
-    devtool: isProduction ? false : "source-map",
+    mode: isProduction ? 'production' : 'development',
+    devtool: isProduction ? false : 'source-map',
     watch: !isProduction,
-    entry: ["./src/index.ts"],
+    entry: ['./src/index.ts'],
     output: {
-      filename: "[name].[contenthash].js",
+      filename: '[name].[contenthash].js',
       path: isProduction
-        ? path.join(__dirname, "/rsClone")
-        : path.join(__dirname, "/dist"),
+        ? path.join(__dirname, '/rsClone')
+        : path.join(__dirname, '/dist'),
     },
     devServer: {
       port: 4200,
@@ -29,59 +29,59 @@ module.exports = (env, options) => {
           test: /\.(js|jsx|ts|tsx)$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader",
+            loader: 'babel-loader',
             options: {
               presets: [
-                ["@babel/preset-env", { targets: "defaults" }],
-                "@babel/preset-typescript",
+                ['@babel/preset-env', { targets: 'defaults' }],
+                '@babel/preset-typescript',
               ],
               plugins: [
-                "@babel/plugin-proposal-class-properties",
-                "@babel/plugin-transform-runtime",
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-transform-runtime',
               ],
             },
           },
         },
         {
           test: /\.(css|s[ca]ss)$/,
-          use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
         {
           test: /\.(png|svg|jpe?g|gif|wav)$/i,
           use: [
             {
-              loader: "file-loader",
+              loader: 'file-loader',
               options: {
-                name: "[name].[ext]",
+                name: '[name].[ext]',
               },
             },
           ],
         },
         {
           test: /\.html$/i,
-          loader: "html-loader",
+          loader: 'html-loader',
         },
         {
           test: /\.(ttf|woff|woff2|eot)$/i,
-          loader: "file-loader",
+          loader: 'file-loader',
         },
       ],
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".js", ".jsx"],
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
 
     plugins: [
       new HTMLWebpackPlugin({
-        filename: "index.html",
-        template: "./src/index.html",
-        title: "RSClone",
+        filename: 'index.html',
+        template: './src/index.html',
+        title: 'RSClone',
         // favicon: './src/assets/ico/favicon.ico',
       }),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: isProduction ? "[name].[contenthash].css" : "[name].css",
-        chunkFilename: isProduction ? "[id].[contenthash].css" : "[id].css",
+        filename: isProduction ? '[name].[contenthash].css' : '[name].css',
+        chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
       }),
     ],
   };

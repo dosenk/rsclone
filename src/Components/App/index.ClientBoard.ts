@@ -1,6 +1,10 @@
 export default class ClientBoard {
-  private board: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D;
+  private board: HTMLCanvasElement = document.createElement('canvas');
+
+  private context: CanvasRenderingContext2D = (this.board.getContext(
+    '2d'
+  ) as unknown) as CanvasRenderingContext2D;
+
   private draw: boolean = false;
 
   constructor() {
@@ -8,29 +12,27 @@ export default class ClientBoard {
   }
 
   private render() {
-    const body: Element = document.body;
-    this.board = document.createElement("canvas");
-    this.board.classList.add("board1");
-    this.board.style.cursor = "url(/src/assets/images/cursor1.png), auto";
+    const { body } = document;
+    this.board.classList.add('board');
+    this.board.style.cursor = 'url(/src/assets/images/cursor1.png), auto';
     body.append(this.board);
-    this.context = this.board.getContext("2d");
     this.context.lineWidth = 1;
   }
 
-  public mosedown(x, y) {
+  public mosedown(x: number, y: number) {
     this.draw = true;
     this.context.beginPath();
     this.context.moveTo(x, y);
   }
 
-  public mosemove(x, y) {
+  public mosemove(x: number, y: number) {
     if (this.draw === true) {
       this.context.lineTo(x, y);
       this.context.stroke();
     }
   }
 
-  public moseup(x, y) {
+  public moseup(x: number, y: number) {
     this.context.lineTo(x, y);
     this.context.stroke();
     this.context.closePath();
@@ -41,11 +43,11 @@ export default class ClientBoard {
     this.context.clearRect(0, 0, this.board.width, this.board.height);
   }
 
-  public setColor(color) {
+  public setColor(color: any) {
     this.context.strokeStyle = `${color}`;
   }
 
-  public setLineThickness(number) {
+  public setLineThickness(number: number) {
     this.context.lineWidth = number;
   }
 }
