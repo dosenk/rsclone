@@ -1,6 +1,11 @@
 import io from 'socket.io-client';
 import Observer from '../Observer/index.Observer';
-import { CHAT_MSG, SERVER_URL } from './constants';
+import {
+  SERVER_URL,
+  CHAT_EVENT,
+  CONNECT_EVENT,
+  GREETING_EVENT,
+} from './constants';
 
 export default class SocketClient {
   private readonly connection: any;
@@ -17,7 +22,13 @@ export default class SocketClient {
   }
 
   private setSocketListeners(): void {
-    this.connection.on(CHAT_MSG, (msgJson: JSON): void => {
+    this.connection.on(CONNECT_EVENT, (): void => {
+      const { userName } = this.observer.getState();
+
+      this.connection.emit(GREETING_EVENT, { userName });
+    });
+
+    this.connection.on(CHAT_EVENT, (msgJson: JSON): void => {
       this.chatListeners.forEach((listener) => {
         listener(msgJson);
       });
@@ -29,8 +40,6 @@ export default class SocketClient {
   }
 
   public sensAnswer(msg: string): void {
-    const { userName } = this.observer.getState();
-
-    this.connection.emit(CHAT_MSG, { msg, userName });
+    this.connection.emit(CHAT_EVENT, { msg });
   }
 }
