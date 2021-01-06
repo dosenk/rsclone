@@ -1,37 +1,58 @@
 import io from "socket.io-client";
-import { createElement } from "./../Utils/index.Utils";
+import { createElement } from "../Utils/index.Utils";
+import { SOCKET_SERVER } from "../Constants/index.Constants";
+
+const SOCKET_SERVER_LOCAL = "http://localhost:3000";
 
 export default class SocketIoClient {
   parentElement: HTMLBodyElement;
+
   socket: SocketIOClient.Socket;
-  chat: HTMLBodyElement | undefined;
+
+  chat: Element | undefined;
+
+  form: Element | undefined;
 
   constructor(parentElement: HTMLBodyElement) {
     this.parentElement = parentElement;
-    this.socket = io();
+    this.socket = io(SOCKET_SERVER);
+    this.start();
   }
 
-  start(parentElem: null = null) {
-    this.createChat(parentElem);
-    this.createForm(parentElem);
+  async start(parentElem: null = null) {
+    await this.createChat(parentElem);
+    await this.createForm(parentElem);
     this.listenEvents();
   }
 
-  listenEvents() {
+  listenEvents(): void {
     this.socket.on("connect", () => {
       this.socket.emit("name", "nikname"); // nik when user login
     });
 
     this.socket.on("broadcast", (...msg: Array<string>) => {
-      const nikName = msg[1];
-      const message = msg[2];
-      this.printMessange(nikName, message);
+      const nikName = msg[0];
+      const message = msg[1];
+      this.printMessage(nikName, message);
+    });
+
+    this.sendMessage();
+  }
+
+  sendMessage(): void {
+    this.form?.addEventListener("submit", (e: Event) => {
+      e.preventDefault();
+      const tagetElement = e.target;
+      const input = tagetElement?.childNodes[0];
+      if (input.value) this.socket.emit("broadcast", input.value);
+      input.value = "";
     });
   }
 
-  printMessange(nikname: string, text: string): void {
+  printMessage(nikname: string, text: string): void {
     const msgText = `${nikname}: ${text}`;
-    createElement("p", "client-chat__msg", this.chat, null, msgText);
+    const p = createElement("p", "client-chat__msg", null, null, msgText);
+    this.chat?.prepend(p);
   }
 
   createChat(parentElem: HTMLBodyElement | null = null): void {
@@ -44,17 +65,13 @@ export default class SocketIoClient {
 
   createForm(parentElem: HTMLBodyElement | null = null): void {
     const input = createElement("input", "client-form__info");
-    const label = createElement(
-      "label",
-      "client-form__info",
-      null,
-      [input],
-      "Enter nikname:"
+    const btn = createElement("button", "client-form__btn", null, null, "send");
+    btn.setAttribute("type", "submit");
+    this.form = createElement(
+      "form",
+      "client-form",
+      parentElem || this.parentElement,
+      [input, btn]
     );
-    const btn = createElement("button", "client-form__btn");
-    createElement("div", "client-form", parentElem || this.parentElement, [
-      label,
-      btn,
-    ]);
   }
 }
