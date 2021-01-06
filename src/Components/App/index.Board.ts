@@ -14,22 +14,23 @@ export default class Board {
     this.context = (this.board.getContext(
       '2d'
     ) as unknown) as CanvasRenderingContext2D;
+    this.listener();
   }
 
   private render() {
     const { body } = document;
     this.board = document.createElement('canvas');
     this.board.classList.add('board');
-    this.board.style.cursor = 'url(/src/assets/images/cursor1.png), auto';
     body.append(this.board);
   }
 
-  public startListener() {
+  public addHost() {
+    this.board.style.cursor = 'url(/src/assets/images/cursor1.png), auto';
     this.player = false;
-    this.listener();
   }
 
-  public removeListener() {
+  public addPlayer() {
+    this.board.style.cursor = 'auto';
     this.player = true;
   }
 

@@ -6,5 +6,5 @@ document.body.onload = async () => {
   const app = new App();
   app.start();
   const board = new Board();
-  board.startListener();
+  board.addHost();
 };
