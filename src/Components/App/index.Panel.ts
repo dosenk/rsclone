@@ -15,10 +15,11 @@ export default class Panel {
 
   private board: Board = new Board();
 
-  constructor() {
+  constructor(main: HTMLElement) {
     this.board.addHost();
     this.render();
     this.listener();
+    main.append(this.panel);
   }
 
   private listener() {

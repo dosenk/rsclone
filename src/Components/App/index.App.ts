@@ -15,7 +15,7 @@ export default class App {
 
     const parentElem: Element = document.body;
     this.mainElement = document.createElement('main');
-    new Panel();
+    new Panel(this.mainElement);
     // const board = new Board();
     // board.addHost();
     // this.table = new Table(
