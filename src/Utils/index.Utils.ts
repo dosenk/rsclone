@@ -1,7 +1,8 @@
+/* eslint-disable import/prefer-default-export */
 export const createElement = (
   tag: string,
   classList?: string | Array<string>,
-  parent?: Element | null,
+  parent?: Object | null,
   childsList?: Array<Node> | Array<string> | null,
   textContent?: string | null
 ): Element => {
@@ -13,9 +14,9 @@ export const createElement = (
     elem.classList.add(...classList);
   }
 
-  if (childsList) elem.append(...childsList);
-
   if (textContent) elem.textContent = textContent;
+
+  if (childsList) elem.append(...childsList);
 
   if (parent) parent.append(elem);
 
