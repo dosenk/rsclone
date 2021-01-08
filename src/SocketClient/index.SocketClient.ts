@@ -5,6 +5,13 @@ import {
   CHAT_EVENT,
   CONNECT_EVENT,
   GREETING_EVENT,
+  CLEAR_BOARD_EVENT,
+  BOARD_EVENT,
+  MOUSE_DOWN_EVENT,
+  MOUSE_UP_EVENT,
+  MOUSE_MOVE_EVENT,
+  THICKNESS_EVENT,
+  COLOR_EVENT,
 } from './constants';
 
 export default class SocketClient {
@@ -18,10 +25,10 @@ export default class SocketClient {
     this.observer = observer;
     this.connection = io(SERVER_URL);
 
-    this.setSocketListeners();
+    this.setSocketEventsListeners();
   }
 
-  private setSocketListeners(): void {
+  private setSocketEventsListeners(): void {
     this.connection.on(CONNECT_EVENT, (): void => {
       const { userName } = this.observer.getState();
 
@@ -39,7 +46,51 @@ export default class SocketClient {
     this.chatListeners.push(listenerCallback);
   }
 
-  public sensAnswer(msg: string): void {
+  public sendAnswer(msg: string): void {
     this.connection.emit(CHAT_EVENT, { msg });
+  }
+
+  public sendClearBoard(): void {
+    this.connection.emit(BOARD_EVENT, {
+      type: CLEAR_BOARD_EVENT,
+    });
+  }
+
+  public sendMouseDown(x: number, y: number): void {
+    this.connection.emit(BOARD_EVENT, {
+      type: MOUSE_DOWN_EVENT,
+      x,
+      y,
+    });
+  }
+
+  public sendMouseMove(x: number, y: number): void {
+    this.connection.emit(BOARD_EVENT, {
+      type: MOUSE_MOVE_EVENT,
+      x,
+      y,
+    });
+  }
+
+  public sendMouseUp(x: number, y: number): void {
+    this.connection.emit(BOARD_EVENT, {
+      type: MOUSE_UP_EVENT,
+      x,
+      y,
+    });
+  }
+
+  public sendColor(color: string): void {
+    this.connection.emit(BOARD_EVENT, {
+      type: COLOR_EVENT,
+      color,
+    });
+  }
+
+  public sendThickness(thickness: number): void {
+    this.connection.emit(BOARD_EVENT, {
+      type: THICKNESS_EVENT,
+      thickness,
+    });
   }
 }
