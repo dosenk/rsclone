@@ -1,11 +1,10 @@
 import io from "socket.io-client";
 import { createElement } from "../Utils/index.Utils";
 import { SOCKET_SERVER } from "../Constants/index.Constants";
-
-const SOCKET_SERVER_LOCAL = "http://localhost:3000";
+import { FORM_CLASS, FORM_BTN_CLASS, FORM_INPUT_CLASS, CHAT_CLASS, CHAT_MSG_CLASS } from "./constants";
 
 export default class SocketIoClient {
-  parentElement: HTMLBodyElement;
+  parentElement: HTMLElement;
 
   socket: SocketIOClient.Socket;
 
@@ -13,13 +12,13 @@ export default class SocketIoClient {
 
   form: Element | undefined;
 
-  constructor(parentElement: HTMLBodyElement) {
+  constructor(parentElement: HTMLElement) {
     this.parentElement = parentElement;
     this.socket = io(SOCKET_SERVER);
     this.start();
   }
 
-  async start(parentElem: null = null) {
+  async start(parentElem: HTMLElement = this.parentElement) {
     await this.createChat(parentElem);
     await this.createForm(parentElem);
     this.listenEvents();
@@ -27,7 +26,9 @@ export default class SocketIoClient {
 
   listenEvents(): void {
     this.socket.on("connect", () => {
-      this.socket.emit("name", "nikname"); // nik when user login
+      // eslint-disable-next-line no-alert
+      const name = prompt('Enter nikname:') // todo - login form
+      this.socket.emit("name", name);
     });
 
     this.socket.on("broadcast", (...msg: Array<string>) => {
@@ -40,9 +41,9 @@ export default class SocketIoClient {
   }
 
   sendMessage(): void {
-    this.form?.addEventListener("submit", (e: Event) => {
-      e.preventDefault();
-      const tagetElement = e.target;
+    this.form?.addEventListener("submit", (event: Event) => {
+      event.preventDefault();
+      const tagetElement = event.target;
       const input = tagetElement?.childNodes[0];
       if (input.value) this.socket.emit("broadcast", input.value);
       input.value = "";
@@ -51,26 +52,26 @@ export default class SocketIoClient {
 
   printMessage(nikname: string, text: string): void {
     const msgText = `${nikname}: ${text}`;
-    const p = createElement("p", "client-chat__msg", null, null, msgText);
+    const p = createElement("p", CHAT_MSG_CLASS, null, null, msgText);
     this.chat?.prepend(p);
   }
 
-  createChat(parentElem: HTMLBodyElement | null = null): void {
+  createChat(parentElem: HTMLElement = this.parentElement): void {
     this.chat = createElement(
       "div",
-      "client-chat",
-      parentElem || this.parentElement
+      CHAT_CLASS,
+      parentElem,
     );
   }
 
-  createForm(parentElem: HTMLBodyElement | null = null): void {
-    const input = createElement("input", "client-form__info");
-    const btn = createElement("button", "client-form__btn", null, null, "send");
+  createForm(parentElem: HTMLElement = this.parentElement): void {
+    const input = createElement("input", FORM_INPUT_CLASS);
+    const btn = createElement("button", FORM_BTN_CLASS, null, null, "send");
     btn.setAttribute("type", "submit");
     this.form = createElement(
       "form",
-      "client-form",
-      parentElem || this.parentElement,
+      FORM_CLASS,
+      parentElem,
       [input, btn]
     );
   }

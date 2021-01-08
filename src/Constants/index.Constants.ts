@@ -1,2 +1,2 @@
 export const DEFAULT_LANGUAGE = "en";
-export const SOCKET_SERVER = "https://rsclone-node-js.herokuapp.com:80";
+export const SOCKET_SERVER = "https://rsclone-node-js.herokuapp.com";
