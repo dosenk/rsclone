@@ -21,6 +21,8 @@ export default class SocketClient {
 
   private chatListeners: Array<Function> = [];
 
+  private boardListeners: Array<Function> = [];
+
   constructor(observer: Observer) {
     this.observer = observer;
     this.connection = io(SERVER_URL);
@@ -40,9 +42,19 @@ export default class SocketClient {
         listener(msgJson);
       });
     });
+
+    this.connection.on(BOARD_EVENT, (event: JSON): void => {
+      this.boardListeners.forEach((listener) => {
+        listener(event);
+      });
+    });
   }
 
   public setChatListener(listenerCallback: Function) {
+    this.chatListeners.push(listenerCallback);
+  }
+
+  public setBoardListener(listenerCallback: Function) {
     this.chatListeners.push(listenerCallback);
   }
 
