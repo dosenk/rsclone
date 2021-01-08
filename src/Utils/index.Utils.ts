@@ -8,7 +8,7 @@ export const createElement = (
 ): Element => {
   const elem = document.createElement(tag);
 
-  if (typeof classList === "string") {
+  if (typeof classList === 'string') {
     elem.classList.add(classList);
   } else if (classList instanceof Array) {
     elem.classList.add(...classList);

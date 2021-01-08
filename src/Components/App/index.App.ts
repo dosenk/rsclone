@@ -3,7 +3,7 @@ import Observer from '../../Observer/index.Observer';
 import { DEFAULT_LANGUAGE } from '../../Constants/index.Constants';
 import Board from './index.Board';
 import Panel from './index.Panel';
-import SocketIoClient from "../../SocketIoClient/index.SocketIoClient";
+import SocketIoClient from '../../SocketIoClient/index.SocketIoClient';
 
 export default class App {
   private readonly observer: Observer;
