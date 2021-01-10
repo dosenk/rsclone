@@ -1,4 +1,5 @@
 import Observer from '../../Observer/index.Observer';
+import IDraw from '../../Observer/Interfaces/IDraw';
 import Panel from './index.Panel';
 
 export default class Board {
@@ -27,13 +28,22 @@ export default class Board {
     this.observer.subscribe(this);
   }
 
-  public update(state: { role: string }) {
+  public update(state: { role: string; draw: IDraw }) {
     if (state.role === 'guesser') {
-      this.addPlayer();
-      this.panel.displayPanel();
+      if (state.draw !== null) {
+        if (state.draw.type === 'mousedown')
+          this.mousedown(state.draw.x, state.draw.y);
+        if (state.draw.type === 'mousemove')
+          this.mousemove(state.draw.x, state.draw.y);
+        if (state.draw.type === 'mouseup')
+          this.mouseup(state.draw.x, state.draw.y);
+      } else {
+        this.addPlayer();
+        this.panel.hidePanel();
+      }
     } else if (state.role === 'painter') {
       this.addHost();
-      this.panel.hidePanel();
+      this.panel.displayPanel();
     }
   }
 
