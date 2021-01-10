@@ -3,6 +3,9 @@ interface IState {
   langData: Object;
   role: string;
   name: string;
+  draw: Object;
+  drawThickness: number;
+  drawColor: string;
 }
 
 export default IState;

@@ -1,4 +1,13 @@
-import { LOADING, INIT, LANG, ROLE, NAME } from './actionTypes';
+import {
+  LOADING,
+  INIT,
+  LANG,
+  ROLE,
+  NAME,
+  DRAW,
+  DRAW_THICKNESS,
+  DRAW_COLOR,
+} from './actionTypes';
 import IAction from './Interfaces/IAction';
 import IState from './Interfaces/IState';
 
@@ -15,7 +24,13 @@ export default (state: IState, action: IAction): IState => {
     case ROLE:
       return { ...state, role: action.payload };
     case NAME:
-      return { ...state, role: action.payload };
+      return { ...state, name: action.payload };
+    case DRAW:
+      return { ...state, draw: action.payload };
+    case DRAW_THICKNESS:
+      return { ...state, drawThickness: action.payload };
+    case DRAW_COLOR:
+      return { ...state, drawColor: action.payload };
 
     default:
       return state;

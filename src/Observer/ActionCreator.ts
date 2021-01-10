@@ -1,5 +1,13 @@
 import Observer from './index.Observer';
-import { LANG, LOADING, ROLE } from './actionTypes';
+import {
+  DRAW,
+  DRAW_COLOR,
+  DRAW_THICKNESS,
+  LANG,
+  LOADING,
+  NAME,
+  ROLE,
+} from './actionTypes';
 import langItem from '../LangDictionaries/en';
 
 export default class ActionCreator {
@@ -34,8 +42,29 @@ export default class ActionCreator {
 
   setName(name: string): void {
     this.observer.dispatch({
-      type: ROLE,
+      type: NAME,
       payload: name,
+    });
+  }
+
+  setDraw(draw: Object): void {
+    this.observer.dispatch({
+      type: DRAW,
+      payload: draw,
+    });
+  }
+
+  setDrawThickness(thickness: number): void {
+    this.observer.dispatch({
+      type: DRAW_THICKNESS,
+      payload: thickness,
+    });
+  }
+
+  setDrawColor(color: string): void {
+    this.observer.dispatch({
+      type: DRAW_COLOR,
+      payload: color,
     });
   }
 }
