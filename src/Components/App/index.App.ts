@@ -17,7 +17,8 @@ export default class App {
 
     const parentElem: Element = document.body;
     this.mainElement = document.createElement('main');
-    this.socketIoClient = new SocketIoClient(this.mainElement);
+    
+    this.socketIoClient = new SocketIoClient(this.mainElement, this.observer);
 
     const board = new Board(this.mainElement, this.observer);
     // board.addHost();

@@ -8,6 +8,7 @@ import {
   CHAT_CLASS,
   CHAT_MSG_CLASS,
 } from './constants';
+import Observer from '../Observer/index.Observer';
 
 export default class SocketIoClient {
   parentElement: HTMLElement;
@@ -18,10 +19,15 @@ export default class SocketIoClient {
 
   form: Element | undefined;
 
-  constructor(parentElement: HTMLElement) {
+  observer: any;
+
+  constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
     this.socket = io(SOCKET_SERVER);
     this.start();
+
+    this.observer = observer;
+    this.observer.subscribe(this);
   }
 
   async start(parentElem: HTMLElement = this.parentElement) {
@@ -30,11 +36,26 @@ export default class SocketIoClient {
     this.listenEvents();
   }
 
+  public update(state: { role: string; drow: object }) {
+    if (state.role === 'painter') {
+      this.socket.emit('coordinates', JSON.stringify(state.drow));
+    }
+  }
+
   listenEvents(): void {
     this.socket.on('connect', () => {
       // eslint-disable-next-line no-alert
       const name = prompt('Enter nikname:'); // todo - login form
       this.socket.emit('name', name);
+    });
+
+    this.socket.on('role', (role: string) => {
+      this.observer.actions.setRole(role);
+    });
+
+    this.socket.on('coordinates', (coordinates: string) => {
+      const drow = JSON.parse(coordinates);
+      this.observer.actions.setDraw(drow);
     });
 
     this.socket.on('broadcast', (...msg: Array<string>) => {
