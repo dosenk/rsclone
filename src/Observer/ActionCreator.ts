@@ -7,6 +7,7 @@ import {
   LOADING,
   NAME,
   ROLE,
+  CLEAR_BOARD,
 } from './actionTypes';
 import langItem from '../LangDictionaries/en';
 import IDraw from './Interfaces/IDraw';
@@ -66,6 +67,13 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: DRAW_COLOR,
       payload: color,
+    });
+  }
+
+  clearBoard(): void {
+    this.observer.dispatch({
+      type: CLEAR_BOARD,
+      payload: null,
     });
   }
 }

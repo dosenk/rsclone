@@ -1,6 +1,15 @@
 import Observer from '../../Observer/index.Observer';
 import IDraw from '../../Observer/Interfaces/IDraw';
 import Panel from './index.Panel';
+import {
+  DRAW,
+  DRAW_COLOR,
+  DRAW_THICKNESS,
+  ROLE,
+  CLEAR_BOARD,
+  ROLE_GUESSER,
+  ROLE_PAINTER,
+} from '../../Observer/actionTypes';
 
 export default class Board {
   private board: HTMLCanvasElement = document.createElement('canvas');
@@ -24,26 +33,52 @@ export default class Board {
       '2d'
     ) as unknown) as CanvasRenderingContext2D;
     this.listener();
-    this.panel = new Panel(parentElement, this);
+    this.panel = new Panel(parentElement, this, observer);
     this.observer.subscribe(this);
   }
 
-  public update(state: { role: string; draw: IDraw }) {
-    if (state.role === 'guesser') {
-      if (state.draw !== null) {
-        if (state.draw.type === 'mousedown')
-          this.mousedown(state.draw.x, state.draw.y);
-        if (state.draw.type === 'mousemove')
-          this.mousemove(state.draw.x, state.draw.y);
-        if (state.draw.type === 'mouseup')
-          this.mouseup(state.draw.x, state.draw.y);
-      } else {
-        this.addPlayer();
-        this.panel.hidePanel();
+  public update(
+    state: {
+      role: string;
+      draw: IDraw;
+      drawThickness: number;
+      drawColor: string;
+    },
+    actionType: string
+  ) {
+    try {
+      if (state.role === ROLE_PAINTER) {
+        if (actionType === ROLE) {
+          this.addHost();
+          this.panel.displayPanel();
+        }
       }
-    } else if (state.role === 'painter') {
-      this.addHost();
-      this.panel.displayPanel();
+      if (state.role === ROLE_GUESSER) {
+        if (actionType === ROLE) {
+          this.addPlayer();
+          this.panel.hidePanel();
+        }
+        if (actionType === DRAW && state.draw !== null) {
+          if (state.draw.type === 'mousedown')
+            this.mousedown(state.draw.x, state.draw.y);
+          if (state.draw.type === 'mousemove')
+            this.mousemove(state.draw.x, state.draw.y);
+          if (state.draw.type === 'mouseup')
+            this.mouseup(state.draw.x, state.draw.y);
+        }
+        if (actionType === DRAW_THICKNESS && state.drawThickness !== null) {
+          this.setLineThickness(state.drawThickness);
+        }
+        if (actionType === DRAW_COLOR && state.drawColor !== null) {
+          this.setColor(state.drawColor);
+        }
+        if (actionType === CLEAR_BOARD) {
+          this.clearBoard();
+        }
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 
@@ -65,6 +100,7 @@ export default class Board {
 
   public clearBoard() {
     this.context.clearRect(0, 0, this.board.width, this.board.height);
+    // this.observer.actions.clearBoard();
   }
 
   private listener() {
@@ -97,12 +133,13 @@ export default class Board {
     this.mouse.y =
       ((event.clientY - this.board.offsetTop) * this.board.height) /
       this.board.clientHeight;
+
     if (event.type === 'mousedown') {
       this.setDraw('mousedown', this.mouse.x, this.mouse.y);
       this.mousedown(this.mouse.x, this.mouse.y);
     }
     if (event.type === 'mousemove') {
-      this.setDraw('mousemove', this.mouse.x, this.mouse.y);
+      if (this.draw) this.setDraw('mousemove', this.mouse.x, this.mouse.y);
       this.mousemove(this.mouse.x, this.mouse.y);
     }
     if (event.type === 'mouseup') {

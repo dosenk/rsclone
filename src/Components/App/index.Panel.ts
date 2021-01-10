@@ -1,3 +1,5 @@
+import Observer from '../../Observer/index.Observer';
+
 export default class Panel {
   private panel: HTMLElement = document.createElement('div');
 
@@ -13,38 +15,45 @@ export default class Panel {
 
   private board: any;
 
-  constructor(main: HTMLElement, board: any) {
+  observer: Observer;
+
+  constructor(main: HTMLElement, board: any, observer: Observer) {
     this.board = board;
     this.render();
     this.listener();
     main.append(this.panel);
+    this.observer = observer;
   }
 
   private listener() {
     this.panelColors.addEventListener('click', (event) => {
       const colorButton: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
-      if (colorButton.value === 'black') this.board.setColor('black');
-      if (colorButton.value === 'red') this.board.setColor('red');
-      if (colorButton.value === 'green') this.board.setColor('green');
-      if (colorButton.value === 'blue') this.board.setColor('blue');
+      this.board.setColor(colorButton.value);
+      this.observer.actions.setDrawColor(colorButton.value);
     });
     this.panelToolsPencil.addEventListener('click', (event) => {
       const pencilSize: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
-      if (pencilSize.value === '6') this.board.setLineThickness(6);
-      if (pencilSize.value === '3') this.board.setLineThickness(3);
-      if (pencilSize.value === '1') this.board.setLineThickness(1);
+      this.board.setLineThickness(+pencilSize.value);
+      this.observer.actions.setDrawThickness(+pencilSize.value);
     });
     this.panelToolsTool.addEventListener('click', (event) => {
       const tool: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
       if (tool.closest('.pencil')) {
         this.board.setLineThickness(1);
         this.board.setColor('black');
+        this.observer.actions.setDrawColor('black');
+        this.observer.actions.setDrawThickness(1);
       }
       if (tool.closest('.eraser')) {
         this.board.setLineThickness(8);
         this.board.setColor('white');
+        this.observer.actions.setDrawColor('white');
+        this.observer.actions.setDrawThickness(8);
       }
-      if (tool.closest('.clear')) this.board.clearBoard();
+      if (tool.closest('.clear')) {
+        this.board.clearBoard();
+        this.observer.actions.clearBoard();
+      }
     });
   }
 
