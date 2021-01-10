@@ -1,9 +1,11 @@
+import IDraw from './IDraw';
+
 interface IState {
   loading: boolean;
   langData: Object;
   role: string;
   name: string;
-  draw: Object;
+  draw: IDraw | null;
   drawThickness: number;
   drawColor: string;
 }

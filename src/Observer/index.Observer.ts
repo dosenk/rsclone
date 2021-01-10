@@ -18,7 +18,7 @@ export default class Observer {
       langData: {},
       role: '',
       name: 'name',
-      draw: {},
+      draw: null,
       drawThickness: 1,
       drawColor: 'black',
       ...initialState,

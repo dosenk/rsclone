@@ -9,6 +9,7 @@ import {
   ROLE,
 } from './actionTypes';
 import langItem from '../LangDictionaries/en';
+import IDraw from './Interfaces/IDraw';
 
 export default class ActionCreator {
   private observer: Observer;
@@ -47,7 +48,7 @@ export default class ActionCreator {
     });
   }
 
-  setDraw(draw: Object): void {
+  setDraw(draw: IDraw): void {
     this.observer.dispatch({
       type: DRAW,
       payload: draw,
