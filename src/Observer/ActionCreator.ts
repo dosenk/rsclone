@@ -1,6 +1,15 @@
 import Observer from './index.Observer';
-import { LANG, LOADING } from './actionTypes';
+import {
+  DRAW,
+  DRAW_COLOR,
+  DRAW_THICKNESS,
+  LANG,
+  LOADING,
+  NAME,
+  ROLE,
+} from './actionTypes';
 import langItem from '../LangDictionaries/en';
+import IDraw from './Interfaces/IDraw';
 
 export default class ActionCreator {
   private observer: Observer;
@@ -22,6 +31,41 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: LANG,
       payload: lang,
+    });
+  }
+
+  setRole(role: string): void {
+    this.observer.dispatch({
+      type: ROLE,
+      payload: role,
+    });
+  }
+
+  setName(name: string): void {
+    this.observer.dispatch({
+      type: NAME,
+      payload: name,
+    });
+  }
+
+  setDraw(draw: IDraw): void {
+    this.observer.dispatch({
+      type: DRAW,
+      payload: draw,
+    });
+  }
+
+  setDrawThickness(thickness: number): void {
+    this.observer.dispatch({
+      type: DRAW_THICKNESS,
+      payload: thickness,
+    });
+  }
+
+  setDrawColor(color: string): void {
+    this.observer.dispatch({
+      type: DRAW_COLOR,
+      payload: color,
     });
   }
 }
