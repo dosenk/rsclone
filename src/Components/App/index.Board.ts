@@ -1,3 +1,6 @@
+import Observer from '../../Observer/index.Observer';
+import Panel from './index.Panel';
+
 export default class Board {
   private board: HTMLCanvasElement = document.createElement('canvas');
 
@@ -9,19 +12,35 @@ export default class Board {
 
   private player: boolean = true;
 
-  constructor() {
-    this.render();
+  private observer: Observer;
+
+  private panel: Panel;
+
+  constructor(parentElement: HTMLElement, observer: Observer) {
+    this.observer = observer;
+    this.render(parentElement);
     this.context = (this.board.getContext(
       '2d'
     ) as unknown) as CanvasRenderingContext2D;
     this.listener();
+    this.panel = new Panel(parentElement, this);
+    this.observer.subscribe(this);
   }
 
-  private render() {
-    const { body } = document;
+  public update(state: { role: string }) {
+    if (state.role === 'guesser') {
+      this.addPlayer();
+      this.panel.displayPanel();
+    } else if (state.role === 'painter') {
+      this.addHost();
+      this.panel.hidePanel();
+    }
+  }
+
+  private render(parentElement: HTMLElement) {
     this.board = document.createElement('canvas');
     this.board.classList.add('board');
-    body.append(this.board);
+    parentElement.append(this.board);
   }
 
   public addHost() {
@@ -61,16 +80,25 @@ export default class Board {
     });
   }
 
-  public getXandY(event: MouseEvent) {
+  private getXandY(event: MouseEvent) {
     this.mouse.x =
       ((event.clientX - this.board.offsetLeft) * this.board.width) /
       this.board.clientWidth;
     this.mouse.y =
       ((event.clientY - this.board.offsetTop) * this.board.height) /
       this.board.clientHeight;
-    if (event.type === 'mousedown') this.mousedown(this.mouse.x, this.mouse.y);
-    if (event.type === 'mousemove') this.mousemove(this.mouse.x, this.mouse.y);
-    if (event.type === 'mouseup') this.mouseup(this.mouse.x, this.mouse.y);
+    if (event.type === 'mousedown') {
+      this.setDraw('mousedown', this.mouse.x, this.mouse.y);
+      this.mousedown(this.mouse.x, this.mouse.y);
+    }
+    if (event.type === 'mousemove') {
+      this.setDraw('mousemove', this.mouse.x, this.mouse.y);
+      this.mousemove(this.mouse.x, this.mouse.y);
+    }
+    if (event.type === 'mouseup') {
+      this.setDraw('mouseup', this.mouse.x, this.mouse.y);
+      this.mouseup(this.mouse.x, this.mouse.y);
+    }
   }
 
   public mousedown(x: number, y: number) {
@@ -99,5 +127,9 @@ export default class Board {
 
   public setLineThickness(number: number) {
     this.context.lineWidth = number;
+  }
+
+  private setDraw(type: any, x: number, y: number) {
+    this.observer.actions.setDraw({ type, x, y });
   }
 }

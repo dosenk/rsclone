@@ -1,5 +1,3 @@
-import Board from './index.Board';
-
 export default class Panel {
   private panel: HTMLElement = document.createElement('div');
 
@@ -13,10 +11,10 @@ export default class Panel {
 
   private button: any;
 
-  private board: Board = new Board();
+  private board: any;
 
-  constructor(main: HTMLElement) {
-    this.board.addHost();
+  constructor(main: HTMLElement, board: any) {
+    this.board = board;
     this.render();
     this.listener();
     main.append(this.panel);
@@ -134,5 +132,13 @@ export default class Panel {
     this.button.classList.add(secondClass);
     this.button.value = value;
     return this.button;
+  }
+
+  public displayPanel() {
+    this.panel.style.display = 'flex';
+  }
+
+  public hidePanel() {
+    this.panel.style.display = 'none';
   }
 }
