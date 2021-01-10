@@ -8,6 +8,13 @@ import {
   CHAT_CLASS,
   CHAT_MSG_CLASS,
 } from './constants';
+import {
+  DRAW,
+  DRAW_COLOR,
+  DRAW_THICKNESS,
+  CLEAR_BOARD,
+  ROLE_PAINTER,
+} from '../Observer/actionTypes';
 import Observer from '../Observer/index.Observer';
 import IDraw from '../Observer/Interfaces/IDraw';
 
@@ -37,9 +44,24 @@ export default class SocketIoClient {
     this.listenEvents();
   }
 
-  public update(state: { role: string; draw: IDraw }) {
-    if (state.role === 'painter') {
-      this.socket.emit('coordinates', state.draw);
+  public update(
+    state: {
+      role: string;
+      draw: IDraw;
+      drawThickness: number;
+      drawColor: string;
+    },
+    actionType: string
+  ) {
+    if (state.role === ROLE_PAINTER) {
+      if (actionType === DRAW) this.socket.emit('draw', state.draw, DRAW);
+      if (actionType === DRAW_THICKNESS)
+        this.socket.emit('draw', state.drawThickness, DRAW_THICKNESS);
+      if (actionType === DRAW_COLOR)
+        this.socket.emit('draw', state.drawColor, DRAW_COLOR);
+      if (actionType === CLEAR_BOARD) {
+        this.socket.emit('draw', null, CLEAR_BOARD);
+      }
     }
   }
 
@@ -54,8 +76,21 @@ export default class SocketIoClient {
       this.observer.actions.setRole(role);
     });
 
-    this.socket.on('coordinates', (coordinates: string) => {
-      this.observer.actions.setDraw(coordinates);
+    this.socket.on('draw', (info: string, actionType: string) => {
+      switch (actionType) {
+        case DRAW_THICKNESS:
+          this.observer.actions.setDrawThickness(info);
+          break;
+        case DRAW_COLOR:
+          this.observer.actions.setDrawColor(info);
+          break;
+        case CLEAR_BOARD:
+          this.observer.actions.clearBoard();
+          break;
+        default:
+          this.observer.actions.setDraw(info);
+          break;
+      }
     });
 
     this.socket.on('broadcast', (...msg: Array<string>) => {
