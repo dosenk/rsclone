@@ -16,6 +16,8 @@ export default class Observer {
     const state: IState = {
       loading: true,
       langData: {},
+      role: '',
+      name: '',
       ...initialState,
     };
 

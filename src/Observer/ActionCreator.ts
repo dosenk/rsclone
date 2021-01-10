@@ -1,5 +1,5 @@
 import Observer from './index.Observer';
-import { LANG, LOADING } from './actionTypes';
+import { LANG, LOADING, ROLE } from './actionTypes';
 import langItem from '../LangDictionaries/en';
 
 export default class ActionCreator {
@@ -22,6 +22,20 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: LANG,
       payload: lang,
+    });
+  }
+
+  setRole(role: string): void {
+    this.observer.dispatch({
+      type: ROLE,
+      payload: role,
+    });
+  }
+
+  setName(name: string): void {
+    this.observer.dispatch({
+      type: ROLE,
+      payload: name,
     });
   }
 }
