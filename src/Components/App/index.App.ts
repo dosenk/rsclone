@@ -1,7 +1,7 @@
 import LangDictionaries from '../../LangDictionaries/index.langDictionaries';
 import Observer from '../../Observer/index.Observer';
 import { DEFAULT_LANGUAGE } from '../../Constants/index.Constants';
-import Board from './index.Board';
+import Board from '../Board/index.Board';
 import SocketIoClient from '../../SocketIoClient/index.SocketIoClient';
 
 export default class App {
@@ -17,7 +17,7 @@ export default class App {
 
     const parentElem: Element = document.body;
     this.mainElement = document.createElement('main');
-    
+
     this.socketIoClient = new SocketIoClient(this.mainElement, this.observer);
 
     const board = new Board(this.mainElement, this.observer);
