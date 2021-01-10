@@ -9,6 +9,7 @@ import {
   CHAT_MSG_CLASS,
 } from './constants';
 import Observer from '../Observer/index.Observer';
+import IDraw from '../Observer/Interfaces/IDraw';
 
 export default class SocketIoClient {
   parentElement: HTMLElement;
@@ -36,9 +37,9 @@ export default class SocketIoClient {
     this.listenEvents();
   }
 
-  public update(state: { role: string; drow: object }) {
+  public update(state: { role: string; draw: IDraw }) {
     if (state.role === 'painter') {
-      this.socket.emit('coordinates', JSON.stringify(state.drow));
+      this.socket.emit('coordinates', state.draw);
     }
   }
 
@@ -54,8 +55,7 @@ export default class SocketIoClient {
     });
 
     this.socket.on('coordinates', (coordinates: string) => {
-      const drow = JSON.parse(coordinates);
-      this.observer.actions.setDraw(drow);
+      this.observer.actions.setDraw(coordinates);
     });
 
     this.socket.on('broadcast', (...msg: Array<string>) => {
