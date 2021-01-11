@@ -1,5 +1,5 @@
 @import '~reset-css', '~normalize.css', '~animate.css';
 @import './constants.scss';
 @import './main.scss';
-@import '../Components/Board/board.scss';
-@import '../Components/Panel/panel.scss';
+@import '../Components/Board/board.scss', '../Components/Panel/panel.scss';
+@import '../Components/Users/users.scss';

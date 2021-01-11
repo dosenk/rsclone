@@ -1,0 +1,15 @@
+.users {
+  &__guesser {
+    display: flex;
+    &_avatar {
+      width: 20px;
+      height: 20px;
+      background: url('../assets/images/avatars/man.png');
+      background-size: contain;
+    }
+    &_nickname {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

@@ -5,6 +5,7 @@ interface IState {
   langData: Object;
   role: string;
   name: string;
+  users: object;
   draw: IDraw | null;
   drawThickness: number;
   drawColor: string;

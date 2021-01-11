@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import { createElement } from '../Utils/index.Utils';
-import { SOCKET_SERVER } from '../Constants/index.Constants';
+import { SOCKET_SERVER, ROLE_PAINTER } from '../Constants/index.Constants';
 import {
   FORM_CLASS,
   FORM_BTN_CLASS,
@@ -13,8 +13,11 @@ import {
   DRAW_COLOR,
   DRAW_THICKNESS,
   CLEAR_BOARD,
-  ROLE_PAINTER,
+  NAME,
+  ROLE,
+  USERS,
 } from '../Observer/actionTypes';
+
 import Observer from '../Observer/index.Observer';
 import IDraw from '../Observer/Interfaces/IDraw';
 
@@ -27,7 +30,7 @@ export default class SocketIoClient {
 
   form: Element | undefined;
 
-  observer: any;
+  observer: Observer;
 
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
@@ -69,14 +72,26 @@ export default class SocketIoClient {
     this.socket.on('connect', () => {
       // eslint-disable-next-line no-alert
       const name = prompt('Enter nikname:'); // todo - login form
-      this.socket.emit('name', name);
+      this.socket.emit('usersInfo', name, NAME);
     });
 
-    this.socket.on('role', (role: string) => {
-      this.observer.actions.setRole(role);
+    this.socket.on('usersInfo', (info: any, actionType: string) => {
+      switch (actionType) {
+        case ROLE:
+          this.observer.actions.setRole(info);
+          break;
+        case NAME:
+          this.observer.actions.setName(info);
+          break;
+        case USERS:
+          this.observer.actions.setUsers(info);
+          break;
+        default:
+          break;
+      }
     });
 
-    this.socket.on('draw', (info: string, actionType: string) => {
+    this.socket.on('draw', (info: any, actionType: string) => {
       switch (actionType) {
         case DRAW_THICKNESS:
           this.observer.actions.setDrawThickness(info);

@@ -6,6 +6,7 @@ import {
   LANG,
   LOADING,
   NAME,
+  USERS,
   ROLE,
   CLEAR_BOARD,
 } from './actionTypes';
@@ -46,6 +47,13 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: NAME,
       payload: name,
+    });
+  }
+
+  setUsers(users: object): void {
+    this.observer.dispatch({
+      type: USERS,
+      payload: users,
     });
   }
 
