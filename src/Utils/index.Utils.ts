@@ -3,7 +3,7 @@ export const createElement = (
   tag: string,
   classList?: string | Array<string>,
   parent?: Element | null,
-  childsList?: Array<Node> | Array<string> | null,
+  childsList?: Array<Node> | Array<Element> | null,
   textContent?: string | null
 ): HTMLElement => {
   const elem = document.createElement(tag);

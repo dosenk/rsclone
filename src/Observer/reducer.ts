@@ -7,6 +7,7 @@ import {
   DRAW,
   DRAW_THICKNESS,
   DRAW_COLOR,
+  USERS,
 } from './actionTypes';
 import IAction from './Interfaces/IAction';
 import IState from './Interfaces/IState';
@@ -25,6 +26,8 @@ export default (state: IState, action: IAction): IState => {
       return { ...state, role: action.payload };
     case NAME:
       return { ...state, name: action.payload };
+    case USERS:
+      return { ...state, users: action.payload };
     case DRAW:
       return { ...state, draw: action.payload };
     case DRAW_THICKNESS:

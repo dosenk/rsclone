@@ -5,6 +5,10 @@ interface IState {
   langData: Object;
   role: string;
   name: string;
+  users: {
+    painter: Object;
+    quesser: Array<Object>;
+  };
   draw: IDraw | null;
   drawThickness: number;
   drawColor: string;

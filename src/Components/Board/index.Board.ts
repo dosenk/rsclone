@@ -7,9 +7,9 @@ import {
   DRAW_THICKNESS,
   ROLE,
   CLEAR_BOARD,
-  ROLE_GUESSER,
-  ROLE_PAINTER,
 } from '../../Observer/actionTypes';
+
+import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 
 export default class Board {
   private board: HTMLCanvasElement = document.createElement('canvas');
