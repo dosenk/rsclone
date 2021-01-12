@@ -5,7 +5,7 @@ export const createElement = (
   parent?: Element | null,
   childsList?: Array<Node> | Array<Element> | null,
   textContent?: string | null
-): Element => {
+): HTMLElement => {
   const elem = document.createElement(tag);
 
   if (typeof classList === 'string') {
