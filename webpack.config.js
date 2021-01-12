@@ -75,7 +75,6 @@ module.exports = (env, options) => {
       new HTMLWebpackPlugin({
         filename: 'index.html',
         template: './src/index.html',
-        title: 'RSClone',
         // favicon: './src/assets/ico/favicon.ico',
       }),
       new CleanWebpackPlugin(),

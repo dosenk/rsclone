@@ -2,10 +2,10 @@
 export const createElement = (
   tag: string,
   classList?: string | Array<string>,
-  parent?: Object | null,
+  parent?: Element | null,
   childsList?: Array<Node> | Array<string> | null,
   textContent?: string | null
-): Element => {
+): HTMLElement => {
   const elem = document.createElement(tag);
 
   if (typeof classList === 'string') {
