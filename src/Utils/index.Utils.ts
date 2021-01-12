@@ -2,8 +2,8 @@
 export const createElement = (
   tag: string,
   classList?: string | Array<string>,
-  parent?: Object | null,
-  childsList?: Array<Node> | Array<string> | null,
+  parent?: Element | null,
+  childsList?: Array<Node> | Array<Element> | null,
   textContent?: string | null
 ): Element => {
   const elem = document.createElement(tag);

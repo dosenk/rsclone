@@ -1,6 +1,4 @@
-export const CHAT_CLASS = 'client-chat';
-export const CHAT_MSG_CLASS = `${CHAT_CLASS}__msg`;
-
-export const FORM_CLASS = 'client-form';
-export const FORM_INPUT_CLASS = `${FORM_CLASS}__info`;
-export const FORM_BTN_CLASS = `${FORM_CLASS}__btn`;
+export const EVENT_CONNECT = 'connect';
+export const EVENT_USER_INFO = 'usersInfo';
+export const EVENT_DRAW = 'draw';
+export const EVENT_BROADCAST = 'broadcast';

@@ -2,11 +2,10 @@ import io from 'socket.io-client';
 import { createElement } from '../Utils/index.Utils';
 import { SOCKET_SERVER, ROLE_PAINTER } from '../Constants/index.Constants';
 import {
-  FORM_CLASS,
-  FORM_BTN_CLASS,
-  FORM_INPUT_CLASS,
-  CHAT_CLASS,
-  CHAT_MSG_CLASS,
+  EVENT_BROADCAST,
+  EVENT_CONNECT,
+  EVENT_DRAW,
+  EVENT_USER_INFO,
 } from './constants';
 import {
   DRAW,
@@ -17,7 +16,13 @@ import {
   ROLE,
   USERS,
 } from '../Observer/actionTypes';
-
+import {
+  FORM_CLASS,
+  FORM_BTN_CLASS,
+  FORM_INPUT_CLASS,
+  CHAT_CLASS,
+  CHAT_MSG_CLASS,
+} from '../Constants/classNames';
 import Observer from '../Observer/index.Observer';
 import IDraw from '../Observer/Interfaces/IDraw';
 
@@ -57,25 +62,32 @@ export default class SocketIoClient {
     actionType: string
   ) {
     if (state.role === ROLE_PAINTER) {
-      if (actionType === DRAW) this.socket.emit('draw', state.draw, DRAW);
+      if (actionType === DRAW) this.socket.emit(EVENT_DRAW, state.draw, DRAW);
       if (actionType === DRAW_THICKNESS)
-        this.socket.emit('draw', state.drawThickness, DRAW_THICKNESS);
+        this.socket.emit(EVENT_DRAW, state.drawThickness, DRAW_THICKNESS);
       if (actionType === DRAW_COLOR)
-        this.socket.emit('draw', state.drawColor, DRAW_COLOR);
+        this.socket.emit(EVENT_DRAW, state.drawColor, DRAW_COLOR);
       if (actionType === CLEAR_BOARD) {
-        this.socket.emit('draw', null, CLEAR_BOARD);
+        this.socket.emit(EVENT_DRAW, null, CLEAR_BOARD);
       }
     }
   }
 
   listenEvents(): void {
-    this.socket.on('connect', () => {
-      // eslint-disable-next-line no-alert
-      const name = prompt('Enter nikname:'); // todo - login form
-      this.socket.emit('usersInfo', name, NAME);
+    this.socket.on(EVENT_CONNECT, () => {
+      if (sessionStorage.getItem('nickname') === null) {
+        // eslint-disable-next-line no-alert
+        const name: any = prompt('Enter nikname:'); // todo - login form
+        sessionStorage.setItem('nickname', name);
+      }
+      this.socket.emit(
+        EVENT_USER_INFO,
+        sessionStorage.getItem('nickname'),
+        NAME
+      );
     });
 
-    this.socket.on('usersInfo', (info: any, actionType: string) => {
+    this.socket.on(EVENT_USER_INFO, (info: any, actionType: string) => {
       switch (actionType) {
         case ROLE:
           this.observer.actions.setRole(info);
@@ -91,7 +103,7 @@ export default class SocketIoClient {
       }
     });
 
-    this.socket.on('draw', (info: any, actionType: string) => {
+    this.socket.on(EVENT_DRAW, (info: any, actionType: string) => {
       switch (actionType) {
         case DRAW_THICKNESS:
           this.observer.actions.setDrawThickness(info);
@@ -108,7 +120,7 @@ export default class SocketIoClient {
       }
     });
 
-    this.socket.on('broadcast', (...msg: Array<string>) => {
+    this.socket.on(EVENT_BROADCAST, (...msg: Array<string>) => {
       const nikName = msg[0];
       const message = msg[1];
       this.printMessage(nikName, message);
@@ -122,7 +134,7 @@ export default class SocketIoClient {
       event.preventDefault();
       const tagetElement = event.target;
       const input = tagetElement?.childNodes[0];
-      if (input.value) this.socket.emit('broadcast', input.value);
+      if (input.value) this.socket.emit(EVENT_BROADCAST, input.value);
       input.value = '';
     });
   }
