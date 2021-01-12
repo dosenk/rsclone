@@ -1,3 +1,5 @@
+import Registration from '../Components/Registration/index.Registration';
+
 export default (parent: HTMLElement): void => {
-  parent.append('Registration');
+  const regist = new Registration(parent);
 };
