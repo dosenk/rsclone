@@ -5,7 +5,7 @@ import { APP_NAME } from '../Constants/index.Constants';
 type RenderPageCallback = (
   parentElem: HTMLElement,
   observer: Observer,
-  router: Router,
+  router: Router
 ) => void;
 
 export default class Router {
@@ -62,7 +62,7 @@ export default class Router {
     title: string,
     route: string,
     parent: Element,
-    renderPage: RenderPageCallback,
+    renderPage: RenderPageCallback
   ): HTMLAnchorElement {
     const a = <HTMLAnchorElement>(
       createElement('a', undefined, parent, null, title)
