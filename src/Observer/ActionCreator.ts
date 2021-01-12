@@ -9,7 +9,7 @@ import {
   ROLE,
   CLEAR_BOARD,
 } from './actionTypes';
-import langItem from '../LangDictionaries/en';
+import langItem from '../langDictionaries/en';
 import IDraw from './Interfaces/IDraw';
 
 export default class ActionCreator {

@@ -1,4 +1,4 @@
-import LangDictionaries from '../../LangDictionaries/index.langDictionaries';
+import langDictionaries from '../../langDictionaries/index.langDictionaries';
 import Observer from '../../Observer/index.Observer';
 import { DEFAULT_LANGUAGE } from '../../Constants/index.Constants';
 import pagesRenders from '../../pages/index.pages';
@@ -17,7 +17,7 @@ export default class App {
   private readonly router: Router;
 
   constructor() {
-    const langData = LangDictionaries[DEFAULT_LANGUAGE];
+    const langData = langDictionaries[DEFAULT_LANGUAGE];
     this.observer = new Observer({ langData });
     this.router = new Router(this.mainElement, this.observer);
   }
