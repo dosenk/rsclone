@@ -96,9 +96,11 @@ export default class Registration {
     );
   }
 
-  private checkResponse(response: boolean) {
-    if (response) {
+  private checkResponse(response: string) {
+    if (response === 'success') {
       this.registrationHead.textContent = 'Успешно!';
+    } else if (response === 'login_exists') {
+      this.registrationHead.textContent = 'Имя пользователя существует';
     } else {
       this.registrationHead.textContent = 'Ошибка';
     }
@@ -120,7 +122,7 @@ export default class Registration {
       }
     )
       .then((res) => res.json())
-      .then(() => true);
+      .then((res) => res);
     return response;
   }
 
