@@ -1,5 +1,6 @@
 import Router from '../../Router/index.Router';
 import { GAME, REGISTRATION } from '../../Constants/routes';
+import Observer from '../../Observer/index.Observer';
 
 export default class Login {
   private loginForm: HTMLElement = document.createElement('form');
@@ -16,8 +17,11 @@ export default class Login {
 
   private router: Router;
 
-  constructor(parentElement: HTMLElement, router: Router) {
+  observer: Observer;
+
+  constructor(parentElement: HTMLElement, observer: Observer, router: Router) {
     this.parentElement = parentElement;
+    this.observer = observer;
     this.router = router;
     this.render();
     this.listener();
@@ -83,6 +87,7 @@ export default class Login {
 
   private checkResponse(response: string) {
     if (response === 'good') {
+      this.observer.actions.setName(this.login.value);
       this.router.goToPage(GAME);
     } else {
       this.router.goToPage(REGISTRATION);
