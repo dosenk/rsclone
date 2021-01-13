@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import SocketIoClient from '../SocketIoClient/index.SocketIoClient';
 import Observer from '../Observer/index.Observer';
 import Board from '../Components/Board/index.Board';

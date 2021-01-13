@@ -40,13 +40,15 @@ export default class SocketIoClient {
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
     this.socket = io(SOCKET_SERVER);
-    this.start();
-
     this.observer = observer;
     this.observer.subscribe(this);
+
+    this.start();
   }
 
   async start(parentElem: HTMLElement = this.parentElement) {
+    const { name } = this.observer.getState();
+    this.socket.emit(EVENT_USER_INFO, name, NAME);
     await this.createChat(parentElem);
     await this.createForm(parentElem);
     this.listenEvents();
@@ -55,6 +57,7 @@ export default class SocketIoClient {
   public update(
     state: {
       role: string;
+      name: string;
       draw: IDraw;
       drawThickness: number;
       drawColor: string;
@@ -71,29 +74,21 @@ export default class SocketIoClient {
         this.socket.emit(EVENT_DRAW, null, CLEAR_BOARD);
       }
     }
+    if (actionType === NAME) {
+      this.socket.emit(EVENT_USER_INFO, state.name, NAME);
+    }
   }
 
   listenEvents(): void {
     this.socket.on(EVENT_CONNECT, () => {
-      if (sessionStorage.getItem('nickname') === null) {
-        // eslint-disable-next-line no-alert
-        const name: any = prompt('Enter nikname:'); // todo - login form
-        sessionStorage.setItem('nickname', name);
-      }
-      this.socket.emit(
-        EVENT_USER_INFO,
-        sessionStorage.getItem('nickname'),
-        NAME
-      );
+      // eslint-disable-next-line no-console
+      console.log('user connected');
     });
 
     this.socket.on(EVENT_USER_INFO, (info: any, actionType: string) => {
       switch (actionType) {
         case ROLE:
           this.observer.actions.setRole(info);
-          break;
-        case NAME:
-          this.observer.actions.setName(info);
           break;
         case USERS:
           this.observer.actions.setUsers(info);
