@@ -42,7 +42,6 @@ export default class SocketIoClient {
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
     this.observer.subscribe(this);
-
     this.start();
   }
 
@@ -81,8 +80,8 @@ export default class SocketIoClient {
 
   listenEvents(): void {
     this.socket.on(EVENT_CONNECT, () => {
-      // eslint-disable-next-line no-console
-      console.log('user connected');
+      const { name } = this.observer.getState();
+      this.socket.emit(EVENT_USER_INFO, name, NAME);
     });
 
     this.socket.on(EVENT_USER_INFO, (info: any, actionType: string) => {
