@@ -1,3 +1,6 @@
+import Router from '../../Router/index.Router';
+import { LANDING } from '../../Constants/routes';
+
 export default class Registration {
   private registration: HTMLElement = document.createElement('form');
 
@@ -15,8 +18,11 @@ export default class Registration {
 
   private registrationHead: any;
 
-  constructor(parentElement: HTMLElement) {
+  private router: Router;
+
+  constructor(parentElement: HTMLElement, router: Router) {
     this.parentElement = parentElement;
+    this.router = router;
     this.render();
     this.listener();
   }
@@ -99,11 +105,18 @@ export default class Registration {
   private checkResponse(response: string) {
     if (response === 'success') {
       this.registrationHead.textContent = 'Успешно!';
+      this.goToLandingPage();
     } else if (response === 'login_exists') {
       this.registrationHead.textContent = 'Имя пользователя существует';
     } else {
       this.registrationHead.textContent = 'Ошибка';
     }
+  }
+
+  private goToLandingPage() {
+    setTimeout(() => {
+      this.router.goToPage(LANDING);
+    }, 1000);
   }
 
   private async setPost() {
