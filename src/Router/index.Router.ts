@@ -2,7 +2,11 @@ import Observer from '../Observer/index.Observer';
 import { createElement } from '../Utils/index.Utils';
 import { APP_NAME } from '../Constants/index.Constants';
 
-type RenderPageCallback = (parentElem: HTMLElement, observer: Observer) => void;
+type RenderPageCallback = (
+  parentElem: HTMLElement,
+  observer: Observer,
+  router: Router
+) => void;
 
 export default class Router {
   private readonly routes: Array<{
@@ -29,41 +33,48 @@ export default class Router {
     });
   }
 
-  private renderPage(title: string, renderer: RenderPageCallback) {
-    document.title = `${APP_NAME.toUpperCase()} | ${title}`;
+  private renderRoute = (route: string) => {
+    const routeObj = this.routes.find((routeData) => routeData.route === route);
+
+    if (!routeObj) return;
+
+    document.title = `${APP_NAME.toUpperCase()} | ${routeObj.title}`;
     this.pagesContainer.textContent = '';
-    renderer(this.pagesContainer, this.observer);
+    routeObj.renderCb(this.pagesContainer, this.observer, this);
+  };
+
+  public goToPage(route: string) {
+    const { pathname } = window.location;
+
+    if (pathname === route) return;
+
+    this.renderRoute(route);
+    window.history.pushState(null, '', route);
   }
 
   public renderCurrentRoute = () => {
     const { pathname } = window.location;
-    const routeObj = this.routes.find(({ route }) => route === pathname);
 
-    if (routeObj) this.renderPage(routeObj.title, routeObj.renderCb);
+    this.renderRoute(pathname);
   };
 
   public createLink(
     title: string,
     route: string,
     parent: Element,
-    renderRoute: RenderPageCallback,
+    renderPage: RenderPageCallback
   ): HTMLAnchorElement {
     const a = <HTMLAnchorElement>(
       createElement('a', undefined, parent, null, title)
     );
 
-    this.routes.push({ route, renderCb: renderRoute, title });
+    this.routes.push({ route, renderCb: renderPage, title });
 
     a.href = route;
     a.addEventListener('click', (e) => {
-      const { pathname } = window.location;
-
       e.preventDefault();
 
-      if (pathname === route) return;
-
-      this.renderPage(title, renderRoute);
-      window.history.pushState(null, '', route);
+      this.goToPage(route);
     });
 
     return a;
