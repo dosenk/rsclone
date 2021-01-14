@@ -18,6 +18,8 @@ import { USERS } from '../../Observer/actionTypes';
 import { PAINTER_INFO_TEXT, GUESSER_INFO_TEXT } from './constants';
 
 export default class Users {
+  private static instance: Users;
+
   observer: Observer;
 
   parentElement: HTMLElement;
@@ -31,17 +33,26 @@ export default class Users {
   guesserBlock: Element | undefined;
 
   constructor(parentElement: HTMLElement, observer: Observer) {
+    if (Users.instance) {
+      return Users.instance;
+    }
+
+    Users.instance = this;
+
     this.parentElement = parentElement;
     this.observer = observer;
     this.observer.subscribe(this);
-    this.renderUsersBlock(parentElement);
+  }
+
+  public start() {
+    this.renderUsersBlock(this.parentElement);
   }
 
   update(
     state: {
       users: { guesser: [user: { name: string }]; painter: { name: string } };
     },
-    actionType: string
+    actionType: string,
   ) {
     if (actionType === USERS) {
       const newGuesser = state.users.guesser;
@@ -52,13 +63,13 @@ export default class Users {
 
   setGuessers(
     newGuesser: [user: { name: string }],
-    newPainter: { name: string }
+    newPainter: { name: string },
   ) {
     this.painter = newPainter;
     this.guesser = newGuesser;
     Users.removeUsers(
       [this.guesserBlock, USER_GUESSER_CLASS],
-      [this.painterBlock, USER_PAINTER_CLASS]
+      [this.painterBlock, USER_PAINTER_CLASS],
     );
     this.renderUsers(newGuesser, newPainter);
   }
@@ -91,7 +102,7 @@ export default class Users {
   createUser(
     nickName: string,
     classes: { main: string; avatar: string; nickName: string },
-    painterFlag: boolean = false
+    painterFlag: boolean = false,
   ): void {
     const mainBlock = painterFlag ? this.painterBlock : this.guesserBlock;
     const guesserDiv = createElement('div', classes.main, mainBlock);
@@ -111,7 +122,7 @@ export default class Users {
       this.guesserBlock,
     ]);
     parentElement.append(
-      createElement('div', USERS_CLASS, null, [usersWrapper])
+      createElement('div', USERS_CLASS, null, [usersWrapper]),
     );
   }
 }
