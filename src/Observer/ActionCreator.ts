@@ -1,4 +1,5 @@
 import Observer from './index.Observer';
+import SocketIOClient from '../SocketIoClient/index.SocketIoClient';
 import {
   DRAW,
   DRAW_COLOR,
@@ -9,6 +10,7 @@ import {
   USERS,
   ROLE,
   CLEAR_BOARD,
+  SOCKET,
 } from './actionTypes';
 import langItem from '../langDictionaries/en';
 import IDraw from './Interfaces/IDraw';
@@ -18,6 +20,13 @@ export default class ActionCreator {
 
   constructor(observer: Observer) {
     this.observer = observer;
+  }
+
+  setScoket(socket: SocketIOClient): void {
+    this.observer.dispatch({
+      type: SOCKET,
+      payload: socket,
+    });
   }
 
   setLoading(isLoading: boolean = true): void {

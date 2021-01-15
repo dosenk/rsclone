@@ -1,6 +1,8 @@
 import IDraw from './IDraw';
+import SocketIOClient from '../../SocketIoClient/index.SocketIoClient';
 
 interface IState {
+  socket: SocketIOClient;
   loading: boolean;
   langData: Object;
   role: string;

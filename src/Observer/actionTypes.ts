@@ -8,3 +8,4 @@ export const DRAW: string = 'DRAW';
 export const DRAW_THICKNESS: string = 'DRAW_THICKNESS';
 export const DRAW_COLOR: string = 'DRAW_COLOR';
 export const CLEAR_BOARD: string = 'CLEAR_BOARD';
+export const SOCKET: string = 'SOCKET';

@@ -8,6 +8,7 @@ import {
   DRAW_THICKNESS,
   DRAW_COLOR,
   USERS,
+  SOCKET,
 } from './actionTypes';
 import IAction from './Interfaces/IAction';
 import IState from './Interfaces/IState';
@@ -34,7 +35,8 @@ export default (state: IState, action: IAction): IState => {
       return { ...state, drawThickness: action.payload };
     case DRAW_COLOR:
       return { ...state, drawColor: action.payload };
-
+    case SOCKET:
+      return { ...state, socket: action.payload };
     default:
       return state;
   }
