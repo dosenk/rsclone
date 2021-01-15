@@ -27,6 +27,8 @@ import Observer from '../Observer/index.Observer';
 import IDraw from '../Observer/Interfaces/IDraw';
 
 export default class SocketIoClient {
+  private static instance: SocketIoClient;
+
   parentElement: HTMLElement;
 
   socket: SocketIOClient.Socket;
@@ -38,20 +40,24 @@ export default class SocketIoClient {
   observer: Observer;
 
   constructor(parentElement: HTMLElement, observer: Observer) {
+    if (SocketIoClient.instance) {
+      return SocketIoClient.instance;
+    }
+
+    SocketIoClient.instance = this;
+
     this.parentElement = parentElement;
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
     this.observer.subscribe(this);
-
-    this.start();
-  }
-
-  async start(parentElem: HTMLElement = this.parentElement) {
     const { name } = this.observer.getState();
     this.socket.emit(EVENT_USER_INFO, name, NAME);
-    await this.createChat(parentElem);
-    await this.createForm(parentElem);
     this.listenEvents();
+  }
+
+  start(parentElem: HTMLElement = this.parentElement) {
+    this.createChat(parentElem);
+    this.createForm(parentElem);
   }
 
   public update(
@@ -62,7 +68,7 @@ export default class SocketIoClient {
       drawThickness: number;
       drawColor: string;
     },
-    actionType: string
+    actionType: string,
   ) {
     if (state.role === ROLE_PAINTER) {
       if (actionType === DRAW) this.socket.emit(EVENT_DRAW, state.draw, DRAW);
