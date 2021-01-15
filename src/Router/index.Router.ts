@@ -2,12 +2,6 @@ import Observer from '../Observer/index.Observer';
 import { createElement } from '../Utils/index.Utils';
 import { APP_NAME } from '../Constants/index.Constants';
 
-type RenderPageCallback = (
-  parentElem: HTMLElement,
-  observer: Observer,
-  router: Router
-) => void;
-
 export default class Router {
   private readonly routes: Array<{
     route: string;
@@ -18,6 +12,8 @@ export default class Router {
   private readonly pagesContainer: HTMLElement;
 
   private readonly observer: Observer;
+
+  private curPageDestroyer: Destroyer | null = null;
 
   constructor(pagesContainer: HTMLElement, observer: Observer) {
     this.pagesContainer = pagesContainer;
@@ -38,9 +34,18 @@ export default class Router {
 
     if (!routeObj) return;
 
+    if (this.curPageDestroyer) {
+      this.curPageDestroyer();
+      this.curPageDestroyer = null;
+    }
+
     document.title = `${APP_NAME.toUpperCase()} | ${routeObj.title}`;
     this.pagesContainer.textContent = '';
-    routeObj.renderCb(this.pagesContainer, this.observer, this);
+    this.curPageDestroyer = routeObj.renderCb(
+      this.pagesContainer,
+      this.observer,
+      this,
+    );
   };
 
   public goToPage(route: string) {
@@ -62,7 +67,7 @@ export default class Router {
     title: string,
     route: string,
     parent: Element,
-    renderPage: RenderPageCallback
+    renderPage: RenderPageCallback,
   ): HTMLAnchorElement {
     const a = <HTMLAnchorElement>(
       createElement('a', undefined, parent, null, title)

@@ -3,7 +3,7 @@ import Observer from '../Observer/index.Observer';
 import Board from '../Components/Board/index.Board';
 import Users from '../Components/Users/index.Users';
 
-export default (parentElem: HTMLElement, observer: Observer): void => {
+export default (parentElem: HTMLElement, observer: Observer): Destroyer => {
   const socketIoClient = new SocketIoClient(parentElem, observer);
   socketIoClient.start();
 
@@ -12,4 +12,8 @@ export default (parentElem: HTMLElement, observer: Observer): void => {
 
   const users = new Users(parentElem, observer);
   users.start();
+
+  return () => {
+    observer.unsubscribe(socketIoClient, board, users);
+  };
 };
