@@ -1,6 +1,10 @@
 import io from 'socket.io-client';
 import { createElement } from '../Utils/index.Utils';
-import { SOCKET_SERVER, ROLE_PAINTER } from '../Constants/index.Constants';
+import {
+  SOCKET_SERVER,
+  ROLE_PAINTER,
+  ROLE_GUESSER,
+} from '../Constants/index.Constants';
 import {
   EVENT_BROADCAST,
   EVENT_CONNECT,
@@ -42,14 +46,13 @@ export default class SocketIoClient {
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
     this.observer.subscribe(this);
-    const { name } = this.observer.getState();
-    this.socket.emit(EVENT_USER_INFO, name, NAME);
-    this.listenEvents();
+    this.sendName();
+    this.listenSocketEvents();
   }
 
-  start(parentElem: HTMLElement = this.parentElement) {
-    this.createChat(parentElem);
-    this.createForm(parentElem);
+  private sendName() {
+    const { name } = this.observer.getState();
+    this.socket.emit(EVENT_USER_INFO, name, NAME);
   }
 
   public update(
@@ -63,6 +66,7 @@ export default class SocketIoClient {
     actionType: string
   ) {
     if (state.role === ROLE_PAINTER) {
+      if (actionType === ROLE) this.createChat(this.parentElement);
       if (actionType === DRAW) this.socket.emit(EVENT_DRAW, state.draw, DRAW);
       if (actionType === DRAW_THICKNESS)
         this.socket.emit(EVENT_DRAW, state.drawThickness, DRAW_THICKNESS);
@@ -72,15 +76,15 @@ export default class SocketIoClient {
         this.socket.emit(EVENT_DRAW, null, CLEAR_BOARD);
       }
     }
-    if (actionType === NAME) {
-      this.socket.emit(EVENT_USER_INFO, state.name, NAME);
+    if (state.role === ROLE_GUESSER && actionType === ROLE) {
+      this.createChat(this.parentElement);
+      this.createForm(this.parentElement);
     }
   }
 
-  listenEvents(): void {
+  listenSocketEvents(): void {
     this.socket.on(EVENT_CONNECT, () => {
-      // eslint-disable-next-line no-console
-      console.log('user connected');
+      // событи будет сробатывать при подключении к сокету
     });
 
     this.socket.on(EVENT_USER_INFO, (info: any, actionType: string) => {
@@ -118,18 +122,6 @@ export default class SocketIoClient {
       const message = msg[1];
       this.printMessage(nikName, message);
     });
-
-    this.sendMessage();
-  }
-
-  sendMessage(): void {
-    this.form?.addEventListener('submit', (event: Event) => {
-      event.preventDefault();
-      const tagetElement = event.target;
-      const input = tagetElement?.childNodes[0];
-      if (input.value) this.socket.emit(EVENT_BROADCAST, input.value);
-      input.value = '';
-    });
   }
 
   printMessage(nikname: string, text: string): void {
@@ -146,6 +138,15 @@ export default class SocketIoClient {
     const input = createElement('input', FORM_INPUT_CLASS);
     const btn = createElement('button', FORM_BTN_CLASS, null, null, 'send');
     btn.setAttribute('type', 'submit');
-    this.form = createElement('form', FORM_CLASS, parentElem, [input, btn]);
+    const form = createElement('form', FORM_CLASS, parentElem, [input, btn]);
+    form.addEventListener('submit', (event) => this.sendMessage(event));
+  }
+
+  sendMessage(event: Event): void {
+    event.preventDefault();
+    const tagetElement = event.target;
+    const input = tagetElement?.childNodes[0];
+    if (input.value) this.socket.emit(EVENT_BROADCAST, input.value);
+    input.value = '';
   }
 }
