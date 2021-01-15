@@ -12,8 +12,6 @@ import {
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 
 export default class Board {
-  private static instance: Board;
-
   private board: HTMLCanvasElement = document.createElement('canvas');
 
   private context: CanvasRenderingContext2D;
@@ -31,12 +29,6 @@ export default class Board {
   private readonly parentElement: HTMLElement;
 
   constructor(parentElement: HTMLElement, observer: Observer) {
-    if (Board.instance) {
-      return Board.instance;
-    }
-
-    Board.instance = this;
-
     this.parentElement = parentElement;
 
     this.observer = observer;
@@ -57,7 +49,7 @@ export default class Board {
       drawThickness: number;
       drawColor: string;
     },
-    actionType: string,
+    actionType: string
   ) {
     try {
       if (state.role === ROLE_PAINTER) {
