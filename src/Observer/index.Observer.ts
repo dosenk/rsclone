@@ -6,13 +6,21 @@ import reducer from './reducer';
 import IState from './Interfaces/IState';
 
 export default class Observer {
+  private static instance: Observer;
+
   private state: IState;
 
   private subscribers: Array<ISubscriber> = [];
 
-  public actions: ActionCreator;
+  public readonly actions: ActionCreator;
 
   constructor(initialState: Partial<IState> = {}) {
+    if (Observer.instance) {
+      return Observer.instance;
+    }
+
+    Observer.instance = this;
+
     const state: IState = {
       loading: true,
       langData: {},
@@ -36,8 +44,14 @@ export default class Observer {
     });
   }
 
-  subscribe(...subscriber: Array<ISubscriber>): void {
-    this.subscribers.push(...subscriber);
+  subscribe(...subscribers: Array<ISubscriber>): void {
+    this.subscribers.push(...subscribers);
+  }
+
+  unsubscribe(...subscribers: Array<ISubscriber>): void {
+    subscribers.forEach((subscriber) => {
+      this.subscribers = this.subscribers.filter((sub) => sub !== subscriber);
+    });
   }
 
   getState(): IState {
