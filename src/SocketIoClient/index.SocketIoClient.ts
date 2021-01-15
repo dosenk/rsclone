@@ -50,6 +50,7 @@ export default class SocketIoClient {
   start(parentElem: HTMLElement = this.parentElement) {
     this.createChat(parentElem);
     this.createForm(parentElem);
+    this.setFormSubmitListener();
   }
 
   public update(
@@ -60,7 +61,7 @@ export default class SocketIoClient {
       drawThickness: number;
       drawColor: string;
     },
-    actionType: string
+    actionType: string,
   ) {
     if (state.role === ROLE_PAINTER) {
       if (actionType === DRAW) this.socket.emit(EVENT_DRAW, state.draw, DRAW);
@@ -118,11 +119,9 @@ export default class SocketIoClient {
       const message = msg[1];
       this.printMessage(nikName, message);
     });
-
-    this.sendMessage();
   }
 
-  sendMessage(): void {
+  setFormSubmitListener(): void {
     this.form?.addEventListener('submit', (event: Event) => {
       event.preventDefault();
       const tagetElement = event.target;
