@@ -42,14 +42,13 @@ export default class SocketIoClient {
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
     this.observer.subscribe(this);
-    this.start();
   }
 
-  async start(parentElem: HTMLElement = this.parentElement) {
+  start(parentElem: HTMLElement = this.parentElement) {
     const { name } = this.observer.getState();
     this.socket.emit(EVENT_USER_INFO, name, NAME);
-    await this.createChat(parentElem);
-    await this.createForm(parentElem);
+    this.createChat(parentElem);
+    this.createForm(parentElem);
     this.listenEvents();
   }
 

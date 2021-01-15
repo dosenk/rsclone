@@ -34,7 +34,10 @@ export default class Users {
     this.parentElement = parentElement;
     this.observer = observer;
     this.observer.subscribe(this);
-    this.renderUsersBlock(parentElement);
+  }
+
+  public start() {
+    this.renderUsersBlock(this.parentElement);
   }
 
   update(

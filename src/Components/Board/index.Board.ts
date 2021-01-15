@@ -26,15 +26,20 @@ export default class Board {
 
   private panel: Panel;
 
+  private readonly parentElement: HTMLElement;
+
   constructor(parentElement: HTMLElement, observer: Observer) {
+    this.parentElement = parentElement;
+
     this.observer = observer;
-    this.render(parentElement);
-    this.context = (this.board.getContext(
-      '2d'
-    ) as unknown) as CanvasRenderingContext2D;
-    this.listener();
-    this.panel = new Panel(parentElement, this, observer);
     this.observer.subscribe(this);
+  }
+
+  public start() {
+    this.render(this.parentElement);
+    this.context = this.board.getContext('2d') as CanvasRenderingContext2D;
+    this.listener();
+    this.panel = new Panel(this.parentElement, this, this.observer);
   }
 
   public update(
