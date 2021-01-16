@@ -32,9 +32,9 @@ export default class SocketIoClient {
 
   socket: SocketIOClient.Socket;
 
-  chat: Element | undefined;
+  chat: HTMLElement;
 
-  form: Element | undefined;
+  form: HTMLElement;
 
   observer: Observer;
 
@@ -43,10 +43,20 @@ export default class SocketIoClient {
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
     this.listenSocketEvents();
+    this.chat = SocketIoClient.createChat();
+    this.form = this.createForm();
   }
 
   public start() {
     this.sendName();
+  }
+
+  public displayForm(parentElement: HTMLElement) {
+    parentElement.append(this.form);
+  }
+
+  public displayChat(parentElement: HTMLElement) {
+    parentElement.append(this.chat);
   }
 
   public sendDrowInfoToClients(actionType: string, state: IState) {
@@ -117,16 +127,17 @@ export default class SocketIoClient {
     this.chat?.prepend(p);
   }
 
-  createChat(parentElem: HTMLElement = this.parentElement): void {
-    this.chat = createElement('div', CHAT_CLASS, parentElem);
+  static createChat(): HTMLElement {
+    return createElement('div', CHAT_CLASS);
   }
 
-  createForm(parentElem: HTMLElement = this.parentElement): void {
+  createForm(): HTMLElement {
     const input = createElement('input', FORM_INPUT_CLASS);
     const btn = createElement('button', FORM_BTN_CLASS, null, null, 'send');
     btn.setAttribute('type', 'submit');
-    const form = createElement('form', FORM_CLASS, parentElem, [input, btn]);
+    const form = createElement('form', FORM_CLASS, null, [input, btn]);
     form.addEventListener('submit', (event) => this.sendMessage(event));
+    return form;
   }
 
   sendMessage(event: Event): void {

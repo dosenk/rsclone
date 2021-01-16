@@ -5,7 +5,7 @@ import Users from '../Users/index.Users';
 import Preloader from '../Preloader/index.Preloader';
 import Observer from '../../Observer/index.Observer';
 import Panel from '../Panel/index.Panel';
-import { LOADING } from '../../Observer/actionTypes';
+import { LOADING, USERS } from '../../Observer/actionTypes';
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
 
@@ -22,16 +22,20 @@ export default class Game {
 
   preloader!: Preloader;
 
+  parenElement: HTMLElement;
+
   constructor(
     observer: Observer,
     socket: SocketIoClient,
     board: Board,
-    users: Users
+    users: Users,
+    parenElement: HTMLElement
   ) {
     this.socket = socket;
     this.board = board;
     this.panel = this.board.getPanel();
     this.users = users;
+    this.parenElement = parenElement;
     this.observer = observer;
     this.observer.subscribe(this);
   }
@@ -47,6 +51,9 @@ export default class Game {
     }
     if (actionType === LOADING) {
       this.displayGame(state);
+    }
+    if (actionType === USERS) {
+      this.users.setGuessers(state);
     }
   }
 
@@ -65,19 +72,16 @@ export default class Game {
 
   updateGame() {
     this.board.displayBoard();
-    this.setGameSetting();
-  }
-
-  setGameSetting() {
     const state = this.observer.getState();
-
     if (state.role === ROLE_GUESSER) {
       this.board.addPlayer();
-      this.panel.hidePanel();
+      this.socket.displayForm(this.parenElement);
     }
     if (state.role === ROLE_PAINTER) {
       this.board.addHost();
       this.panel.displayPanel();
     }
+    this.socket.displayChat(this.parenElement);
+    this.users.displayUsers(this.parenElement);
   }
 }

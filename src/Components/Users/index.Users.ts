@@ -14,58 +14,40 @@ import {
   GUESSER_AVATAR_CLASS,
   GUESSER_NICKNAME_CLASS,
 } from '../../Constants/classNames';
-import { USERS } from '../../Observer/actionTypes';
 import { PAINTER_INFO_TEXT, GUESSER_INFO_TEXT } from './constants';
+import IState from '../../Observer/Interfaces/IState';
 
 export default class Users {
   observer: Observer;
 
   parentElement: HTMLElement;
 
-  guesser: [user: { name: string }] | undefined;
+  guesser!: Array<Object>;
 
-  painter: { name: string } | undefined;
+  painter!: Object;
 
-  painterBlock: Element | undefined;
+  painterBlock!: Element;
 
-  guesserBlock: Element | undefined;
+  guesserBlock!: Element;
+
+  userBlock: HTMLElement;
 
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
     this.observer = observer;
-    this.observer.subscribe(this);
+    this.userBlock = this.createUsersBlock();
   }
 
-  public start() {
-    this.renderUsersBlock(this.parentElement);
+  public displayUsers(parentElement: HTMLElement) {
+    parentElement.append(this.userBlock);
   }
 
-  update(
-    state: {
-      users: { guesser: [user: { name: string }]; painter: { name: string } };
-    },
-    actionType: string
-  ) {
-    if (actionType === USERS) {
-      const newGuesser = state.users.guesser;
-      const newPainter = state.users.painter;
-      try {
-        // console.log(newGuesser, newPainter);
-        this.setGuessers(newGuesser, newPainter);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    }
-  }
-
-  setGuessers(
-    newGuesser: [user: { name: string }],
-    newPainter: { name: string }
-  ) {
+  setGuessers(state: IState) {
+    const newGuesser = state.users.guesser;
+    const newPainter = state.users.painter;
     this.painter = newPainter;
     this.guesser = newGuesser;
-    // this.renderUsers(newGuesser, newPainter);
+    this.renderUsers(newGuesser, newPainter);
   }
 
   static removeUsers(...usersParams: any) {
@@ -76,7 +58,8 @@ export default class Users {
     });
   }
 
-  renderUsers(guessers: [user: { name: string }], painter: { name: string }) {
+  renderUsers(guessers: any, painter: any) {
+    // toDo неправильно указаны типы данных guessers и painter
     Users.removeUsers(
       [this.guesserBlock, USER_GUESSER_CLASS],
       [this.painterBlock, USER_PAINTER_CLASS]
@@ -108,7 +91,7 @@ export default class Users {
     createElement('div', classes.nickName, guesserDiv, null, nickName);
   }
 
-  renderUsersBlock(parentElement: HTMLElement): void {
+  createUsersBlock(): HTMLElement {
     this.painterBlock = createElement('div', PAINTER_CLASS, null, [
       createElement('p', PAINTER_INFO_CLASS, null, null, PAINTER_INFO_TEXT),
     ]);
@@ -119,8 +102,6 @@ export default class Users {
       this.painterBlock,
       this.guesserBlock,
     ]);
-    parentElement.append(
-      createElement('div', USERS_CLASS, null, [usersWrapper])
-    );
+    return createElement('div', USERS_CLASS, null, [usersWrapper]);
   }
 }

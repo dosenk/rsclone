@@ -12,9 +12,8 @@ export default (parentElem: HTMLElement, observer: Observer): void => {
   } else {
     const board = new Board(parentElem, observer);
     const users = new Users(parentElem, observer);
-    // инициализация после board и users !
     const socketIoClient = new SocketIoClient(parentElem, observer);
-    const game = new Game(observer, socketIoClient, board, users);
+    const game = new Game(observer, socketIoClient, board, users, parentElem);
     game.startGame();
     observer.actions.setGame(game);
   }
