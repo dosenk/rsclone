@@ -1,20 +1,24 @@
 import Router from '../../Router/index.Router';
 import { GAME, REGISTRATION } from '../../Constants/routes';
 import Observer from '../../Observer/index.Observer';
-import { createInput } from '../../Utils/index.Utils';
-
-const FORM_ITEM_CN = 'loginForm-item';
+import { createElement, createInput } from '../../Utils/index.Utils';
+import {
+  FORM_CN,
+  FORM_ITEM_CN,
+  FORM_CONTAINER_CN,
+  FORM_BTN_CN
+} from './constants';
 
 export default class Login {
   private loginForm: HTMLElement = document.createElement('form');
 
   private parentElement: HTMLElement;
 
-  private login: any;
+  private login: HTMLInputElement | undefined;
 
-  private password: any;
+  private password: HTMLInputElement | undefined;
 
-  private loginBtn: any;
+  private loginBtn: HTMLButtonElement | undefined;
 
   private router: Router;
 
@@ -29,17 +33,17 @@ export default class Login {
   }
 
   public render() {
-    this.loginForm.classList.add('loginForm');
+    this.loginForm.classList.add(FORM_CN);
 
     const loginContainer = document.createElement('div');
-    loginContainer.classList.add('loginForm-container');
+    loginContainer.classList.add(FORM_CONTAINER_CN);
 
     this.login = createInput(
       ['login-input', FORM_ITEM_CN],
       'text',
       'Enter Login',
       'login',
-      true,
+      true
     );
     loginContainer.append(this.login);
 
@@ -48,12 +52,12 @@ export default class Login {
       'password',
       'Enter Password',
       'password',
-      true,
+      true
     );
     loginContainer.append(this.password);
 
     this.loginBtn = document.createElement('button');
-    this.loginBtn.classList.add('loginForm-btn');
+    this.loginBtn.classList.add(FORM_BTN_CN);
     this.loginBtn.setAttribute('type', 'submit');
     this.loginBtn.textContent = 'Login';
     loginContainer.append(this.loginBtn);
@@ -63,7 +67,7 @@ export default class Login {
   }
 
   private listener() {
-    this.loginBtn.addEventListener('click', async (event: MouseEvent) => {
+    this.loginBtn?.addEventListener('click', async (event: MouseEvent) => {
       event.preventDefault();
       if (this.checkLoginAndPassword()) {
         const response = await this.setPost();
@@ -74,7 +78,7 @@ export default class Login {
 
   private checkResponse(response: string) {
     if (response === 'good') {
-      this.observer.actions.setName(this.login.value);
+      this.observer.actions.setName(this.login?.value || '');
       this.router.goToPage(GAME);
     } else {
       this.router.goToPage(REGISTRATION);
@@ -82,8 +86,8 @@ export default class Login {
   }
 
   private checkLoginAndPassword() {
-    const loginInput = this.login.value.trim();
-    const passwordInput = this.password.value.trim();
+    const loginInput = this.login?.value.trim();
+    const passwordInput = this.password?.value.trim();
     if (loginInput !== '' && passwordInput !== '') {
       return true;
     }
@@ -97,13 +101,13 @@ export default class Login {
         method: 'post',
         headers: {
           Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          login: this.login.value,
-          password: this.password.value,
-        }),
-      },
+          login: this.login?.value,
+          password: this.password?.value
+        })
+      }
     )
       .then((res) => res.json())
       .then((res) => res);
