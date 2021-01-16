@@ -5,4 +5,6 @@ export default {
   ANSWER_INPUT_PLACEHOLDER: 'Введите ответ',
   CREATE_AN_ACCOUNT: 'Создать аккаунт.',
   NEW_TO_GAME: `Впервые в ${APP_NAME}? `,
+  ALREADY_HAVE_AN_ACCOUNT: 'Уже есть аккаунт? ',
+  SING_IN: 'ВОЙТИ.',
 };
