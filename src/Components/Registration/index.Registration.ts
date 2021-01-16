@@ -1,93 +1,136 @@
 import Router from '../../Router/index.Router';
-import { LANDING } from '../../Constants/routes';
+import { LANDING, LOGIN } from '../../Constants/routes';
+import { createElement, createInput } from '../../Utils/index.Utils';
+import {
+  REG_CLOSE_CN,
+  REG_FORM_CN,
+  REG_ITEM_CN,
+  REG_CONTAINER_CN,
+  REG_BTN_CN,
+  REG_TEXT_CN,
+} from './constants';
+import {
+  PRIMARY_BTN_CLASS,
+  PRIMARY_LINK_CLASS,
+  PRIMARY_TEXT_CLASS,
+} from '../../Constants/classNames';
+import Observer from '../../Observer/index.Observer';
 
 export default class Registration {
-  private registration: HTMLElement = document.createElement('form');
+  private registration: HTMLFormElement | undefined;
 
-  private parentElement: HTMLElement;
+  private readonly parentElement: HTMLElement;
 
-  private input: any;
+  private login: HTMLInputElement | undefined;
 
-  private login: any;
+  private password: HTMLInputElement | undefined;
 
-  private password: any;
+  private passwordRepeat: HTMLInputElement | undefined;
 
-  private passwordRepeat: any;
+  private registrationBtn: HTMLElement | undefined;
 
-  private registrationBtn: any;
+  private registrationHead: HTMLElement | undefined;
 
-  private registrationHead: any;
+  private readonly router: Router;
 
-  private router: Router;
+  private readonly observer: Observer;
 
-  constructor(parentElement: HTMLElement, router: Router) {
+  constructor(parentElement: HTMLElement, router: Router, observer: Observer) {
     this.parentElement = parentElement;
     this.router = router;
+    this.observer = observer;
+  }
+
+  public start() {
     this.render();
     this.listener();
   }
 
-  public render() {
-    this.registration.classList.add('registration');
+  private appendInputsTo(parent: Element) {
+    this.login = createInput(
+      ['login', REG_ITEM_CN],
+      'text',
+      'Enter Login',
+      'login',
+      true
+    );
+    parent.append(this.login);
 
-    const closeBtn = document.createElement('span');
-    closeBtn.classList.add('registration-close');
-    this.registration.append(closeBtn);
-
-    const registrationContainer = document.createElement('div');
-    registrationContainer.classList.add('registration-container');
-
-    this.login = this.createInput('login', 'text', 'Enter Login', 'login');
-    registrationContainer.append(this.login);
-
-    this.password = this.createInput(
-      'password',
+    this.password = createInput(
+      ['password', REG_ITEM_CN],
       'password',
       'Enter Password',
-      'password'
-    );
-    registrationContainer.append(this.password);
-
-    this.passwordRepeat = this.createInput(
       'password',
+      true
+    );
+    parent.append(this.password);
+
+    this.passwordRepeat = createInput(
+      ['password', REG_ITEM_CN],
       'password',
       'Repeat Password',
-      'password-repeat'
+      'password-repeat',
+      true
     );
-    registrationContainer.append(this.passwordRepeat);
-
-    this.registrationHead = document.createElement('h1');
-    this.registrationHead.classList.add('registration-text');
-    this.registrationHead.innerText = '';
-    registrationContainer.append(this.registrationHead);
-
-    this.registrationBtn = document.createElement('button');
-    this.registrationBtn.classList.add('registration-btn');
-    this.registrationBtn.setAttribute('type', 'submit');
-    this.registrationBtn.textContent = 'Register';
-    registrationContainer.append(this.registrationBtn);
-
-    this.registration.append(registrationContainer);
-    this.parentElement.append(this.registration);
+    parent.append(this.passwordRepeat);
   }
 
-  private createInput(
-    cls: string,
-    type: string,
-    placeholder: string,
-    name: string
-  ) {
-    this.input = document.createElement('input');
-    this.input.classList.add('registration-item');
-    this.input.classList.add(cls);
-    this.input.setAttribute('type', type);
-    this.input.setAttribute('placeholder', placeholder);
-    this.input.setAttribute('name', name);
-    this.input.required = true;
-    return this.input;
+  private createLoginBlock() {
+    const {
+      ALREADY_HAVE_AN_ACCOUNT,
+      SING_IN,
+    } = this.observer.getState().langData;
+
+    const regLink = <HTMLLinkElement>(
+      createElement('a', PRIMARY_LINK_CLASS, null, null, SING_IN)
+    );
+    regLink.href = LOGIN;
+    regLink.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      this.router.goToPage(LOGIN);
+    });
+
+    const regSpan = createElement(
+      'span',
+      PRIMARY_TEXT_CLASS,
+      null,
+      null,
+      ALREADY_HAVE_AN_ACCOUNT
+    );
+    const container = createElement('div', null, null, [regSpan, regLink]);
+
+    return container;
+  }
+
+  private render() {
+    this.registration = <HTMLFormElement>createElement('form', REG_FORM_CN);
+
+    const closeBtn = createElement('span', REG_CLOSE_CN);
+    this.registration.append(closeBtn);
+
+    this.appendInputsTo(this.registration);
+
+    this.registrationHead = createElement('h1', REG_TEXT_CN);
+    this.registrationHead.innerText = '';
+    this.registration.append(this.registrationHead);
+
+    this.registrationBtn = document.createElement('button');
+    this.registrationBtn.classList.add(PRIMARY_BTN_CLASS, REG_BTN_CN);
+    this.registrationBtn.setAttribute('type', 'submit');
+    this.registrationBtn.textContent = 'Register';
+    this.registration.append(this.registrationBtn);
+
+    const registrationContainer = createElement('div', REG_CONTAINER_CN);
+    const loginBlock = this.createLoginBlock();
+
+    registrationContainer.append(this.registration, loginBlock);
+    this.parentElement.append(registrationContainer);
   }
 
   private listener() {
+    if (!this.registrationBtn) return;
+
     this.registrationBtn.addEventListener(
       'click',
       async (event: MouseEvent) => {
@@ -95,14 +138,15 @@ export default class Registration {
         if (this.checkPassword()) {
           const response = await this.setPost();
           this.checkResponse(response);
-        } else {
+        } else if (this.registrationBtn)
           this.registrationHead.textContent = 'Пароли не совпадают!';
-        }
       }
     );
   }
 
   private checkResponse(response: string) {
+    if (!this.registrationBtn) return;
+
     if (response === 'success') {
       this.registrationHead.textContent = 'Успешно!';
       this.goToLandingPage();
@@ -129,8 +173,8 @@ export default class Registration {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          login: this.login.value,
-          password: this.password.value,
+          login: this.login?.value,
+          password: this.password?.value,
         }),
       }
     )
@@ -140,8 +184,8 @@ export default class Registration {
   }
 
   private checkPassword() {
-    const password1 = this.password.value;
-    const password2 = this.passwordRepeat.value;
+    const password1 = this.password?.value;
+    const password2 = this.passwordRepeat?.value;
     if (password1 === password2) {
       return password1;
     }
