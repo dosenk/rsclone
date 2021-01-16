@@ -1,9 +1,9 @@
 export const createElement = (
   tag: string,
-  className?: string | Array<string>,
+  className?: string | Array<string> | null,
   parent?: Element | null,
   childsList?: Array<Node> | Array<Element> | null,
-  textContent?: string | null,
+  textContent?: string | null
 ): HTMLElement => {
   const elem = document.createElement(tag);
 
@@ -27,7 +27,7 @@ export const createInput = (
   type = 'text',
   placeholder = '',
   name = '',
-  required = false,
+  required = false
 ): HTMLInputElement => {
   const input = <HTMLInputElement>createElement('input', className);
 
