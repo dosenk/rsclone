@@ -13,7 +13,7 @@ export default class Router {
 
   private readonly observer: Observer;
 
-  private curPageDestroyer: Destroyer | null = null;
+  private curPageDestroyer: Destroyer | void = null;
 
   constructor(pagesContainer: HTMLElement, observer: Observer) {
     this.pagesContainer = pagesContainer;
@@ -44,7 +44,7 @@ export default class Router {
     this.curPageDestroyer = routeObj.renderCb(
       this.pagesContainer,
       this.observer,
-      this,
+      this
     );
   };
 
@@ -63,25 +63,36 @@ export default class Router {
     this.renderRoute(pathname);
   };
 
-  public createLink(
-    title: string,
-    route: string,
-    parent: Element,
-    renderPage: RenderPageCallback,
-  ): HTMLAnchorElement {
-    const a = <HTMLAnchorElement>(
-      createElement('a', undefined, parent, null, title)
-    );
+  public addRoutes(
+    routes: { [key: string]: string },
+    pagesTitles: { [key: string]: string },
+    pagesRenders: { [key: string]: RenderPageCallback }
+  ) {
+    const rendersList = Object.values(pagesRenders);
+    const titlesList = Object.values(pagesTitles);
+    const routesList = Object.values(routes);
 
-    this.routes.push({ route, renderCb: renderPage, title });
+    rendersList.forEach((renderCb, index) => {
+      const title = titlesList[index];
+      const route = routesList[index];
 
-    a.href = route;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      this.goToPage(route);
+      this.routes.push({ route, renderCb, title });
     });
+  }
 
-    return a;
+  // temporary method; delete when header function will be created
+  public createLinks(parent: Element): void {
+    this.routes.forEach(({ title, route }) => {
+      const a = <HTMLAnchorElement>(
+        createElement('a', undefined, parent, null, title)
+      );
+
+      a.href = route;
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        this.goToPage(route);
+      });
+    });
   }
 }

@@ -20,18 +20,13 @@ export default class App {
     const langData = langDictionaries[DEFAULT_LANGUAGE];
     this.observer = new Observer({ langData });
     this.router = new Router(this.mainElement, this.observer);
+    this.router.addRoutes(routes, pagesTitles, pagesRenders);
   }
 
   private createNav() {
     const nav = <HTMLElement>createElement('nav', ['nav'], this.parentElem);
-    const rendersList = Object.values(pagesRenders);
-    const titlesList = Object.values(pagesTitles);
-    const routesList = Object.values(routes);
 
-    rendersList.forEach((render, index) => {
-      this.router.createLink(titlesList[index], routesList[index], nav, render);
-    });
-
+    this.router.createLinks(nav);
     this.router.renderCurrentRoute();
   }
 
