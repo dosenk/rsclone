@@ -31,7 +31,7 @@ export default class Preloader {
     containerImg.alt = 'preloader';
     preloadeContainer.append(containerImg);
     this.preloader.append(preloadeContainer);
-    this.setText('Подождите...');
+    this.setText('Ожидание других игроков...');
     this.preloader.append(this.preloaderText);
     this.parentElement.append(this.preloader);
   }

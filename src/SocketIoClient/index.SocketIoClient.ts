@@ -1,10 +1,6 @@
 import io from 'socket.io-client';
 import { createElement } from '../Utils/index.Utils';
-import {
-  SOCKET_SERVER,
-  ROLE_PAINTER,
-  ROLE_GUESSER,
-} from '../Constants/index.Constants';
+import { SOCKET_SERVER } from '../Constants/index.Constants';
 import {
   EVENT_BROADCAST,
   EVENT_CONNECT,
@@ -29,7 +25,7 @@ import {
   CHAT_MSG_CLASS,
 } from '../Constants/classNames';
 import Observer from '../Observer/index.Observer';
-import IDraw from '../Observer/Interfaces/IDraw';
+import IState from '../Observer/Interfaces/IState';
 
 export default class SocketIoClient {
   parentElement: HTMLElement;
@@ -46,41 +42,27 @@ export default class SocketIoClient {
     this.parentElement = parentElement;
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
-    this.observer.subscribe(this);
     this.listenSocketEvents();
+  }
+
+  public start() {
     this.sendName();
+  }
+
+  public sendDrowInfoToClients(actionType: string, state: IState) {
+    if (actionType === DRAW) this.socket.emit(EVENT_DRAW, state.draw, DRAW);
+    if (actionType === DRAW_THICKNESS)
+      this.socket.emit(EVENT_DRAW, state.drawThickness, DRAW_THICKNESS);
+    if (actionType === DRAW_COLOR)
+      this.socket.emit(EVENT_DRAW, state.drawColor, DRAW_COLOR);
+    if (actionType === CLEAR_BOARD) {
+      this.socket.emit(EVENT_DRAW, null, CLEAR_BOARD);
+    }
   }
 
   private sendName() {
     const { name } = this.observer.getState();
     this.socket.emit(EVENT_USER_INFO, name, NAME);
-  }
-
-  public update(
-    state: {
-      role: string;
-      name: string;
-      draw: IDraw;
-      drawThickness: number;
-      drawColor: string;
-    },
-    actionType: string
-  ) {
-    if (state.role === ROLE_PAINTER) {
-      if (actionType === ROLE) this.createChat(this.parentElement);
-      if (actionType === DRAW) this.socket.emit(EVENT_DRAW, state.draw, DRAW);
-      if (actionType === DRAW_THICKNESS)
-        this.socket.emit(EVENT_DRAW, state.drawThickness, DRAW_THICKNESS);
-      if (actionType === DRAW_COLOR)
-        this.socket.emit(EVENT_DRAW, state.drawColor, DRAW_COLOR);
-      if (actionType === CLEAR_BOARD) {
-        this.socket.emit(EVENT_DRAW, null, CLEAR_BOARD);
-      }
-    }
-    if (state.role === ROLE_GUESSER && actionType === ROLE) {
-      this.createChat(this.parentElement);
-      this.createForm(this.parentElement);
-    }
   }
 
   listenSocketEvents(): void {
@@ -89,7 +71,7 @@ export default class SocketIoClient {
     });
 
     this.socket.on(EVENT_GAME, (info: any, actionType: string) => {
-      console.log(info, actionType);
+      if (actionType === 'START_GAME') this.observer.actions.setLoading(false);
     });
 
     this.socket.on(EVENT_USER_INFO, (info: any, actionType: string) => {

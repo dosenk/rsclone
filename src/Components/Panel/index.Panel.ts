@@ -17,11 +17,13 @@ export default class Panel {
 
   observer: Observer;
 
-  constructor(main: HTMLElement, board: any, observer: Observer) {
+  parentElement: HTMLElement;
+
+  constructor(parentElement: HTMLElement, board: any, observer: Observer) {
     this.board = board;
+    this.parentElement = parentElement;
     this.render();
     this.listener();
-    main.append(this.panel);
     this.observer = observer;
   }
 
@@ -61,7 +63,6 @@ export default class Panel {
     this.panel.classList.add('panel');
     this.createPanelColors();
     this.createPanelTools();
-    document.body.append(this.panel);
   }
 
   private createPanelColors() {
@@ -144,10 +145,10 @@ export default class Panel {
   }
 
   public displayPanel() {
-    this.panel.style.display = 'flex';
+    this.parentElement.append(this.panel);
   }
 
   public hidePanel() {
-    this.panel.style.display = 'none';
+    this.panel.remove();
   }
 }

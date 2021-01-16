@@ -57,7 +57,6 @@ export default class Users {
         console.log(error);
       }
     }
-    console.log(state, actionType);
   }
 
   setGuessers(
