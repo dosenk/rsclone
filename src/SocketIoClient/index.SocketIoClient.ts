@@ -10,6 +10,7 @@ import {
   EVENT_CONNECT,
   EVENT_DRAW,
   EVENT_USER_INFO,
+  EVENT_GAME,
 } from './constants';
 import {
   DRAW,
@@ -46,8 +47,8 @@ export default class SocketIoClient {
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
     this.observer.subscribe(this);
-    this.sendName();
     this.listenSocketEvents();
+    this.sendName();
   }
 
   private sendName() {
@@ -85,6 +86,10 @@ export default class SocketIoClient {
   listenSocketEvents(): void {
     this.socket.on(EVENT_CONNECT, () => {
       // событи будет сробатывать при подключении к сокету
+    });
+
+    this.socket.on(EVENT_GAME, (info: any, actionType: string) => {
+      console.log(info, actionType);
     });
 
     this.socket.on(EVENT_USER_INFO, (info: any, actionType: string) => {

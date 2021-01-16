@@ -49,8 +49,15 @@ export default class Users {
     if (actionType === USERS) {
       const newGuesser = state.users.guesser;
       const newPainter = state.users.painter;
-      this.setGuessers(newGuesser, newPainter);
+      try {
+        // console.log(newGuesser, newPainter);
+        this.setGuessers(newGuesser, newPainter);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
     }
+    console.log(state, actionType);
   }
 
   setGuessers(
@@ -59,11 +66,7 @@ export default class Users {
   ) {
     this.painter = newPainter;
     this.guesser = newGuesser;
-    Users.removeUsers(
-      [this.guesserBlock, USER_GUESSER_CLASS],
-      [this.painterBlock, USER_PAINTER_CLASS]
-    );
-    this.renderUsers(newGuesser, newPainter);
+    // this.renderUsers(newGuesser, newPainter);
   }
 
   static removeUsers(...usersParams: any) {
@@ -75,6 +78,10 @@ export default class Users {
   }
 
   renderUsers(guessers: [user: { name: string }], painter: { name: string }) {
+    Users.removeUsers(
+      [this.guesserBlock, USER_GUESSER_CLASS],
+      [this.painterBlock, USER_PAINTER_CLASS]
+    );
     const guessorClasses = {
       main: USER_GUESSER_CLASS,
       avatar: GUESSER_AVATAR_CLASS,
