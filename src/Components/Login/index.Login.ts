@@ -6,8 +6,13 @@ import {
   FORM_CN,
   FORM_ITEM_CN,
   FORM_CONTAINER_CN,
-  FORM_BTN_CN
+  FORM_BTN_CN,
 } from './constants';
+import {
+  PRIMARY_LINK_CLASS,
+  PRIMARY_TEXT_CLASS,
+  PRIMARY_BTN_CLASS,
+} from '../../Constants/classNames';
 
 export default class Login {
   private loginForm: HTMLElement = document.createElement('form');
@@ -32,11 +37,36 @@ export default class Login {
     this.listener();
   }
 
+  private createRegBlock() {
+    const {
+      CREATE_AN_ACCOUNT,
+      NEW_TO_GAME,
+    } = this.observer.getState().langData;
+
+    const regLink = <HTMLLinkElement>(
+      createElement('a', PRIMARY_LINK_CLASS, null, null, CREATE_AN_ACCOUNT)
+    );
+    regLink.href = REGISTRATION;
+    regLink.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      this.router.goToPage(REGISTRATION);
+    });
+
+    const regSpan = createElement(
+      'span',
+      PRIMARY_TEXT_CLASS,
+      null,
+      null,
+      NEW_TO_GAME
+    );
+    const regContainer = createElement('div', null, null, [regSpan, regLink]);
+
+    return regContainer;
+  }
+
   public render() {
     this.loginForm.classList.add(FORM_CN);
-
-    const loginContainer = document.createElement('div');
-    loginContainer.classList.add(FORM_CONTAINER_CN);
 
     this.login = createInput(
       ['login-input', FORM_ITEM_CN],
@@ -45,7 +75,7 @@ export default class Login {
       'login',
       true
     );
-    loginContainer.append(this.login);
+    this.loginForm.append(this.login);
 
     this.password = createInput(
       ['password', FORM_ITEM_CN],
@@ -54,16 +84,21 @@ export default class Login {
       'password',
       true
     );
-    loginContainer.append(this.password);
+    this.loginForm.append(this.password);
 
     this.loginBtn = document.createElement('button');
-    this.loginBtn.classList.add(FORM_BTN_CN);
+    this.loginBtn.classList.add(PRIMARY_BTN_CLASS, FORM_BTN_CN);
     this.loginBtn.setAttribute('type', 'submit');
     this.loginBtn.textContent = 'Login';
-    loginContainer.append(this.loginBtn);
+    this.loginForm.append(this.loginBtn);
 
-    this.loginForm.append(loginContainer);
-    this.parentElement.append(this.loginForm);
+    const regBlock = this.createRegBlock();
+    const loginContainer = document.createElement('div');
+
+    loginContainer.classList.add(FORM_CONTAINER_CN);
+    loginContainer.append(this.loginForm, regBlock);
+
+    this.parentElement.append(loginContainer);
   }
 
   private listener() {
@@ -101,12 +136,12 @@ export default class Login {
         method: 'post',
         headers: {
           Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           login: this.login?.value,
-          password: this.password?.value
-        })
+          password: this.password?.value,
+        }),
       }
     )
       .then((res) => res.json())
