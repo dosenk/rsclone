@@ -33,6 +33,9 @@ export default class Login {
     this.parentElement = parentElement;
     this.observer = observer;
     this.router = router;
+  }
+
+  public start() {
     this.render();
     this.listener();
   }
