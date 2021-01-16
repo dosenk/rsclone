@@ -1,6 +1,9 @@
 import Router from '../../Router/index.Router';
 import { GAME, REGISTRATION } from '../../Constants/routes';
 import Observer from '../../Observer/index.Observer';
+import { createInput } from '../../Utils/index.Utils';
+
+const FORM_ITEM_CN = 'loginForm-item';
 
 export default class Login {
   private loginForm: HTMLElement = document.createElement('form');
@@ -31,19 +34,21 @@ export default class Login {
     const loginContainer = document.createElement('div');
     loginContainer.classList.add('loginForm-container');
 
-    this.login = Login.createInput(
-      'login-input',
+    this.login = createInput(
+      ['login-input', FORM_ITEM_CN],
       'text',
       'Enter Login',
       'login',
+      true,
     );
     loginContainer.append(this.login);
 
-    this.password = Login.createInput(
-      'password',
+    this.password = createInput(
+      ['password', FORM_ITEM_CN],
       'password',
       'Enter Password',
       'password',
+      true,
     );
     loginContainer.append(this.password);
 
@@ -55,23 +60,6 @@ export default class Login {
 
     this.loginForm.append(loginContainer);
     this.parentElement.append(this.loginForm);
-  }
-
-  private static createInput(
-    cls: string,
-    type: string,
-    placeholder: string,
-    name: string,
-  ) {
-    const input = document.createElement('input');
-
-    input.classList.add('loginForm-item');
-    input.classList.add(cls);
-    input.setAttribute('type', type);
-    input.setAttribute('placeholder', placeholder);
-    input.setAttribute('name', name);
-    input.required = true;
-    return input;
   }
 
   private listener() {
