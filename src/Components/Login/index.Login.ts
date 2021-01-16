@@ -7,8 +7,6 @@ export default class Login {
 
   private parentElement: HTMLElement;
 
-  private input: any;
-
   private login: any;
 
   private password: any;
@@ -33,19 +31,19 @@ export default class Login {
     const loginContainer = document.createElement('div');
     loginContainer.classList.add('loginForm-container');
 
-    this.login = this.createInput(
+    this.login = Login.createInput(
       'login-input',
       'text',
       'Enter Login',
-      'login'
+      'login',
     );
     loginContainer.append(this.login);
 
-    this.password = this.createInput(
+    this.password = Login.createInput(
       'password',
       'password',
       'Enter Password',
-      'password'
+      'password',
     );
     loginContainer.append(this.password);
 
@@ -59,20 +57,21 @@ export default class Login {
     this.parentElement.append(this.loginForm);
   }
 
-  private createInput(
+  private static createInput(
     cls: string,
     type: string,
     placeholder: string,
-    name: string
+    name: string,
   ) {
-    this.input = document.createElement('input');
-    this.input.classList.add('loginForm-item');
-    this.input.classList.add(cls);
-    this.input.setAttribute('type', type);
-    this.input.setAttribute('placeholder', placeholder);
-    this.input.setAttribute('name', name);
-    this.input.required = true;
-    return this.input;
+    const input = document.createElement('input');
+
+    input.classList.add('loginForm-item');
+    input.classList.add(cls);
+    input.setAttribute('type', type);
+    input.setAttribute('placeholder', placeholder);
+    input.setAttribute('name', name);
+    input.required = true;
+    return input;
   }
 
   private listener() {
@@ -116,7 +115,7 @@ export default class Login {
           login: this.login.value,
           password: this.password.value,
         }),
-      }
+      },
     )
       .then((res) => res.json())
       .then((res) => res);
