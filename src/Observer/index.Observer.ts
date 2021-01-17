@@ -4,6 +4,7 @@ import IAction from './Interfaces/IAction';
 import { INIT } from './actionTypes';
 import reducer from './reducer';
 import IState from './Interfaces/IState';
+import SocketIoClient from '../SocketIoClient/index.SocketIoClient';
 
 export default class Observer {
   private static instance: Observer;
@@ -22,6 +23,7 @@ export default class Observer {
     Observer.instance = this;
 
     const state: IState = {
+      game: {},
       loading: true,
       langData: {},
       role: '',

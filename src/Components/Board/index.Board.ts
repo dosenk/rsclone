@@ -1,20 +1,17 @@
 import Observer from '../../Observer/index.Observer';
-import IDraw from '../../Observer/Interfaces/IDraw';
+import IState from '../../Observer/Interfaces/IState';
 import Panel from '../Panel/index.Panel';
 import {
   DRAW,
   DRAW_COLOR,
   DRAW_THICKNESS,
-  ROLE,
   CLEAR_BOARD,
 } from '../../Observer/actionTypes';
-
-import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 
 export default class Board {
   private board: HTMLCanvasElement = document.createElement('canvas');
 
-  private context: CanvasRenderingContext2D;
+  private context!: CanvasRenderingContext2D;
 
   private draw: boolean = false;
 
@@ -24,61 +21,34 @@ export default class Board {
 
   private observer: Observer;
 
-  private panel: Panel;
+  private panel!: Panel;
 
   private readonly parentElement: HTMLElement;
 
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
-
     this.observer = observer;
-    this.observer.subscribe(this);
+    this.panel = new Panel(this.parentElement, this, observer);
+    this.start();
   }
 
   public start() {
-    this.render(this.parentElement);
+    this.create();
     this.context = this.board.getContext('2d') as CanvasRenderingContext2D;
     this.listener();
-    this.panel = new Panel(this.parentElement, this, this.observer);
   }
 
-  public update(
-    state: {
-      role: string;
-      draw: IDraw;
-      drawThickness: number;
-      drawColor: string;
-    },
-    actionType: string
-  ) {
-    if (state.role === ROLE_PAINTER && actionType === ROLE) {
-      this.addHost();
-      this.panel.displayPanel();
-    }
-    if (state.role === ROLE_GUESSER) {
-      if (actionType === ROLE) {
-        this.addPlayer();
-        this.panel.hidePanel();
-      }
-      if (actionType === DRAW && state.draw !== null) {
-        this.drawLine(state.draw.type, state.draw.x, state.draw.y, false);
-      }
-      if (actionType === DRAW_THICKNESS && state.drawThickness !== null) {
-        this.setLineThickness(state.drawThickness);
-      }
-      if (actionType === DRAW_COLOR && state.drawColor !== null) {
-        this.setColor(state.drawColor);
-      }
-      if (actionType === CLEAR_BOARD) {
-        this.clearBoard();
-      }
-    }
+  getPanel() {
+    return this.panel;
   }
 
-  private render(parentElement: HTMLElement) {
+  displayBoard() {
+    this.parentElement.append(this.board);
+  }
+
+  private create() {
     this.board = document.createElement('canvas');
     this.board.classList.add('board');
-    parentElement.append(this.board);
   }
 
   public addHost() {
@@ -161,7 +131,7 @@ export default class Board {
     this.observer.actions.setDraw({ type, x, y });
   }
 
-  private drawLine(
+  public drawLine(
     mouseEvent: string,
     x: number,
     y: number,
@@ -172,6 +142,21 @@ export default class Board {
     if (mouseEvent === 'mouseup') this.mouseup(x, y);
     if (painterFlag) {
       this.setDraw(mouseEvent, this.mouse.x, this.mouse.y, mouseEvent);
+    }
+  }
+
+  public clientDraw(actionType: string, state: IState) {
+    if (actionType === DRAW && state.draw !== null) {
+      this.drawLine(state.draw.type, state.draw.x, state.draw.y, false);
+    }
+    if (actionType === DRAW_THICKNESS && state.drawThickness !== null) {
+      this.setLineThickness(state.drawThickness);
+    }
+    if (actionType === DRAW_COLOR && state.drawColor !== null) {
+      this.setColor(state.drawColor);
+    }
+    if (actionType === CLEAR_BOARD) {
+      this.clearBoard();
     }
   }
 }

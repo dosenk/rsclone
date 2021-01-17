@@ -1,16 +1,13 @@
 import IDraw from './IDraw';
-import SocketIOClient from '../../SocketIoClient/index.SocketIoClient';
+import Game from '../../Components/Game/index.Game';
 
 interface IState {
-  socket: SocketIOClient;
+  game: Game;
   loading: boolean;
   langData: { [key: string]: string };
   role: string;
   name: string;
-  users: {
-    painter: Object;
-    quesser: Array<Object>;
-  };
+  users: { painter: Object; guesser: Array<Object> };
   draw: IDraw | null;
   drawThickness: number;
   drawColor: string;
