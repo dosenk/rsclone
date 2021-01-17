@@ -9,6 +9,7 @@ import {
   DRAW_COLOR,
   USERS,
   GAME,
+  WORDS_TO_GUESS,
 } from './actionTypes';
 import IAction from './Interfaces/IAction';
 import IState from './Interfaces/IState';
@@ -37,6 +38,8 @@ export default (state: IState, action: IAction): IState => {
       return { ...state, drawColor: action.payload };
     case GAME:
       return { ...state, game: action.payload };
+    case WORDS_TO_GUESS:
+      return { ...state, wordsToGuess: action.payload };
     default:
       return state;
   }

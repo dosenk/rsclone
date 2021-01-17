@@ -4,7 +4,6 @@ import IAction from './Interfaces/IAction';
 import { INIT } from './actionTypes';
 import reducer from './reducer';
 import IState from './Interfaces/IState';
-import SocketIoClient from '../SocketIoClient/index.SocketIoClient';
 
 export default class Observer {
   private static instance: Observer;
@@ -33,6 +32,7 @@ export default class Observer {
       drawThickness: 1,
       drawColor: 'black',
       ...initialState,
+      wordsToGuess: [],
     };
 
     this.state = reducer(state, { type: INIT });

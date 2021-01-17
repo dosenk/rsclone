@@ -11,6 +11,7 @@ import {
   ROLE,
   CLEAR_BOARD,
   GAME,
+  WORDS_TO_GUESS,
 } from './actionTypes';
 import langItem from '../langDictionaries/en';
 import IDraw from './Interfaces/IDraw';
@@ -91,6 +92,13 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: CLEAR_BOARD,
       payload: null,
+    });
+  }
+
+  wordsToGuess(words: Array<string>) {
+    this.observer.dispatch({
+      type: WORDS_TO_GUESS,
+      payload: words,
     });
   }
 }

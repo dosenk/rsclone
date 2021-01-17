@@ -1,5 +1,5 @@
 import IDraw from './IDraw';
-import Game from '../../Components/Game/index.Game';
+import type Game from '../../Components/Game/index.Game';
 
 interface IState {
   game: Game;
@@ -11,6 +11,7 @@ interface IState {
   draw: IDraw | null;
   drawThickness: number;
   drawColor: string;
+  wordsToGuess: Array<string>;
 }
 
 export default IState;
