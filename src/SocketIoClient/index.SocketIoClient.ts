@@ -25,7 +25,7 @@ import {
   CHAT_CLASS,
   CHAT_MSG_CLASS,
 } from '../Constants/classNames';
-import Observer from '../Observer/index.Observer';
+import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
 
 export default class SocketIoClient {
@@ -87,7 +87,7 @@ export default class SocketIoClient {
           this.observer.actions.setLoading(false);
           break;
         case ACTION_WORD:
-          this.observer.actions.wordsToGuess(info);
+          this.observer.actions.wordsToSelect(info.sameWords);
           break;
 
         default:
