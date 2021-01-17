@@ -1,7 +1,7 @@
 .loginForm {
-  @extend %enterForm;
+  @extend .middleBlock;
 
   &--form {
-    @extend %enterForm--form;
+    @extend .middleBlock--block;
   }
 }

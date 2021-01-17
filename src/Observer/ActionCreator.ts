@@ -1,5 +1,5 @@
-import Observer from './index.Observer';
-import Game from '../Components/Game/index.Game';
+import type Observer from './index.Observer';
+import type Game from '../Components/Game/index.Game';
 import {
   DRAW,
   DRAW_COLOR,
@@ -11,6 +11,8 @@ import {
   ROLE,
   CLEAR_BOARD,
   GAME,
+  WORDS_TO_SELECT,
+  WORD_TO_GUESS,
 } from './actionTypes';
 import langItem from '../langDictionaries/en';
 import IDraw from './Interfaces/IDraw';
@@ -91,6 +93,20 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: CLEAR_BOARD,
       payload: null,
+    });
+  }
+
+  wordsToSelect(words: Array<string>) {
+    this.observer.dispatch({
+      type: WORDS_TO_SELECT,
+      payload: words,
+    });
+  }
+
+  wordToGuess(word: string) {
+    this.observer.dispatch({
+      type: WORD_TO_GUESS,
+      payload: word,
     });
   }
 }

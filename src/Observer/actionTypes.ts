@@ -9,3 +9,5 @@ export const DRAW_THICKNESS: string = 'DRAW_THICKNESS';
 export const DRAW_COLOR: string = 'DRAW_COLOR';
 export const CLEAR_BOARD: string = 'CLEAR_BOARD';
 export const GAME: string = 'GAME';
+export const WORDS_TO_SELECT: string = 'WORDS_TO_SELECT';
+export const WORD_TO_GUESS: string = 'WORD_TO_GUESS';

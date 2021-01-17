@@ -7,4 +7,5 @@ export default {
   NEW_TO_GAME: `New to ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Already have an account? ',
   SING_IN: 'SING IN.',
+  SELECT_A_WORD: 'Select a word:',
 };

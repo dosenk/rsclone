@@ -7,6 +7,7 @@ import {
   EVENT_DRAW,
   EVENT_USER_INFO,
   EVENT_GAME,
+  ACTION_WORD,
 } from './constants';
 import {
   DRAW,
@@ -24,7 +25,7 @@ import {
   CHAT_CLASS,
   CHAT_MSG_CLASS,
 } from '../Constants/classNames';
-import Observer from '../Observer/index.Observer';
+import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
 
 export default class SocketIoClient {
@@ -81,7 +82,17 @@ export default class SocketIoClient {
     });
 
     this.socket.on(EVENT_GAME, (info: any, actionType: string) => {
-      if (actionType === 'START_GAME') this.observer.actions.setLoading(false);
+      switch (actionType) {
+        case 'START_GAME':
+          this.observer.actions.setLoading(false);
+          break;
+        case ACTION_WORD:
+          this.observer.actions.wordsToSelect(info.sameWords);
+          break;
+
+        default:
+          break;
+      }
     });
 
     this.socket.on(EVENT_USER_INFO, (info: any, actionType: string) => {
@@ -146,5 +157,9 @@ export default class SocketIoClient {
     const input = tagetElement?.childNodes[0];
     if (input.value) this.socket.emit(EVENT_BROADCAST, input.value);
     input.value = '';
+  }
+
+  sendGuessedWord(word: string) {
+    this.socket.emit(EVENT_GAME, word, ACTION_WORD);
   }
 }

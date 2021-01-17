@@ -7,4 +7,5 @@ export default {
   NEW_TO_GAME: `Впервые в ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Уже есть аккаунт? ',
   SING_IN: 'ВОЙТИ.',
+  SELECT_A_WORD: 'Выберите слово:',
 };
