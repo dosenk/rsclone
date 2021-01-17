@@ -101,7 +101,7 @@ export default class SocketIoClient {
           this.observer.actions.setRole(info);
           break;
         case USERS:
-          this.observer.actions.wordsToGuess(info);
+          this.observer.actions.setUsers(info);
           break;
         default:
           break;
