@@ -1,6 +1,10 @@
 export const USERS_CLASS = 'users';
 export const USERS_WRAPPER_CLASS = 'users-wrapper';
 
+export const PRIMARY_LINK_CLASS = 'primary_link';
+export const PRIMARY_TEXT_CLASS = 'primary_text';
+export const PRIMARY_BTN_CLASS = 'primary_btn';
+
 export const PAINTER_CLASS = 'users__painter';
 export const USER_PAINTER_CLASS = `${PAINTER_CLASS}_user`;
 export const PAINTER_INFO_CLASS = `${PAINTER_CLASS}_user-info`;

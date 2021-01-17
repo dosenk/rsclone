@@ -8,4 +8,5 @@ export default (
   router: Router
 ): void => {
   const login = new Login(parent, observer, router);
+  login.start();
 };

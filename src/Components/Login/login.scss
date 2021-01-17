@@ -1,22 +1,7 @@
 .loginForm {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: calc(50% - 125px);
-  left: calc(50% - 150px);
-  border-radius: 10px;
-  width: 300px;
-  height: 250px;
-  border: 1px solid black;
-  &-container {
-    width: 90%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    .loginForm-btn {
-      cursor: pointer;
-    }
+  @extend %enterForm;
+
+  &--form {
+    @extend %enterForm--form;
   }
 }

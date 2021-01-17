@@ -4,7 +4,7 @@ import SocketIOClient from '../../SocketIoClient/index.SocketIoClient';
 interface IState {
   socket: SocketIOClient;
   loading: boolean;
-  langData: Object;
+  langData: { [key: string]: string };
   role: string;
   name: string;
   users: {
