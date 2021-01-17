@@ -7,4 +7,5 @@ export default {
   NEW_TO_GAME: `Упершыню ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Ужо ёсць аккаунт? ',
   SING_IN: 'УВАЙСЦІ.',
+  SELECT_A_WORD: 'Выбярыце слова:',
 };
