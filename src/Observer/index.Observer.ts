@@ -1,13 +1,11 @@
-import ActionCreator from './ActionCreator';
 import ISubscriber from './Interfaces/ISubscriber';
 import IAction from './Interfaces/IAction';
+import IState from './Interfaces/IState';
+import ActionCreator from './ActionCreator';
 import { INIT } from './actionTypes';
 import reducer from './reducer';
-import IState from './Interfaces/IState';
 
 export default class Observer {
-  private static instance: Observer;
-
   private state: IState;
 
   private subscribers: Array<ISubscriber> = [];
@@ -15,12 +13,6 @@ export default class Observer {
   public readonly actions: ActionCreator;
 
   constructor(initialState: Partial<IState> = {}) {
-    if (Observer.instance) {
-      return Observer.instance;
-    }
-
-    Observer.instance = this;
-
     const state: IState = {
       game: {},
       loading: true,
@@ -32,7 +24,8 @@ export default class Observer {
       drawThickness: 1,
       drawColor: 'black',
       ...initialState,
-      wordsToGuess: [],
+      wordsToSelect: [],
+      wordToGuess: '',
     };
 
     this.state = reducer(state, { type: INIT });

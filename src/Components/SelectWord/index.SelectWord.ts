@@ -17,11 +17,11 @@ const createWordBtn = (word: string) =>
 export default (
   parentElem: Element,
   observer: Observer,
-  wordList: string[],
   onWordSelectedCb: Function
 ) => {
+  const { langData, wordsToSelect } = observer.getState();
+  const btnList = wordsToSelect.map(createWordBtn);
   const container = createElement('div', SELECT_CN);
-  const btnList = wordList.map(createWordBtn);
   const content = createElement('div', SELECT_CONTENT_CN);
 
   content.addEventListener('click', (event: MouseEvent) => {
@@ -32,7 +32,7 @@ export default (
     onWordSelectedCb(elem.textContent);
   });
 
-  const { SELECT_A_WORD } = observer.getState().langData;
+  const { SELECT_A_WORD } = langData;
   const title = createElement(
     'h3',
     [PRIMARY_TEXT_CLASS, SELECT_TITLE_CN],

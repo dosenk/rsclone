@@ -11,7 +11,8 @@ interface IState {
   draw: IDraw | null;
   drawThickness: number;
   drawColor: string;
-  wordsToGuess: Array<string>;
+  wordsToSelect: Array<string>;
+  wordToGuess: string;
 }
 
 export default IState;
