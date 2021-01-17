@@ -3,3 +3,4 @@ export const EVENT_USER_INFO = 'usersInfo';
 export const EVENT_DRAW = 'draw';
 export const EVENT_BROADCAST = 'broadcast';
 export const EVENT_GAME = 'game';
+export const ACTION_WORD = 'word';
