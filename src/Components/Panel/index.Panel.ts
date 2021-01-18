@@ -21,9 +21,9 @@ export default class Panel {
 
   private arrayElements: Array<any> = [];
 
-  private color: any;
+  private color: any = 'black';
 
-  private line: any;
+  private line: any = 1;
 
   constructor(parentElement: HTMLElement, board: any, observer: Observer) {
     this.board = board;
@@ -55,16 +55,20 @@ export default class Panel {
       this.deleteActiveClass(this.panelToolsTool);
       tool.closest('.panel__tools_tool-item')?.classList.add('active');
       if (tool.closest('.pencil')) {
+        this.board.board.style.cursor =
+          'url(/src/assets/images/cursor1.png), auto';
         this.board.setLineThickness(+this.line);
         this.board.setColor(this.color);
         this.observer.actions.setDrawColor(this.color);
         this.observer.actions.setDrawThickness(+this.line);
       }
       if (tool.closest('.eraser')) {
-        this.board.setLineThickness(8);
+        this.board.board.style.cursor =
+          'url(/src/assets/images/cursor3.png), auto';
+        this.board.setLineThickness(10);
         this.board.setColor('white');
         this.observer.actions.setDrawColor('white');
-        this.observer.actions.setDrawThickness(8);
+        this.observer.actions.setDrawThickness(10);
       }
       if (tool.closest('.clear')) {
         this.board.clearBoard();
