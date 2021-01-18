@@ -3,6 +3,9 @@
   height: 70px;
   display: flex;
   justify-content: center;
+  .active {
+    border: aqua solid 2px;
+  }
   & button {
     outline: none;
   }
