@@ -19,6 +19,12 @@ export default class Panel {
 
   parentElement: HTMLElement;
 
+  private arrayElements: Array<any> = [];
+
+  private color: any;
+
+  private line: any;
+
   constructor(parentElement: HTMLElement, board: any, observer: Observer) {
     this.board = board;
     this.parentElement = parentElement;
@@ -30,21 +36,29 @@ export default class Panel {
   private listener() {
     this.panelColors.addEventListener('click', (event) => {
       const colorButton: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
-      this.board.setColor(colorButton.value);
-      this.observer.actions.setDrawColor(colorButton.value);
+      this.deleteActiveClass(this.panelColors);
+      colorButton.classList.add('active');
+      this.color = colorButton.value;
+      this.board.setColor(this.color);
+      this.observer.actions.setDrawColor(this.color);
     });
     this.panelToolsPencil.addEventListener('click', (event) => {
       const pencilSize: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
-      this.board.setLineThickness(+pencilSize.value);
-      this.observer.actions.setDrawThickness(+pencilSize.value);
+      this.deleteActiveClass(this.panelToolsPencil);
+      pencilSize.classList.add('active');
+      this.line = pencilSize.value;
+      this.board.setLineThickness(+this.line);
+      this.observer.actions.setDrawThickness(+this.line);
     });
     this.panelToolsTool.addEventListener('click', (event) => {
       const tool: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
+      this.deleteActiveClass(this.panelToolsTool);
+      tool.closest('.panel__tools_tool-item')?.classList.add('active');
       if (tool.closest('.pencil')) {
-        this.board.setLineThickness(1);
-        this.board.setColor('black');
-        this.observer.actions.setDrawColor('black');
-        this.observer.actions.setDrawThickness(1);
+        this.board.setLineThickness(+this.line);
+        this.board.setColor(this.color);
+        this.observer.actions.setDrawColor(this.color);
+        this.observer.actions.setDrawThickness(+this.line);
       }
       if (tool.closest('.eraser')) {
         this.board.setLineThickness(8);
@@ -56,6 +70,13 @@ export default class Panel {
         this.board.clearBoard();
         this.observer.actions.clearBoard();
       }
+    });
+  }
+
+  private deleteActiveClass(element: HTMLElement) {
+    this.arrayElements = [...element.children];
+    this.arrayElements.forEach((block) => {
+      block.classList.remove('active');
     });
   }
 
@@ -72,6 +93,7 @@ export default class Panel {
       'black',
       'black'
     );
+    colorBlack.classList.add('active');
     const colorRed = this.createButton('panel__colors-color', 'red', 'red');
     const colorGreen = this.createButton(
       'panel__colors-color',
@@ -92,6 +114,7 @@ export default class Panel {
     const six = this.createButton('panel__tools_pencil-size', 'six', '6');
     const three = this.createButton('panel__tools_pencil-size', 'three', '3');
     const one = this.createButton('panel__tools_pencil-size', 'one', '1');
+    one.classList.add('active');
     this.panelToolsPencil.append(six);
     this.panelToolsPencil.append(three);
     this.panelToolsPencil.append(one);
@@ -105,6 +128,7 @@ export default class Panel {
       'pencil',
       'pencil'
     );
+    pencil.classList.add('active');
     const pencilImg = document.createElement('img');
     pencilImg.src = '/src/assets/images/pencil.png';
     pencilImg.alt = 'pencil';
