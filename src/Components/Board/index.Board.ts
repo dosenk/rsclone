@@ -25,17 +25,34 @@ export default class Board {
 
   private readonly parentElement: HTMLElement;
 
+  private img: HTMLImageElement = document.createElement('img');
+
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
     this.observer = observer;
     this.panel = new Panel(this.parentElement, this, observer);
     this.start();
+    this.rederImage(parentElement);
   }
 
   public start() {
     this.create();
     this.context = this.board.getContext('2d') as CanvasRenderingContext2D;
+    this.board.width = 500;
+    this.board.height = 500;
     this.listener();
+  }
+
+  private rederImage(parentElement: HTMLElement) {
+    this.img.classList.add('cursorImg');
+    this.img.src = './src/assets/images/cursor1.png';
+    this.img.alt = 'cursor';
+    parentElement.append(this.img);
+  }
+
+  private displayCursor(x: number, y: number) {
+    this.img.style.top = `${this.board.offsetTop + y}px`;
+    this.img.style.left = `${this.board.offsetLeft + x}px`;
   }
 
   getPanel() {
@@ -102,12 +119,19 @@ export default class Board {
     this.draw = true;
     this.context.beginPath();
     this.context.moveTo(x, y);
+    if (this.player) {
+      this.img.style.display = 'block';
+      this.displayCursor(x, y);
+    }
   }
 
   public mousemove(x: number, y: number) {
     if (this.draw === true) {
       this.context.lineTo(x, y);
       this.context.stroke();
+      if (this.player) {
+        this.displayCursor(x, y);
+      }
     }
   }
 
@@ -116,10 +140,23 @@ export default class Board {
     this.context.stroke();
     this.context.closePath();
     this.draw = false;
+    if (this.player) {
+      this.displayCursor(x, y);
+      this.img.style.display = 'none';
+    }
   }
 
   public setColor(color: any) {
+    this.chechPensil(color);
     this.context.strokeStyle = `${color}`;
+  }
+
+  private chechPensil(color: any) {
+    if (color === 'white' && this.player) {
+      this.img.src = './src/assets/images/cursor3.png';
+    } else {
+      this.img.src = './src/assets/images/cursor1.png';
+    }
   }
 
   public setLineThickness(number: number) {
