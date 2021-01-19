@@ -1,21 +1,26 @@
 import SocketIoClient from '../../SocketIoClient/index.SocketIoClient';
 import Board from '../Board/index.Board';
 import Users from '../Users/index.Users';
-import Preloader from '../Preloader/index.Preloader';
+import preloader from '../Preloader/index.Preloader';
 import Observer from '../../Observer/index.Observer';
 import Panel from '../Panel/index.Panel';
 import {
-  LOADING,
   USERS,
   CLEAR_BOARD,
   DRAW_COLOR,
   DRAW_THICKNESS,
   DRAW,
-  WORDS_TO_SELECT,
 } from '../../Observer/actionTypes';
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
 import renderSelectWord from '../SelectWord/index.SelectWord';
+import gameEndPopup from '../GameEnd/index.GameEnd';
+import {
+  WORD_SELECTION,
+  LOADING_GAME,
+  GAME_IN_PROGRESS,
+  GAME_END,
+} from './statuses';
 
 export default class Game {
   observer: Observer;
@@ -28,8 +33,6 @@ export default class Game {
 
   panel: Panel;
 
-  preloader!: Preloader;
-
   parenElement: HTMLElement;
 
   constructor(observer: Observer, parenElement: HTMLElement) {
@@ -41,7 +44,6 @@ export default class Game {
 
     this.board = new Board(parenElement, observer);
     this.panel = this.board.getPanel();
-    this.preloader = new Preloader(document.body);
 
     observer.subscribe(this);
     observer.actions.setGame(this);
@@ -63,15 +65,8 @@ export default class Game {
 
   public update(state: IState, actionType: string) {
     switch (actionType) {
-      case LOADING:
-        this.updateGame(state);
-        break;
       case USERS:
         this.users.setUsers(state);
-        break;
-      case WORDS_TO_SELECT:
-        this.preloader.hidePreloader();
-        renderSelectWord(this.parenElement, this.observer, this.wordSelected);
         break;
       case DRAW:
       case DRAW_COLOR:
@@ -81,34 +76,69 @@ export default class Game {
         break;
 
       default:
+        this.updateGame();
         break;
     }
   }
 
   public startGame() {
     this.socket.start();
-    this.preloader.displayPreloader();
   }
 
-  public updateGame(state: IState) {
-    if (state.loading === false) {
-      this.preloader.hidePreloader();
-      this.board.displayBoard();
-      if (state.role === ROLE_GUESSER) {
-        this.board.addPlayer();
-        this.socket.displayForm(this.parenElement);
-        this.panel.hidePanel();
-      } else if (state.role === ROLE_PAINTER) {
-        this.board.addHost();
-        this.panel.displayPanel();
-      }
-      this.socket.displayChat(this.parenElement);
-      this.users.displayUsers(this.parenElement);
-    } else {
-      this.parenElement.textContent = '';
-      this.board.clearBoard();
-      this.socket.clearChat();
-      this.preloader.displayPreloader();
+  private beginOfGame(role: string) {
+    this.board.clearBoard();
+    this.socket.clearChat();
+    this.board.displayBoard();
+
+    if (role === ROLE_GUESSER) {
+      this.board.addPlayer();
+      this.socket.displayForm(this.parenElement);
+      this.panel.hidePanel();
+    } else if (role === ROLE_PAINTER) {
+      this.board.addHost();
+      this.panel.displayPanel();
+    }
+
+    this.socket.displayChat(this.parenElement);
+    this.users.displayUsers(this.parenElement);
+  }
+
+  public updateGame() {
+    const {
+      gameStatus,
+      role,
+      langData,
+      gameEndInfo,
+      users,
+    } = this.observer.getState();
+    const { WAITING_ANOTHER_GAMERS } = langData;
+
+    this.parenElement.textContent = '';
+
+    switch (gameStatus) {
+      case WORD_SELECTION:
+        renderSelectWord(this.parenElement, this.observer, this.wordSelected);
+        break;
+      case LOADING_GAME:
+        preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
+        break;
+      case GAME_IN_PROGRESS:
+        this.beginOfGame(role);
+        break;
+      case GAME_END:
+        gameEndPopup(
+          this.parenElement,
+          this.observer,
+          () => {
+            console.log('onClose: Next game');
+          },
+          gameEndInfo!,
+          users.painter.name
+        );
+        break;
+
+      default:
+        break;
     }
   }
 }

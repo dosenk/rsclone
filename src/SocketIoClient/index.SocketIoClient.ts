@@ -30,6 +30,11 @@ import {
 } from '../Constants/classNames';
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
+import {
+  GAME_END,
+  GAME_IN_PROGRESS,
+  LOADING_GAME,
+} from '../Components/Game/statuses';
 
 export default class SocketIoClient {
   parentElement: HTMLElement;
@@ -87,19 +92,25 @@ export default class SocketIoClient {
     this.socket.on(EVENT_GAME, (info: any, actionType: string) => {
       switch (actionType) {
         case START_GAME:
-          this.observer.actions.setLoading(false);
+          this.observer.actions.setGameStatus(GAME_IN_PROGRESS);
           break;
         case WORDS_TO_SELECT:
           this.observer.actions.wordsToSelect(info);
           break;
         case STOP_GAME:
-          if (info.loading) this.observer.actions.setLoading(true);
+          if (info.loading) this.observer.actions.setGameStatus(LOADING_GAME);
           else {
             // toDo -> modal window
             // eslint-disable-next-line no-alert
-            alert(
-              `Игра окончена. Победитель: ${info.winnerName}. Слово: ${info.guessWord}`
-            );
+            // alert(
+            //   `Игра окончена. Победитель: ${info.winnerName}. Слово: ${info.guessWord}`
+            // );
+            const {
+              winnerName,
+              guessWord,
+            }: { winnerName: string; guessWord: string } = info;
+
+            this.observer.actions.setGameEndInfo({ winnerName, guessWord });
           }
           break;
         default:
