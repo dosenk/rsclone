@@ -41,44 +41,36 @@ export default class Game {
 
     this.board = new Board(parenElement, observer);
     this.panel = this.board.getPanel();
+    this.preloader = new Preloader(document.body);
 
     observer.subscribe(this);
     observer.actions.setGame(this);
   }
 
-  private displayGame(state: IState) {
-    if (state.loading === false) {
-      this.updateGame();
-      this.preloader.hidePreloader();
-    }
-  }
-
   private sendInfo(state: IState, actionType: string) {
     if (state.role === ROLE_GUESSER) {
-      // рисуем на доске игрока
       this.board.clientDraw(actionType, state);
     } else if (state.role === ROLE_PAINTER) {
-      // отправить в сокет данные по рисованию (толщина, цвет линии и координаты)
       this.socket.sendDrowInfoToClients(actionType, state);
     }
   }
 
   private wordSelected = (word: string) => {
     this.parenElement.textContent = '';
-    this.updateGame();
     this.socket.sendGuessedWord(word);
-    this.observer.actions.setWordToGuess(word);
+    this.observer.actions.wordToGuess(word);
   };
 
   public update(state: IState, actionType: string) {
     switch (actionType) {
       case LOADING:
-        this.displayGame(state);
+        this.updateGame(state);
         break;
       case USERS:
-        this.users.setGuessers(state);
+        this.users.setUsers(state);
         break;
       case WORDS_TO_SELECT:
+        this.preloader.hidePreloader();
         renderSelectWord(this.parenElement, this.observer, this.wordSelected);
         break;
       case DRAW:
@@ -95,23 +87,28 @@ export default class Game {
 
   public startGame() {
     this.socket.start();
-    this.preloader = new Preloader(document.body);
     this.preloader.displayPreloader();
   }
 
-  public updateGame() {
-    this.board.displayBoard();
-    const state = this.observer.getState();
-
-    if (state.role === ROLE_GUESSER) {
-      this.board.addPlayer();
-      this.socket.displayForm(this.parenElement);
-    } else if (state.role === ROLE_PAINTER) {
-      this.board.addHost();
-      this.panel.displayPanel();
+  public updateGame(state: IState) {
+    if (state.loading === false) {
+      this.preloader.hidePreloader();
+      this.board.displayBoard();
+      if (state.role === ROLE_GUESSER) {
+        this.board.addPlayer();
+        this.socket.displayForm(this.parenElement);
+        this.panel.hidePanel();
+      } else if (state.role === ROLE_PAINTER) {
+        this.board.addHost();
+        this.panel.displayPanel();
+      }
+      this.socket.displayChat(this.parenElement);
+      this.users.displayUsers(this.parenElement);
+    } else {
+      this.parenElement.textContent = '';
+      this.board.clearBoard();
+      this.socket.clearChat();
+      this.preloader.displayPreloader();
     }
-
-    this.socket.displayChat(this.parenElement);
-    this.users.displayUsers(this.parenElement);
   }
 }

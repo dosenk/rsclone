@@ -7,7 +7,8 @@ import {
   EVENT_DRAW,
   EVENT_USER_INFO,
   EVENT_GAME,
-  ACTION_WORD,
+  START_GAME,
+  STOP_GAME,
 } from './constants';
 import {
   DRAW,
@@ -17,6 +18,8 @@ import {
   NAME,
   ROLE,
   USERS,
+  WORDS_TO_SELECT,
+  WORD_TO_GUESS,
 } from '../Observer/actionTypes';
 import {
   FORM_CLASS,
@@ -83,13 +86,22 @@ export default class SocketIoClient {
 
     this.socket.on(EVENT_GAME, (info: any, actionType: string) => {
       switch (actionType) {
-        case 'START_GAME':
+        case START_GAME:
           this.observer.actions.setLoading(false);
           break;
-        case ACTION_WORD:
-          this.observer.actions.wordsToSelect(info.sameWords);
+        case WORDS_TO_SELECT:
+          this.observer.actions.wordsToSelect(info);
           break;
-
+        case STOP_GAME:
+          if (info.loading) this.observer.actions.setLoading(true);
+          else {
+            // toDo -> modal window
+            // eslint-disable-next-line no-alert
+            alert(
+              `Игра окончена. Победитель: ${info.winnerName}. Слово: ${info.guessWord}`
+            );
+          }
+          break;
         default:
           break;
       }
@@ -142,6 +154,10 @@ export default class SocketIoClient {
     return createElement('div', CHAT_CLASS);
   }
 
+  clearChat(): void {
+    this.chat.textContent = '';
+  }
+
   createForm(): HTMLElement {
     const input = createElement('input', FORM_INPUT_CLASS);
     const btn = createElement('button', FORM_BTN_CLASS, null, null, 'send');
@@ -160,6 +176,6 @@ export default class SocketIoClient {
   }
 
   sendGuessedWord(word: string) {
-    this.socket.emit(EVENT_GAME, word, ACTION_WORD);
+    this.socket.emit(EVENT_GAME, word, WORD_TO_GUESS);
   }
 }
