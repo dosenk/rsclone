@@ -105,5 +105,5 @@ export default (
   container.append(wordBlock, winnerBlock, painterBlock, continueBtn);
 
   const closePopup = createModal(parentElem, container, closeListener);
-  continueBtn.addEventListener('click', (e) => closePopup(e));
+  continueBtn.addEventListener('click', closePopup);
 };
