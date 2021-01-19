@@ -13,9 +13,12 @@ import {
   GAME,
   WORDS_TO_SELECT,
   WORD_TO_GUESS,
+  GAME_STATUS,
+  GAME_END_INFO,
 } from './actionTypes';
 import langItem from '../langDictionaries/en';
 import IDraw from './Interfaces/IDraw';
+import IGameEndInfo from './Interfaces/IGameEndInfo';
 
 export default class ActionCreator {
   private observer: Observer;
@@ -107,6 +110,20 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: WORD_TO_GUESS,
       payload: word,
+    });
+  }
+
+  setGameStatus(status: string) {
+    this.observer.dispatch({
+      type: GAME_STATUS,
+      payload: status,
+    });
+  }
+
+  setGameEndInfo(info: IGameEndInfo) {
+    this.observer.dispatch({
+      type: GAME_END_INFO,
+      payload: info,
     });
   }
 }

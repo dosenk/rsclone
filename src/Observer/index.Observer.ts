@@ -4,6 +4,7 @@ import IState from './Interfaces/IState';
 import ActionCreator from './ActionCreator';
 import { INIT } from './actionTypes';
 import reducer from './reducer';
+import { LOADING_GAME } from '../Components/Game/statuses';
 
 export default class Observer {
   private state: IState;
@@ -23,9 +24,11 @@ export default class Observer {
       draw: null,
       drawThickness: 1,
       drawColor: 'black',
-      ...initialState,
       wordsToSelect: [],
       wordToGuess: '',
+      gameStatus: LOADING_GAME,
+      gameEndInfo: null,
+      ...initialState,
     };
 
     this.state = reducer(state, { type: INIT });

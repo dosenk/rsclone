@@ -1,4 +1,10 @@
 import {
+  GAME_IN_PROGRESS,
+  LOADING_GAME,
+  WORD_SELECTION,
+  GAME_END,
+} from '../Components/Game/statuses';
+import {
   LOADING,
   INIT,
   LANG,
@@ -11,6 +17,8 @@ import {
   GAME,
   WORDS_TO_SELECT,
   WORD_TO_GUESS,
+  GAME_STATUS,
+  GAME_END_INFO,
 } from './actionTypes';
 import IAction from './Interfaces/IAction';
 import IState from './Interfaces/IState';
@@ -40,9 +48,21 @@ export default (state: IState, action: IAction): IState => {
     case GAME:
       return { ...state, game: action.payload };
     case WORDS_TO_SELECT:
-      return { ...state, wordsToSelect: action.payload };
+      return {
+        ...state,
+        wordsToSelect: action.payload,
+        gameStatus: WORD_SELECTION,
+      };
     case WORD_TO_GUESS:
-      return { ...state, wordToGuess: action.payload };
+      return {
+        ...state,
+        wordToGuess: action.payload,
+        gameStatus: GAME_IN_PROGRESS,
+      };
+    case GAME_STATUS:
+      return { ...state, gameStatus: action.payload };
+    case GAME_END_INFO:
+      return { ...state, gameEndInfo: action.payload, gameStatus: GAME_END };
     default:
       return state;
   }
