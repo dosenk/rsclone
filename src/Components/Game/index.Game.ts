@@ -63,6 +63,29 @@ export default class Game {
     this.observer.actions.wordToGuess(word);
   };
 
+  private newGame = () => {
+    this.board.clearBoard();
+    this.socket.clearChat();
+
+    console.log('Next game');
+  };
+
+  private beginOfGame(role: string) {
+    this.board.displayBoard();
+
+    if (role === ROLE_GUESSER) {
+      this.board.addPlayer();
+      this.socket.displayForm(this.parenElement);
+      this.panel.hidePanel();
+    } else if (role === ROLE_PAINTER) {
+      this.board.addHost();
+      this.panel.displayPanel();
+    }
+
+    this.socket.displayChat(this.parenElement);
+    this.users.displayUsers(this.parenElement);
+  }
+
   public update(state: IState, actionType: string) {
     switch (actionType) {
       case USERS:
@@ -83,24 +106,6 @@ export default class Game {
 
   public startGame() {
     this.socket.start();
-  }
-
-  private beginOfGame(role: string) {
-    this.board.clearBoard();
-    this.socket.clearChat();
-    this.board.displayBoard();
-
-    if (role === ROLE_GUESSER) {
-      this.board.addPlayer();
-      this.socket.displayForm(this.parenElement);
-      this.panel.hidePanel();
-    } else if (role === ROLE_PAINTER) {
-      this.board.addHost();
-      this.panel.displayPanel();
-    }
-
-    this.socket.displayChat(this.parenElement);
-    this.users.displayUsers(this.parenElement);
   }
 
   public updateGame() {
@@ -129,9 +134,7 @@ export default class Game {
         gameEndPopup(
           this.parenElement,
           this.observer,
-          () => {
-            console.log('onClose: Next game');
-          },
+          this.newGame,
           gameEndInfo!,
           users.painter.name
         );
