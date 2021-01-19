@@ -7,7 +7,7 @@ interface IState {
   langData: { [key: string]: string };
   role: string;
   name: string;
-  users: { painter: Object; guesser: Array<Object> };
+  users: { painter: Object; guessers: Array<Object> };
   draw: IDraw | null;
   drawThickness: number;
   drawColor: string;

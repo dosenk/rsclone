@@ -22,7 +22,7 @@ export default class Users {
 
   parentElement: HTMLElement;
 
-  guesser!: Array<Object>;
+  guessers!: Array<Object>;
 
   painter!: Object;
 
@@ -42,12 +42,12 @@ export default class Users {
     parentElement.append(this.userBlock);
   }
 
-  setGuessers(state: IState) {
-    const newGuesser = state.users.guesser;
+  setUsers(state: IState) {
+    const newGuessers = state.users.guessers;
     const newPainter = state.users.painter;
     this.painter = newPainter;
-    this.guesser = newGuesser;
-    this.renderUsers(newGuesser, newPainter);
+    this.guessers = newGuessers;
+    this.renderUsers(newGuessers, newPainter);
   }
 
   static removeUsers(...usersParams: any) {
