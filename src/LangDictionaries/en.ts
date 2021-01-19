@@ -14,4 +14,5 @@ export default {
   WINNER: 'Winner',
   WORD: 'Word',
   NO_ONE_GAVE_ANSWER: 'No one gave the right answer',
+  WAITING_ANOTHER_GAMERS: 'Waiting for another players...',
 };
