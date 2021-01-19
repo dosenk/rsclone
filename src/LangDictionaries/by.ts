@@ -8,4 +8,10 @@ export default {
   ALREADY_HAVE_AN_ACCOUNT: 'Ужо ёсць аккаунт? ',
   SING_IN: 'УВАЙСЦІ.',
   SELECT_A_WORD: 'Выбярыце слова:',
+  NEXT_GAME: 'Граць яшчэ',
+  PAINTER: 'Маляўник',
+  GUESSER: 'Грок',
+  WINNER: 'Пабядзіцель',
+  WORD: 'Слова',
+  NO_ONE_GAVE_ANSWER: 'Ніхто не даў правільны адказ',
 };
