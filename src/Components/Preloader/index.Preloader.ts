@@ -1,38 +1,16 @@
-export default class Preloader {
-  private parentElement: HTMLElement;
+import { createElement } from '../../Utils/index.Utils';
+import '../../assets/images/giphy.gif';
 
-  private preloader: HTMLElement = document.createElement('div');
+export default (parentElement: HTMLElement, text: string) => {
+  const preloader = createElement('div', 'preloader');
+  const preloaderText = createElement('h3', null, null, null, text);
+  const container = createElement('div', 'preloader-container');
 
-  private preloaderText = document.createElement('h3');
+  const containerImg = document.createElement('img');
+  containerImg.src = './giphy.gif';
+  containerImg.alt = 'preloader';
+  container.append(containerImg);
 
-  constructor(parentElement: HTMLElement) {
-    this.parentElement = parentElement;
-    this.render();
-  }
-
-  public displayPreloader() {
-    this.preloader.style.display = 'flex';
-  }
-
-  public hidePreloader() {
-    this.preloader.style.display = 'none';
-  }
-
-  public setText(str: string) {
-    this.preloaderText.textContent = str;
-  }
-
-  private render() {
-    this.preloader.classList.add('preloader');
-    const preloadeContainer = document.createElement('div');
-    preloadeContainer.classList.add('preloader-container');
-    const containerImg = document.createElement('img');
-    containerImg.src = 'src/assets/images/giphy.gif';
-    containerImg.alt = 'preloader';
-    preloadeContainer.append(containerImg);
-    this.preloader.append(preloadeContainer);
-    this.setText('Ожидание других игроков...');
-    this.preloader.append(this.preloaderText);
-    this.parentElement.append(this.preloader);
-  }
-}
+  preloader.append(container, preloaderText);
+  parentElement.append(preloader);
+};
