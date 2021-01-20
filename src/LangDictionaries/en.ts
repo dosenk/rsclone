@@ -8,4 +8,10 @@ export default {
   ALREADY_HAVE_AN_ACCOUNT: 'Already have an account? ',
   SING_IN: 'SING IN.',
   SELECT_A_WORD: 'Select a word:',
+  NEXT_GAME: 'Next game',
+  PAINTER: 'Painter',
+  GUESSER: 'Guesser',
+  WINNER: 'Winner',
+  WORD: 'Word',
+  NO_ONE_GAVE_ANSWER: 'No one gave the right answer',
 };
