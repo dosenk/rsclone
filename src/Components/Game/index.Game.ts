@@ -63,7 +63,9 @@ export default class Game {
     this.observer.actions.wordToGuess(word);
   };
 
-  private beginOfGame(role: string) {
+  private showGameElements() {
+    const { role } = this.observer.getState();
+
     this.board.displayBoard();
 
     if (role === ROLE_GUESSER) {
@@ -77,6 +79,25 @@ export default class Game {
 
     this.socket.displayChat(this.parenElement);
     this.users.displayUsers(this.parenElement);
+  }
+
+  private gameEndListener() {
+    const { gameEndInfo, users } = this.observer.getState();
+
+    this.socket.disconnet();
+    gameEndPopup(
+      this.parenElement,
+      this.observer,
+      this.startGame,
+      gameEndInfo!,
+      users.painter.name
+    );
+  }
+
+  private waitingPlayersPreloader() {
+    const { WAITING_ANOTHER_GAMERS } = this.observer.getState().langData;
+
+    preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
   }
 
   public update(state: IState, actionType: string) {
@@ -105,14 +126,7 @@ export default class Game {
   };
 
   public updateGame() {
-    const {
-      gameStatus,
-      role,
-      langData,
-      gameEndInfo,
-      users,
-    } = this.observer.getState();
-    const { WAITING_ANOTHER_GAMERS } = langData;
+    const { gameStatus } = this.observer.getState();
 
     this.parenElement.textContent = '';
 
@@ -121,19 +135,13 @@ export default class Game {
         renderSelectWord(this.parenElement, this.observer, this.wordSelected);
         break;
       case LOADING_GAME:
-        preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
+        this.waitingPlayersPreloader();
         break;
       case GAME_IN_PROGRESS:
-        this.beginOfGame(role);
+        this.showGameElements();
         break;
       case GAME_END:
-        gameEndPopup(
-          this.parenElement,
-          this.observer,
-          this.startGame,
-          gameEndInfo!,
-          users.painter.name
-        );
+        this.gameEndListener();
         break;
 
       default:
