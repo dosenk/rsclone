@@ -30,16 +30,14 @@ import {
 } from '../Constants/classNames';
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
-import {
-  GAME_END,
-  GAME_IN_PROGRESS,
-  LOADING_GAME,
-} from '../Components/Game/statuses';
+import { GAME_IN_PROGRESS, LOADING_GAME } from '../Components/Game/statuses';
+
+type Socket = io.Socket;
 
 export default class SocketIoClient {
   parentElement: HTMLElement;
 
-  socket: SocketIOClient.Socket;
+  socket: Socket | null;
 
   chat: HTMLElement;
 
@@ -49,15 +47,19 @@ export default class SocketIoClient {
 
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
-    this.socket = io(SOCKET_SERVER);
     this.observer = observer;
-    this.listenSocketEvents();
     this.chat = SocketIoClient.createChat();
     this.form = this.createForm();
   }
 
   public start() {
+    this.socket = io(SOCKET_SERVER);
+    this.listenSocketEvents();
     this.sendName();
+  }
+
+  public disconnet() {
+    this.socket.disconnect();
   }
 
   public displayForm(parentElement: HTMLElement) {
@@ -100,17 +102,7 @@ export default class SocketIoClient {
         case STOP_GAME:
           if (info.loading) this.observer.actions.setGameStatus(LOADING_GAME);
           else {
-            // toDo -> modal window
-            // eslint-disable-next-line no-alert
-            // alert(
-            //   `Игра окончена. Победитель: ${info.winnerName}. Слово: ${info.guessWord}`
-            // );
-            const {
-              winnerName,
-              guessWord,
-            }: { winnerName: string; guessWord: string } = info;
-
-            this.observer.actions.setGameEndInfo({ winnerName, guessWord });
+            this.observer.actions.setGameEndInfo(info);
           }
           break;
         default:
@@ -155,8 +147,8 @@ export default class SocketIoClient {
     });
   }
 
-  printMessage(nikname: string, text: string): void {
-    const msgText = `${nikname}: ${text}`;
+  printMessage(nickname: string, text: string): void {
+    const msgText = `${nickname}: ${text}`;
     const p = createElement('p', CHAT_MSG_CLASS, null, null, msgText);
     this.chat?.prepend(p);
   }
