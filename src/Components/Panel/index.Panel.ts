@@ -36,45 +36,63 @@ export default class Panel {
   private listener() {
     this.panelColors.addEventListener('click', (event) => {
       const colorButton: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
-      this.deleteActiveClass(this.panelColors);
-      colorButton.classList.add('active');
       this.color = colorButton.value;
-      this.board.setColor(this.color);
-      this.observer.actions.setDrawColor(this.color);
+      this.checkPensil(this.color, this.panelColors, colorButton);
     });
     this.panelToolsPencil.addEventListener('click', (event) => {
       const pencilSize: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
-      this.deleteActiveClass(this.panelToolsPencil);
-      pencilSize.classList.add('active');
       this.line = pencilSize.value;
-      this.board.setLineThickness(+this.line);
-      this.observer.actions.setDrawThickness(+this.line);
+      this.checkPensil(this.color, this.panelToolsPencil, pencilSize);
     });
     this.panelToolsTool.addEventListener('click', (event) => {
-      const tool: HTMLButtonElement = (event.target as unknown) as HTMLButtonElement;
-      this.deleteActiveClass(this.panelToolsTool);
-      tool.closest('.panel__tools_tool-item')?.classList.add('active');
-      if (tool.closest('.pencil')) {
-        this.board.board.style.cursor =
-          'url(/src/assets/images/cursor1.png), auto';
-        this.board.setLineThickness(+this.line);
-        this.board.setColor(this.color);
-        this.observer.actions.setDrawColor(this.color);
-        this.observer.actions.setDrawThickness(+this.line);
+      let tool: HTMLButtonElement | null = (event.target as unknown) as HTMLButtonElement;
+      if (tool?.closest('.pencil')) {
+        tool = tool.closest('.pencil');
+        this.checkPensil(this.color, this.panelToolsTool, tool!);
       }
-      if (tool.closest('.eraser')) {
-        this.board.board.style.cursor =
-          'url(/src/assets/images/cursor3.png), auto';
-        this.board.setLineThickness(10);
-        this.board.setColor('white');
-        this.observer.actions.setDrawColor('white');
-        this.observer.actions.setDrawThickness(10);
+      if (tool?.closest('.eraser')) {
+        tool = tool.closest('.eraser');
+        this.checkPensil('white', this.panelToolsTool, tool!);
       }
-      if (tool.closest('.clear')) {
+      if (tool?.closest('.clear')) {
         this.board.clearBoard();
         this.observer.actions.clearBoard();
       }
     });
+  }
+
+  private checkPensil(
+    color: any,
+    parElement: HTMLElement,
+    chldElement: HTMLElement
+  ) {
+    if (color === 'white') {
+      this.board.board.style.cursor =
+        'url(/src/assets/images/cursor3.png), auto';
+      this.setDrawInfo(30, 'white');
+    } else {
+      this.board.board.style.cursor =
+        'url(/src/assets/images/cursor1.png), auto';
+      const pensil = document.querySelector('.pencil');
+      this.setDrawInfo(this.line, this.color);
+      this.deleteAndAddActiveClass(this.panelToolsTool, pensil);
+    }
+    this.deleteAndAddActiveClass(parElement, chldElement);
+  }
+
+  private setDrawInfo(line: number, color: any) {
+    this.board.setLineThickness(+line);
+    this.board.setColor(color);
+    this.observer.actions.setDrawColor(color);
+    this.observer.actions.setDrawThickness(+line);
+  }
+
+  private deleteAndAddActiveClass(
+    parElement: HTMLElement,
+    chldElement: Element | null
+  ) {
+    this.deleteActiveClass(parElement);
+    chldElement?.classList.add('active');
   }
 
   private deleteActiveClass(element: HTMLElement) {
@@ -115,8 +133,8 @@ export default class Panel {
   private createPanelToolsPencil() {
     this.panelToolsPencil.classList.add('panel__tools_pencil');
 
-    const six = this.createButton('panel__tools_pencil-size', 'six', '6');
-    const three = this.createButton('panel__tools_pencil-size', 'three', '3');
+    const six = this.createButton('panel__tools_pencil-size', 'six', '30');
+    const three = this.createButton('panel__tools_pencil-size', 'three', '20');
     const one = this.createButton('panel__tools_pencil-size', 'one', '1');
     one.classList.add('active');
     this.panelToolsPencil.append(six);
