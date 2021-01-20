@@ -63,13 +63,6 @@ export default class Game {
     this.observer.actions.wordToGuess(word);
   };
 
-  private newGame = () => {
-    this.board.clearBoard();
-    this.socket.clearChat();
-
-    console.log('Next game');
-  };
-
   private beginOfGame(role: string) {
     this.board.displayBoard();
 
@@ -104,9 +97,12 @@ export default class Game {
     }
   }
 
-  public startGame() {
+  public startGame = () => {
+    this.observer.actions.setGameStatus(LOADING_GAME);
     this.socket.start();
-  }
+    this.board.clearBoard();
+    this.socket.clearChat();
+  };
 
   public updateGame() {
     const {
@@ -134,7 +130,7 @@ export default class Game {
         gameEndPopup(
           this.parenElement,
           this.observer,
-          this.newGame,
+          this.startGame,
           gameEndInfo!,
           users.painter.name
         );
