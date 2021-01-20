@@ -14,4 +14,5 @@ export default {
   WINNER: 'Победитель',
   WORD: 'Слово',
   NO_ONE_GAVE_ANSWER: 'Никто не дал правильный ответ',
+  WAITING_ANOTHER_GAMERS: 'Ожидание других игроков...',
 };

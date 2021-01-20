@@ -5,6 +5,7 @@ import {
   PRIMARY_TEXT_CLASS,
 } from '../../Constants/classNames';
 import type Observer from '../../Observer/index.Observer';
+import IGameEndInfo from '../../Observer/Interfaces/IGameEndInfo';
 
 import { createElement } from '../../Utils/index.Utils';
 import createModal from '../Modal/index.Modal';
@@ -21,7 +22,7 @@ const createWinnerBlock = (
 ) => {
   const { WINNER, NO_ONE_GAVE_ANSWER } = langData;
 
-  if (winner) {
+  if (!winner) {
     return createElement(
       'div',
       [EG_BLOCK_CN, EG_TEXT_CN],
@@ -76,21 +77,26 @@ export default (
   parentElem: Element,
   observer: Observer,
   closeListener: Function,
-  word: string,
-  painter: string,
-  winner?: string
+  gameEndInfo: IGameEndInfo,
+  painter: string
 ) => {
   const { langData } = observer.getState();
   const { NEXT_GAME, WORD } = langData;
 
   const wordTitle = createElement('span', EG_TEXT_CN, null, null, `${WORD}: `);
-  const wordText = createElement('span', PRIMARY_TEXT_CLASS, null, null, word);
+  const wordText = createElement(
+    'span',
+    PRIMARY_TEXT_CLASS,
+    null,
+    null,
+    gameEndInfo.guessWord
+  );
   const wordBlock = createElement('div', EG_BLOCK_CN, null, [
     wordTitle,
     wordText,
   ]);
 
-  const winnerBlock = createWinnerBlock(langData, winner);
+  const winnerBlock = createWinnerBlock(langData, gameEndInfo.winnerName);
   const painterBlock = createPainterBlock(langData, painter);
 
   const continueBtn = createElement(
