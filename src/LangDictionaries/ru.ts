@@ -8,4 +8,10 @@ export default {
   ALREADY_HAVE_AN_ACCOUNT: 'Уже есть аккаунт? ',
   SING_IN: 'ВОЙТИ.',
   SELECT_A_WORD: 'Выберите слово:',
+  NEXT_GAME: 'Играть еще',
+  PAINTER: 'Художник',
+  GUESSER: 'Игрок',
+  WINNER: 'Победитель',
+  WORD: 'Слово',
+  NO_ONE_GAVE_ANSWER: 'Никто не дал правильный ответ',
 };
