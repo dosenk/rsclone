@@ -13,3 +13,4 @@ export const WORDS_TO_SELECT = 'WORDS_TO_SELECT';
 export const WORD_TO_GUESS = 'WORD_TO_GUESS';
 export const GAME_STATUS = 'GAME_STATUS';
 export const GAME_END_INFO = 'GAME_END_INFO';
+export const ROUTE = 'ROUTE';

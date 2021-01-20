@@ -15,6 +15,7 @@ import {
   WORD_TO_GUESS,
   GAME_STATUS,
   GAME_END_INFO,
+  ROUTE,
 } from './actionTypes';
 import langItem from '../langDictionaries/en';
 import IDraw from './Interfaces/IDraw';
@@ -124,6 +125,13 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: GAME_END_INFO,
       payload: info,
+    });
+  }
+
+  setRoute(route: string) {
+    this.observer.dispatch({
+      type: ROUTE,
+      payload: route,
     });
   }
 }

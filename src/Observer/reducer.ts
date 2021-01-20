@@ -1,6 +1,5 @@
 import {
   GAME_IN_PROGRESS,
-  LOADING_GAME,
   WORD_SELECTION,
   GAME_END,
 } from '../Components/Game/statuses';
@@ -19,6 +18,7 @@ import {
   WORD_TO_GUESS,
   GAME_STATUS,
   GAME_END_INFO,
+  ROUTE,
 } from './actionTypes';
 import IAction from './Interfaces/IAction';
 import IState from './Interfaces/IState';
@@ -63,6 +63,8 @@ export default (state: IState, action: IAction): IState => {
       return { ...state, gameStatus: action.payload };
     case GAME_END_INFO:
       return { ...state, gameEndInfo: action.payload, gameStatus: GAME_END };
+    case ROUTE:
+      return { ...state, role: action.payload };
     default:
       return state;
   }

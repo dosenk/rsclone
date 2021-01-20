@@ -16,6 +16,7 @@ interface IState {
   wordToGuess: string;
   gameStatus: string;
   gameEndInfo: IGameEndInfo | null;
+  route: string;
 }
 
 export default IState;

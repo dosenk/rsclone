@@ -5,6 +5,7 @@ import ActionCreator from './ActionCreator';
 import { INIT } from './actionTypes';
 import reducer from './reducer';
 import { LOADING_GAME } from '../Components/Game/statuses';
+import { LANDING } from '../Constants/routes';
 
 export default class Observer {
   private state: IState;
@@ -29,6 +30,7 @@ export default class Observer {
       gameStatus: LOADING_GAME,
       gameEndInfo: null,
       ...initialState,
+      route: LANDING,
     };
 
     this.state = reducer(state, { type: INIT });
