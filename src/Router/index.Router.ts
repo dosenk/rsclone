@@ -39,6 +39,8 @@ export default class Router {
       this.curPageDestroyer = null;
     }
 
+    this.observer.actions.setRoute(route);
+
     document.title = `${APP_NAME.toUpperCase()} | ${routeObj.title}`;
     this.pagesContainer.textContent = '';
     this.curPageDestroyer = routeObj.renderCb(
