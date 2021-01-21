@@ -1,3 +1,5 @@
+import type Router from '../Router/index.Router';
+
 export const createElement = (
   tag: string,
   className?: string | Array<string> | null,
@@ -36,4 +38,22 @@ export const createInput = (
   input.setAttribute('name', name);
   input.required = required;
   return input;
+};
+
+export const createLink = (
+  router: Router,
+  route: string,
+  cssClass?: string | Array<string> | null,
+  text: string = route
+) => {
+  const a = <HTMLAnchorElement>createElement('a', cssClass, null, null, text);
+
+  a.href = route;
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    router.goToPage(route);
+  });
+
+  return a;
 };
