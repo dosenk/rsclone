@@ -79,20 +79,4 @@ export default class Router {
       this.routes.push({ route, renderCb, title });
     });
   }
-
-  // temporary method; delete when header function will be created
-  public createLinks(parent: Element): void {
-    this.routes.forEach(({ title, route }) => {
-      const a = <HTMLAnchorElement>(
-        createElement('a', undefined, parent, null, title)
-      );
-
-      a.href = route;
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        this.goToPage(route);
-      });
-    });
-  }
 }
