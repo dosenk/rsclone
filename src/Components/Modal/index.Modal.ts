@@ -5,14 +5,16 @@ import './styles.Modal.scss';
 export default (
   parentElem: Element,
   content: Element | Array<Element>,
-  closeListener?: Function
+  closeListeners: Array<Function>
 ) => {
   const bg = createElement('div', MODAL_BG_CN);
   const window = createElement('div', MODAL_WINDOW_CN);
   const closeModal = () => {
     bg.remove();
 
-    if (closeListener) closeListener();
+    if (closeListeners.length > 0) {
+      closeListeners.forEach((listener) => listener());
+    }
   };
 
   bg.addEventListener('click', ({ target }) => {

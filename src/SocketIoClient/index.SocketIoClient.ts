@@ -34,6 +34,7 @@ import {
   GAME_END,
   GAME_IN_PROGRESS,
   LOADING_GAME,
+  READY_TO_GAME,
 } from '../Components/Game/statuses';
 
 export default class SocketIoClient {
@@ -82,6 +83,11 @@ export default class SocketIoClient {
   private sendName() {
     const { name } = this.observer.getState();
     this.socket.emit(EVENT_USER_INFO, name, NAME);
+  }
+
+  public sendReadyToGame() {
+    console.log(this);
+    this.socket.emit(EVENT_GAME, true, READY_TO_GAME);
   }
 
   listenSocketEvents(): void {

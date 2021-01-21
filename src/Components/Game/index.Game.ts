@@ -14,7 +14,7 @@ import {
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
 import renderSelectWord from '../SelectWord/index.SelectWord';
-import gameEndPopup from '../GameEnd/index.GameEnd';
+import { gameEndPopup, gameStartPopup } from '../GameEnd/index.GameEnd';
 import {
   WORD_SELECTION,
   LOADING_GAME,
@@ -125,7 +125,12 @@ export default class Game {
         renderSelectWord(this.parenElement, this.observer, this.wordSelected);
         break;
       case LOADING_GAME:
-        preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
+        console.log('loading game');
+        gameStartPopup(this.parenElement, this.observer, [
+          this.socket.sendReadyToGame.bind(this.socket),
+          preloader.bind(this, this.parenElement, WAITING_ANOTHER_GAMERS),
+        ]);
+        // preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
         break;
       case GAME_IN_PROGRESS:
         this.beginOfGame(role);
@@ -134,7 +139,7 @@ export default class Game {
         gameEndPopup(
           this.parenElement,
           this.observer,
-          this.newGame,
+          [this.newGame],
           gameEndInfo!,
           users.painter.name
         );
