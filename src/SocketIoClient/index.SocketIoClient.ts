@@ -86,7 +86,6 @@ export default class SocketIoClient {
   }
 
   public sendReadyToGame() {
-    console.log(this);
     this.socket.emit(EVENT_GAME, true, READY_TO_GAME);
   }
 
@@ -106,11 +105,6 @@ export default class SocketIoClient {
         case STOP_GAME:
           if (info.loading) this.observer.actions.setGameStatus(LOADING_GAME);
           else {
-            // toDo -> modal window
-            // eslint-disable-next-line no-alert
-            // alert(
-            //   `Игра окончена. Победитель: ${info.winnerName}. Слово: ${info.guessWord}`
-            // );
             const {
               winnerName,
               guessWord,

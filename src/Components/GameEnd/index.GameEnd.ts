@@ -116,7 +116,7 @@ const gameEndPopup = (
 
 const gameStartPopup = (
   parentElem: Element,
-  observer: Observer,
+  observer: Observer, // если здесь понадобится state
   closeListeners: Array<Function>
 ) => {
   const startBtn = createElement(

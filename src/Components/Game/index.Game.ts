@@ -20,6 +20,7 @@ import {
   LOADING_GAME,
   GAME_IN_PROGRESS,
   GAME_END,
+  READY_TO_GAME,
 } from './statuses';
 
 export default class Game {
@@ -66,8 +67,7 @@ export default class Game {
   private newGame = () => {
     this.board.clearBoard();
     this.socket.clearChat();
-
-    console.log('Next game');
+    this.socket.sendReadyToGame();
   };
 
   private beginOfGame(role: string) {
@@ -84,6 +84,7 @@ export default class Game {
 
     this.socket.displayChat(this.parenElement);
     this.users.displayUsers(this.parenElement);
+    this.observer.actions.setLoading(false);
   }
 
   public update(state: IState, actionType: string) {
@@ -125,12 +126,13 @@ export default class Game {
         renderSelectWord(this.parenElement, this.observer, this.wordSelected);
         break;
       case LOADING_GAME:
-        console.log('loading game');
         gameStartPopup(this.parenElement, this.observer, [
           this.socket.sendReadyToGame.bind(this.socket),
-          preloader.bind(this, this.parenElement, WAITING_ANOTHER_GAMERS),
+          this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
         ]);
-        // preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
+        break;
+      case READY_TO_GAME:
+        preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
         break;
       case GAME_IN_PROGRESS:
         this.beginOfGame(role);
@@ -139,7 +141,11 @@ export default class Game {
         gameEndPopup(
           this.parenElement,
           this.observer,
-          [this.newGame],
+          [
+            this.newGame,
+            this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
+            this.observer.actions.setLoading,
+          ],
           gameEndInfo!,
           users.painter.name
         );
