@@ -1,12 +1,16 @@
+import type Observer from '../Observer/index.Observer';
+import type Router from '../Router/index.Router';
 import Login from '../Components/Login/index.Login';
-import Observer from '../Observer/index.Observer';
-import Router from '../Router/index.Router';
+import createLayoutElements from '../Components/PageLayout/index.PageLayout';
 
 export default (
   parent: HTMLElement,
   observer: Observer,
   router: Router
 ): void => {
-  const login = new Login(parent, observer, router);
+  const { main, wholeLayout } = createLayoutElements(observer, router);
+  const login = new Login(main, observer, router);
+
   login.start();
+  parent.append(wholeLayout);
 };
