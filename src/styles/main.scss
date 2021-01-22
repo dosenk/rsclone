@@ -33,6 +33,7 @@ body {
 
 .wrapper {
   max-width: 1000px;
+  margin: 0 auto;
 }
 
 .primary_text {
@@ -112,12 +113,22 @@ body {
     box-shadow: 0 $shadow_size $shadow_size 0 $shadow_color;
   }
 
+  .dropup--menu {
+    @extend .dropdown--menu;
+
+    left: 0;
+    right: auto;
+    top: auto;
+    bottom: 100%;
+  }
+
   &--item {
     width: 100%;
     height: 2em;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: $color_bg_primary;
     box-shadow: inset 0 0 0 $border_thickness $color_hover_bg;
 
     &:hover {
@@ -136,7 +147,8 @@ body {
       background-color: $color_header_hover_bg;
     }
 
-    .dropdown--menu {
+    .dropdown--menu,
+    .dropup--menu {
       display: flex;
     }
   }

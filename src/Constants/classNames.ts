@@ -1,3 +1,5 @@
+export const WRAPPER_CLASS = 'wrapper';
+
 export const USERS_CLASS = 'users';
 export const USERS_WRAPPER_CLASS = 'users-wrapper';
 
@@ -27,4 +29,5 @@ export const FORM_BTN_CLASS = `${FORM_CLASS}__btn`;
 export const DROPDOWN_CN = 'dropdown';
 export const DROPDOWN_BTN_CN = `${DROPDOWN_CN}--btn`;
 export const DROPDOWN_MENU_CN = `${DROPDOWN_CN}--menu`;
+export const DROPUP_MENU_CN = 'dropup--menu';
 export const DROPDOWN_ITEM_CN = `${DROPDOWN_CN}--item`;

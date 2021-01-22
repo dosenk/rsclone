@@ -4,6 +4,7 @@ import {
   DROPDOWN_ITEM_CN,
   DROPDOWN_MENU_CN,
   DROPDOWN_BTN_CN,
+  DROPUP_MENU_CN,
 } from '../Constants/classNames';
 
 export const createElement = (
@@ -77,4 +78,16 @@ export const createDropdown = (dropdownBtn: Element, items: Array<Element>) => {
   dropdown.append(dropdownBtn, dropdownMenu);
 
   return dropdown;
+};
+
+export const createDropup = (dropupBtn: Element, items: Array<Element>) => {
+  const dropup = createDropdown(dropupBtn, items);
+  const menu = dropup.querySelector(`.${DROPDOWN_MENU_CN}`);
+
+  menu?.classList.remove(DROPDOWN_MENU_CN);
+  menu?.classList.add(DROPUP_MENU_CN);
+
+  console.log(menu?.classList);
+
+  return dropup;
 };
