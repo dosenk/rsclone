@@ -73,10 +73,10 @@ const createPainterBlock = (
   return painterBlock;
 };
 
-export default (
+const gameEndPopup = (
   parentElem: Element,
   observer: Observer,
-  closeListener: Function,
+  closeListeners: Array<Function>,
   gameEndInfo: IGameEndInfo,
   painter: string
 ) => {
@@ -110,6 +110,27 @@ export default (
   const container = createElement('div', EG_CONTAINER_CN);
   container.append(wordBlock, winnerBlock, painterBlock, continueBtn);
 
-  const closePopup = createModal(parentElem, container, closeListener);
+  const closePopup = createModal(parentElem, container, closeListeners);
   continueBtn.addEventListener('click', closePopup);
 };
+
+const gameStartPopup = (
+  parentElem: Element,
+  observer: Observer, // если здесь понадобится state
+  closeListeners: Array<Function>
+) => {
+  const startBtn = createElement(
+    'button',
+    [PRIMARY_BTN_CLASS, EG_BTN_CN],
+    null,
+    null,
+    'start new game'
+  );
+  const container = createElement('div', EG_CONTAINER_CN);
+  container.append(startBtn);
+
+  const closePopup = createModal(parentElem, container, closeListeners);
+  startBtn.addEventListener('click', closePopup);
+};
+
+export { gameEndPopup, gameStartPopup };

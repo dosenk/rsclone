@@ -31,7 +31,12 @@ import {
 } from '../Constants/classNames';
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
-import { GAME_IN_PROGRESS, LOADING_GAME } from '../Components/Game/statuses';
+import {
+  GAME_END,
+  GAME_IN_PROGRESS,
+  LOADING_GAME,
+  READY_TO_GAME,
+} from '../Components/Game/statuses';
 
 export default class SocketIoClient {
   parentElement: HTMLElement;
@@ -79,6 +84,10 @@ export default class SocketIoClient {
   private sendName() {
     const { name } = this.observer.getState();
     this.socket.emit(EVENT_USER_INFO, name, NAME);
+  }
+
+  public sendReadyToGame() {
+    this.socket.emit(EVENT_GAME, true, READY_TO_GAME);
   }
 
   listenSocketEvents(): void {

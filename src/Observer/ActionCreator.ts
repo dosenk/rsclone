@@ -72,6 +72,7 @@ export default class ActionCreator {
   }
 
   setDraw(draw: IDraw): void {
+    if (this.observer.getState().loading === true) return;
     this.observer.dispatch({
       type: DRAW,
       payload: draw,
@@ -79,6 +80,7 @@ export default class ActionCreator {
   }
 
   setDrawThickness(thickness: number): void {
+    if (this.observer.getState().loading === true) return;
     this.observer.dispatch({
       type: DRAW_THICKNESS,
       payload: thickness,
@@ -86,6 +88,7 @@ export default class ActionCreator {
   }
 
   setDrawColor(color: string): void {
+    if (this.observer.getState().loading === true) return;
     this.observer.dispatch({
       type: DRAW_COLOR,
       payload: color,
@@ -93,6 +96,7 @@ export default class ActionCreator {
   }
 
   clearBoard(): void {
+    if (this.observer.getState().loading === true) return;
     this.observer.dispatch({
       type: CLEAR_BOARD,
       payload: null,
