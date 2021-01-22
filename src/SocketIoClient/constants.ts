@@ -6,3 +6,4 @@ export const EVENT_GAME = 'game';
 export const START_GAME = 'START_GAME';
 export const STOP_GAME = 'STOP_GAME';
 export const CONNECT_TO_GAME = 'CONNECT_TO_GAME';
+export const ANSWER_INPUT = 'ANSWER_INPUT';
