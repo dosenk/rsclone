@@ -1,6 +1,7 @@
-import Observer from '../Observer/index.Observer';
-import { createElement } from '../Utils/index.Utils';
+import type Observer from '../Observer/index.Observer';
 import { APP_NAME } from '../Constants/index.Constants';
+import { LANG } from '../Observer/actionTypes';
+import IState from '../Observer/Interfaces/IState';
 
 export default class Router {
   private readonly routes: Array<{
@@ -18,6 +19,8 @@ export default class Router {
   constructor(pagesContainer: HTMLElement, observer: Observer) {
     this.pagesContainer = pagesContainer;
     this.observer = observer;
+
+    observer.subscribe(this);
 
     this.setListeners();
   }
@@ -78,5 +81,9 @@ export default class Router {
 
       this.routes.push({ route, renderCb, title });
     });
+  }
+
+  public update(_: IState, actionType: string) {
+    if (actionType === LANG) this.renderCurrentRoute();
   }
 }
