@@ -1,10 +1,14 @@
 .header {
   width: 100%;
   height: 50px;
-  background-color: cadetblue;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background-color: $color_bg_secondary;
+
+  .wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   &--title {
     margin-left: 1em;
@@ -30,5 +34,43 @@
       background-color: $color_header_hover_bg;
       cursor: pointer;
     }
+  }
+}
+
+.footer {
+  width: 100%;
+  height: 40px;
+  background-color: $color_bg_secondary;
+
+  .wrapper {
+    height: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &--btn {
+    height: 100%;
+      display: flex;
+      align-items: center;
+  }
+
+  &--year {
+    font-weight: 600;
+      display: flex;
+      align-items: center;
+  }
+
+  &--rs_logo {
+    width: fit-content;
+    height: 100%;
+  }
+}
+
+
+@media (max-width: 420px) {
+  .header--title {
+    font-size: 14px;
   }
 }

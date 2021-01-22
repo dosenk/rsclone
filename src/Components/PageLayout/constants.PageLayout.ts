@@ -6,3 +6,6 @@ export const HEADER_BTN_CN = `${HEADER_CN}--btn`;
 export const MAIN_CN = 'main';
 
 export const FOOTER_CN = 'footer';
+export const FOOTER_BTN_CN = `${FOOTER_CN}--btn`;
+export const FOOTER_YEAR_CN = `${FOOTER_CN}--year`;
+export const FOOTER_RS_LOGO_CN = `${FOOTER_CN}--rs_logo`;
