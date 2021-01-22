@@ -35,6 +35,19 @@
       cursor: pointer;
     }
   }
+
+  &--lang_item {
+    padding: 0 1em;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5em;
+  }
+
+  &--lang_ico {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .footer {

@@ -14,6 +14,8 @@ import {
   MAIN_CN,
   HEADER_NAV_CN,
   HEADER_BTN_CN,
+  HEADER_LANG_ITEM_CN,
+  HEADER_LANG_ICO_CN,
   FOOTER_RS_LOGO_CN,
   FOOTER_YEAR_CN,
   FOOTER_BTN_CN,
@@ -47,13 +49,17 @@ const createUserDropdown = (observer: Observer, router: Router) => {
 };
 
 const createLangDropdown = (observer: Observer) => {
-  const { lang: currentLang } = observer.getState().langData;
+  const { lang: currentLang, flag: currentFlag } = observer.getState().langData;
+
+  const currentIco = <HTMLImageElement>createElement('img', HEADER_LANG_ICO_CN);
+  currentIco.alt = currentLang;
+  currentIco.src = currentFlag;
 
   const dropdownBtn = createElement(
     'div',
-    [PRIMARY_TEXT_CLASS, HEADER_BTN_CN],
+    [PRIMARY_TEXT_CLASS, HEADER_BTN_CN, HEADER_LANG_ITEM_CN],
     null,
-    null,
+    [currentIco],
     currentLang
   );
 
@@ -61,14 +67,18 @@ const createLangDropdown = (observer: Observer) => {
   const dropdownItems: Array<Element> = [];
 
   langList.forEach((langDict) => {
-    const { lang } = langDict;
+    const { lang, flag } = langDict;
     if (lang === currentLang) return;
+
+    const ico = <HTMLImageElement>createElement('img', HEADER_LANG_ICO_CN);
+    ico.alt = lang;
+    ico.src = flag;
 
     const dropdownItem = createElement(
       'div',
-      PRIMARY_TEXT_CLASS,
+      [PRIMARY_TEXT_CLASS, HEADER_LANG_ITEM_CN],
       null,
-      null,
+      [ico],
       lang
     );
 

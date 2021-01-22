@@ -1,7 +1,9 @@
 import { APP_NAME } from '../Constants/index.Constants';
+import '../assets/images/gbr.svg';
 
 export default {
   lang: 'English',
+  flag: './gbr.svg',
   ANSWER_SUBMIT_LABEL: 'SEND',
   ANSWER_INPUT_PLACEHOLDER: 'Enter your answer',
   CREATE_AN_ACCOUNT: 'Create an account.',
