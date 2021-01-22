@@ -1,6 +1,7 @@
 import { APP_NAME } from '../Constants/index.Constants';
 
 export default {
+  lang: 'Беларуская',
   ANSWER_SUBMIT_LABEL: 'АДПРАВІЦЬ',
   ANSWER_INPUT_PLACEHOLDER: 'Увядзіце адказ',
   CREATE_AN_ACCOUNT: 'Зрабить аккаўнт.',
@@ -15,4 +16,8 @@ export default {
   WORD: 'Слова',
   NO_ONE_GAVE_ANSWER: 'Ніхто не даў правільны адказ',
   WAITING_ANOTHER_GAMERS: 'Чаканне іншых гульцоў...',
+  LOGOUT: 'Выйсці',
+  STATISTICS: 'Статыстыка',
+  SETTINGS: 'Усталёўкі',
+  AUTHORS: 'аўтары',
 };
