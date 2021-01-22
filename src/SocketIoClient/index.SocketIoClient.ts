@@ -9,6 +9,7 @@ import {
   EVENT_GAME,
   START_GAME,
   STOP_GAME,
+  ANSWER_INPUT,
 } from './constants';
 import {
   DRAW,
@@ -30,11 +31,7 @@ import {
 } from '../Constants/classNames';
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
-import {
-  GAME_END,
-  GAME_IN_PROGRESS,
-  LOADING_GAME,
-} from '../Components/Game/statuses';
+import { GAME_IN_PROGRESS, LOADING_GAME } from '../Components/Game/statuses';
 
 export default class SocketIoClient {
   parentElement: HTMLElement;
@@ -100,11 +97,6 @@ export default class SocketIoClient {
         case STOP_GAME:
           if (info.loading) this.observer.actions.setGameStatus(LOADING_GAME);
           else {
-            // toDo -> modal window
-            // eslint-disable-next-line no-alert
-            // alert(
-            //   `Игра окончена. Победитель: ${info.winnerName}. Слово: ${info.guessWord}`
-            // );
             const {
               winnerName,
               guessWord,
@@ -171,20 +163,28 @@ export default class SocketIoClient {
 
   createForm(): HTMLElement {
     const input = createElement('input', FORM_INPUT_CLASS);
+    input.setAttribute('name', ANSWER_INPUT);
+
     const btn = createElement('button', FORM_BTN_CLASS, null, null, 'send');
     btn.setAttribute('type', 'submit');
+
     const form = createElement('form', FORM_CLASS, null, [input, btn]);
-    form.addEventListener('submit', (event) => this.sendMessage(event));
+    form.addEventListener('submit', this.sendMessage);
+
     return form;
   }
 
-  sendMessage(event: Event): void {
+  sendMessage = (event: Event) => {
     event.preventDefault();
-    const tagetElement = event.target;
-    const input = tagetElement?.childNodes[0];
-    if (input.value) this.socket.emit(EVENT_BROADCAST, input.value);
+
+    const formElement = <HTMLFormElement>event.target;
+    const input = <HTMLInputElement>formElement[ANSWER_INPUT];
+
+    if (!input.value) return;
+
+    this.socket.emit(EVENT_BROADCAST, input.value.trim().toLowerCase());
     input.value = '';
-  }
+  };
 
   sendGuessedWord(word: string) {
     this.socket.emit(EVENT_GAME, word, WORD_TO_GUESS);
