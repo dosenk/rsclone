@@ -23,3 +23,8 @@ export const CHAT_MSG_CLASS = `${CHAT_CLASS}__msg`;
 export const FORM_CLASS = 'client-form';
 export const FORM_INPUT_CLASS = `${FORM_CLASS}__info`;
 export const FORM_BTN_CLASS = `${FORM_CLASS}__btn`;
+
+export const DROPDOWN_CN = 'dropdown';
+export const DROPDOWN_BTN_CN = `${DROPDOWN_CN}--btn`;
+export const DROPDOWN_MENU_CN = `${DROPDOWN_CN}--menu`;
+export const DROPDOWN_ITEM_CN = `${DROPDOWN_CN}--item`;

@@ -1,4 +1,10 @@
 import type Router from '../Router/index.Router';
+import {
+  DROPDOWN_CN,
+  DROPDOWN_ITEM_CN,
+  DROPDOWN_MENU_CN,
+  DROPDOWN_BTN_CN,
+} from '../Constants/classNames';
 
 export const createElement = (
   tag: string,
@@ -56,4 +62,19 @@ export const createLink = (
   });
 
   return a;
+};
+
+export const createDropdown = (dropdownBtn: Element, items: Array<Element>) => {
+  dropdownBtn.classList.add(DROPDOWN_BTN_CN);
+
+  const dropdownMenu = createElement('div', DROPDOWN_MENU_CN);
+  items.forEach((item) => {
+    item.classList.add(DROPDOWN_ITEM_CN);
+    dropdownMenu.append(item);
+  });
+
+  const dropdown = createElement('div', DROPDOWN_CN);
+  dropdown.append(dropdownBtn, dropdownMenu);
+
+  return dropdown;
 };
