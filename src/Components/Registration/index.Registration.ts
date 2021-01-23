@@ -1,6 +1,11 @@
-import Router from '../../Router/index.Router';
+import type Router from '../../Router/index.Router';
+import type Observer from '../../Observer/index.Observer';
 import { LANDING, LOGIN } from '../../Constants/routes';
-import { createElement, createInput } from '../../Utils/index.Utils';
+import {
+  createElement,
+  createInput,
+  createLangDropdown,
+} from '../../Utils/index.Utils';
 import {
   REG_FORM_CN,
   REG_ITEM_CN,
@@ -13,7 +18,6 @@ import {
   PRIMARY_LINK_CLASS,
   PRIMARY_TEXT_CLASS,
 } from '../../Constants/classNames';
-import Observer from '../../Observer/index.Observer';
 
 export default class Registration {
   private registration: HTMLFormElement | undefined;
@@ -128,7 +132,9 @@ export default class Registration {
     const registrationContainer = createElement('div', REG_CONTAINER_CN);
     const loginBlock = this.createLoginBlock();
 
-    registrationContainer.append(this.registration, loginBlock);
+    const langDropdown = createLangDropdown(this.observer);
+
+    registrationContainer.append(langDropdown, this.registration, loginBlock);
     this.parentElement.append(registrationContainer);
   }
 

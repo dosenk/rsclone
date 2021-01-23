@@ -1,7 +1,11 @@
 import Router from '../../Router/index.Router';
 import { GAME, REGISTRATION } from '../../Constants/routes';
 import Observer from '../../Observer/index.Observer';
-import { createElement, createInput } from '../../Utils/index.Utils';
+import {
+  createElement,
+  createInput,
+  createLangDropdown,
+} from '../../Utils/index.Utils';
 import {
   FORM_CN,
   FORM_ITEM_CN,
@@ -95,11 +99,12 @@ export default class Login {
     this.loginBtn.textContent = 'Login';
     this.loginForm.append(this.loginBtn);
 
+    const langDropdown = createLangDropdown(this.observer);
     const regBlock = this.createRegBlock();
     const loginContainer = document.createElement('div');
 
     loginContainer.classList.add(FORM_CONTAINER_CN);
-    loginContainer.append(this.loginForm, regBlock);
+    loginContainer.append(langDropdown, this.loginForm, regBlock);
 
     this.parentElement.append(loginContainer);
   }
