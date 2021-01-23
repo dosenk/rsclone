@@ -1,11 +1,17 @@
 import type Router from '../Router/index.Router';
+import type Observer from '../Observer/index.Observer';
 import {
   DROPDOWN_CN,
   DROPDOWN_ITEM_CN,
   DROPDOWN_MENU_CN,
   DROPDOWN_BTN_CN,
   DROPUP_MENU_CN,
+  DROPDOWN_LANG_BTN_CN,
+  DROPDOWN_LANG_ITEM_CN,
+  DROPDOWN_LANG_ICO_CN,
+  PRIMARY_TEXT_CLASS,
 } from '../Constants/classNames';
+import languages from '../langDictionaries/index.langDictionaries';
 
 export const createElement = (
   tag: string,
@@ -87,7 +93,61 @@ export const createDropup = (dropupBtn: Element, items: Array<Element>) => {
   menu?.classList.remove(DROPDOWN_MENU_CN);
   menu?.classList.add(DROPUP_MENU_CN);
 
-  console.log(menu?.classList);
-
   return dropup;
+};
+
+const createLangItems = (currentLang: Object, observer: Observer) => {
+  const langList = Object.values(languages);
+  const dropdownItems: Array<Element> = [];
+
+  langList.forEach((langDict) => {
+    const { lang, flag } = langDict;
+    if (lang === currentLang) return;
+
+    const ico = <HTMLImageElement>createElement('img', DROPDOWN_LANG_ICO_CN);
+    ico.alt = lang;
+    ico.src = flag;
+
+    const dropdownItem = createElement(
+      'div',
+      [PRIMARY_TEXT_CLASS, DROPDOWN_LANG_ITEM_CN],
+      null,
+      [ico],
+      lang
+    );
+
+    dropdownItem.addEventListener('click', () => {
+      observer.actions.setLang(langDict);
+    });
+
+    dropdownItems.push(dropdownItem);
+  });
+
+  return dropdownItems;
+};
+
+export const createLangDropdown = (
+  observer: Observer,
+  btnClassName: string = PRIMARY_TEXT_CLASS
+) => {
+  const { lang: currentLang, flag: currentFlag } = observer.getState().langData;
+
+  const currentIco = <HTMLImageElement>(
+    createElement('img', DROPDOWN_LANG_ICO_CN)
+  );
+  currentIco.alt = currentLang;
+  currentIco.src = currentFlag;
+
+  const dropdownBtn = createElement(
+    'div',
+    [PRIMARY_TEXT_CLASS, btnClassName, DROPDOWN_LANG_BTN_CN],
+    null,
+    [currentIco],
+    currentLang
+  );
+
+  const dropdownItems: Array<Element> = createLangItems(currentLang, observer);
+  const dropdown = createDropdown(dropdownBtn, dropdownItems);
+
+  return dropdown;
 };

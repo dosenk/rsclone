@@ -22,4 +22,13 @@ export default {
   STATISTICS: 'Статистика',
   SETTINGS: 'Настройки',
   AUTHORS: 'авторы',
+  REGISTER: 'Зарегистрировать',
+  PASSWORDS_NOT_EQUAL: 'Пароли не совпадают!',
+  ENTER_LOGIN: 'Введите логин',
+  ENTER_PASSWORD: 'Введите пароль',
+  REPEAT_PASSWORD: 'Повторите пароль',
+  SUCCESS: 'Успешно!',
+  LOGIN_EXISTS: 'Имя пользователя уже существует',
+  ERROR: 'Ошибка',
+  LOGIN: 'Логин',
 };
