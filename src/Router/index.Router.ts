@@ -56,8 +56,8 @@ export default class Router {
 
     if (pathname === route) return;
 
-    this.renderRoute(route);
     window.history.pushState(null, '', route);
+    this.renderRoute(route);
   }
 
   public renderCurrentRoute = () => {

@@ -22,6 +22,7 @@ export default {
   STATISTICS: 'Статистика',
   SETTINGS: 'Настройки',
   AUTHORS: 'авторы',
+  GAME: 'Игра',
   REGISTER: 'Зарегистрировать',
   PASSWORDS_NOT_EQUAL: 'Пароли не совпадают!',
   ENTER_LOGIN: 'Введите логин',

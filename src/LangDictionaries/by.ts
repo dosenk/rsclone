@@ -22,6 +22,7 @@ export default {
   STATISTICS: 'Статыстыка',
   SETTINGS: 'Усталёўкі',
   AUTHORS: 'аўтары',
+  GAME: 'Гульня',
   REGISTER: 'Зарэгістраваць',
   PASSWORDS_NOT_EQUAL: 'Паролі не супадаюць!',
   ENTER_LOGIN: 'Увядзіце лагін',

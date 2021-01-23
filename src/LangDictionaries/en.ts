@@ -22,6 +22,7 @@ export default {
   STATISTICS: 'Statistics',
   SETTINGS: 'Settings',
   AUTHORS: 'authors',
+  GAME: 'Game',
   REGISTER: 'Register',
   PASSWORDS_NOT_EQUAL: 'Passwords do not equal!',
   ENTER_LOGIN: 'Enter Login',
