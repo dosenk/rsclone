@@ -106,9 +106,6 @@ export default class Registration {
   private render() {
     this.registration = <HTMLFormElement>createElement('form', REG_FORM_CN);
 
-    const closeBtn = createElement('span', REG_CLOSE_CN);
-    this.registration.append(closeBtn);
-
     this.appendInputsTo(this.registration);
 
     this.registrationHead = createElement('h1', REG_TEXT_CN);
