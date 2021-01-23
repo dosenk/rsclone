@@ -20,14 +20,34 @@ import {
   FOOTER_YEAR_CN,
   FOOTER_BTN_CN,
 } from './constants.PageLayout';
-import { LOGIN, SETTINGS, STATISTICS } from '../../Constants/routes';
+import { LOGIN, SETTINGS, STATISTICS, GAME } from '../../Constants/routes';
 import { PRIMARY_TEXT_CLASS, WRAPPER_CLASS } from '../../Constants/classNames';
 import languages from '../../langDictionaries/index.langDictionaries';
 import '../../assets/images/rs_logo.svg';
 
 const createUserDropdown = (observer: Observer, router: Router) => {
   const { langData, name } = observer.getState();
-  const { LOGOUT, STATISTICS: STAT, SETTINGS: SETS } = langData;
+  const {
+    LOGOUT,
+    STATISTICS: statTitle,
+    SETTINGS: settingsTitle,
+    GAME: gameTitle,
+  } = langData;
+  const dropdownItems: Array<Element> = [];
+  const itemsData = [
+    { route: GAME, title: gameTitle },
+    { route: SETTINGS, title: settingsTitle },
+    { route: STATISTICS, title: statTitle },
+    { route: LOGIN, title: LOGOUT },
+  ];
+
+  itemsData.forEach(({ route, title }) => {
+    if (route === window.location.pathname) return;
+
+    const dropdownItem = createLink(router, route, PRIMARY_TEXT_CLASS, title);
+
+    dropdownItems.push(dropdownItem);
+  });
 
   const userDropdownBtn = createElement(
     'div',
@@ -36,14 +56,7 @@ const createUserDropdown = (observer: Observer, router: Router) => {
     null,
     name
   );
-  const statLink = createLink(router, STATISTICS, PRIMARY_TEXT_CLASS, STAT);
-  const settingsLink = createLink(router, SETTINGS, PRIMARY_TEXT_CLASS, SETS);
-  const signOutBtn = createLink(router, LOGIN, PRIMARY_TEXT_CLASS, LOGOUT);
-  const userDropdown = createDropdown(userDropdownBtn, [
-    statLink,
-    settingsLink,
-    signOutBtn,
-  ]);
+  const userDropdown = createDropdown(userDropdownBtn, dropdownItems);
 
   return userDropdown;
 };
