@@ -110,14 +110,13 @@ const createLangDropdown = (observer: Observer) => {
 const createHeader = (observer: Observer, router: Router) => {
   const wrapper = createElement('div', WRAPPER_CLASS);
 
-  const title = createElement(
-    'h1',
+  const gameLink = createLink(
+    router,
+    GAME,
     HEADER_TITLE_CN,
-    null,
-    null,
     APP_NAME.toUpperCase()
   );
-  wrapper.append(title);
+  wrapper.append(gameLink);
 
   const menuContainer = createElement('nav', HEADER_NAV_CN);
 
