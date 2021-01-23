@@ -22,4 +22,12 @@ export default {
   STATISTICS: 'Statistics',
   SETTINGS: 'Settings',
   AUTHORS: 'authors',
+  REGISTER: 'Register',
+  PASSWORDS_NOT_EQUAL: 'Passwords do not equal!',
+  ENTER_LOGIN: 'Enter Login',
+  ENTER_PASSWORD: 'Enter Password',
+  REPEAT_PASSWORD: 'Repeat Password',
+  SUCCESS: 'Repeat Password',
+  LOGIN_EXISTS: 'This login already exists',
+  ERROR: 'Error',
 };
