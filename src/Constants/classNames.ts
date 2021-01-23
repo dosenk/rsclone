@@ -31,5 +31,6 @@ export const DROPDOWN_BTN_CN = `${DROPDOWN_CN}--btn`;
 export const DROPDOWN_MENU_CN = `${DROPDOWN_CN}--menu`;
 export const DROPUP_MENU_CN = 'dropup--menu';
 export const DROPDOWN_ITEM_CN = `${DROPDOWN_CN}--item`;
+export const DROPDOWN_LANG_BTN_CN = `${DROPDOWN_CN}--lang_btn`;
 export const DROPDOWN_LANG_ITEM_CN = `${DROPDOWN_CN}--lang_item`;
 export const DROPDOWN_LANG_ICO_CN = `${DROPDOWN_CN}--lang_ico`;

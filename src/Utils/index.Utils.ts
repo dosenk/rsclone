@@ -6,6 +6,7 @@ import {
   DROPDOWN_MENU_CN,
   DROPDOWN_BTN_CN,
   DROPUP_MENU_CN,
+  DROPDOWN_LANG_BTN_CN,
   DROPDOWN_LANG_ITEM_CN,
   DROPDOWN_LANG_ICO_CN,
   PRIMARY_TEXT_CLASS,
@@ -127,7 +128,7 @@ const createLangItems = (currentLang: Object, observer: Observer) => {
 
 export const createLangDropdown = (
   observer: Observer,
-  btnClassName: string
+  btnClassName: string = PRIMARY_TEXT_CLASS
 ) => {
   const { lang: currentLang, flag: currentFlag } = observer.getState().langData;
 
@@ -139,7 +140,7 @@ export const createLangDropdown = (
 
   const dropdownBtn = createElement(
     'div',
-    [PRIMARY_TEXT_CLASS, btnClassName, DROPDOWN_LANG_ITEM_CN],
+    [PRIMARY_TEXT_CLASS, btnClassName, DROPDOWN_LANG_BTN_CN],
     null,
     [currentIco],
     currentLang
