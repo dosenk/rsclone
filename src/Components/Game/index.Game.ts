@@ -10,6 +10,9 @@ import {
   DRAW_COLOR,
   DRAW_THICKNESS,
   DRAW,
+  GAME,
+  GAME_STATUS,
+  ROLE,
 } from '../../Observer/actionTypes';
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
@@ -70,7 +73,8 @@ export default class Game {
     this.socket.sendReadyToGame();
   };
 
-  private beginOfGame(role: string) {
+  private renderGameElements() {
+    const { role } = this.observer.getState();
     this.board.displayBoard();
 
     if (role === ROLE_GUESSER) {
@@ -87,6 +91,36 @@ export default class Game {
     this.observer.actions.setLoading(false);
   }
 
+  private renderEndScreen() {
+    const { gameEndInfo, users } = this.observer.getState();
+
+    gameEndPopup(
+      this.parenElement,
+      this.observer,
+      [
+        this.newGame,
+        this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
+        this.observer.actions.setLoading,
+      ],
+      gameEndInfo!,
+      users.painter.name
+    );
+  }
+
+  private renderWaitingPlayers() {
+    const { langData } = this.observer.getState();
+    const { WAITING_ANOTHER_GAMERS } = langData;
+
+    preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
+  }
+
+  private renderStartScreen() {
+    gameStartPopup(this.parenElement, this.observer, [
+      this.socket.sendReadyToGame.bind(this.socket),
+      this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
+    ]);
+  }
+
   public update(state: IState, actionType: string) {
     switch (actionType) {
       case USERS:
@@ -98,9 +132,13 @@ export default class Game {
       case CLEAR_BOARD:
         this.sendInfo(state, actionType);
         break;
+      case GAME:
+      case GAME_STATUS:
+      case ROLE:
+        this.updateGame();
+        break;
 
       default:
-        this.updateGame();
         break;
     }
   }
@@ -109,15 +147,9 @@ export default class Game {
     this.socket.start();
   }
 
-  public updateGame() {
-    const {
-      gameStatus,
-      role,
-      langData,
-      gameEndInfo,
-      users,
-    } = this.observer.getState();
-    const { WAITING_ANOTHER_GAMERS } = langData;
+  public updateGame(parenElement: HTMLElement = this.parenElement) {
+    this.parenElement = parenElement;
+    const { gameStatus } = this.observer.getState();
 
     this.parenElement.textContent = '';
 
@@ -126,29 +158,16 @@ export default class Game {
         renderSelectWord(this.parenElement, this.observer, this.wordSelected);
         break;
       case LOADING_GAME:
-        gameStartPopup(this.parenElement, this.observer, [
-          this.socket.sendReadyToGame.bind(this.socket),
-          this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
-        ]);
+        this.renderStartScreen();
         break;
       case READY_TO_GAME:
-        preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
+        this.renderWaitingPlayers();
         break;
       case GAME_IN_PROGRESS:
-        this.beginOfGame(role);
+        this.renderGameElements();
         break;
       case GAME_END:
-        gameEndPopup(
-          this.parenElement,
-          this.observer,
-          [
-            this.newGame,
-            this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
-            this.observer.actions.setLoading,
-          ],
-          gameEndInfo!,
-          users.painter.name
-        );
+        this.renderEndScreen();
         break;
 
       default:

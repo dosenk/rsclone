@@ -99,16 +99,20 @@ const createAuthors = (observer: Observer) => {
     createElement('a', PRIMARY_TEXT_CLASS, null, null, 'dosenk')
   );
   dosenk.href = 'https://github.com/dosenk/';
-  const vladimir = <HTMLLinkElement>(
-    createElement('a', PRIMARY_TEXT_CLASS, null, null, 'vladimir6332')
+  const vladislavgribkov = <HTMLLinkElement>(
+    createElement('a', PRIMARY_TEXT_CLASS, null, null, 'vladislavgribkov')
   );
-  vladimir.href = 'https://github.com/vladimir6332';
+  vladislavgribkov.href = 'https://github.com/vladislavgribkov';
   const krohnic = <HTMLLinkElement>(
     createElement('a', PRIMARY_TEXT_CLASS, null, null, 'KrohNic')
   );
   krohnic.href = 'https://github.com/KrohNic';
 
-  const authorsMenu = createDropup(authorsBtn, [dosenk, vladimir, krohnic]);
+  const authorsMenu = createDropup(authorsBtn, [
+    dosenk,
+    vladislavgribkov,
+    krohnic,
+  ]);
 
   return authorsMenu;
 };
