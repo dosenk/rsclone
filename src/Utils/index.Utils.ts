@@ -87,7 +87,5 @@ export const createDropup = (dropupBtn: Element, items: Array<Element>) => {
   menu?.classList.remove(DROPDOWN_MENU_CN);
   menu?.classList.add(DROPUP_MENU_CN);
 
-  console.log(menu?.classList);
-
   return dropup;
 };
