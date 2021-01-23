@@ -116,8 +116,6 @@ body {
   .dropup--menu {
     @extend .dropdown--menu;
 
-    left: 0;
-    right: auto;
     top: auto;
     bottom: 100%;
   }
@@ -146,7 +144,8 @@ body {
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    gap: 0.5em;
+    gap: 1em;
+    z-index: 1;
   }
 
   &--lang_ico {

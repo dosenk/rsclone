@@ -14,10 +14,12 @@ import {
   FOOTER_CN,
   MAIN_CN,
   HEADER_NAV_CN,
-  HEADER_BTN_CN,
+  HEADER_LANG_BTN_CN,
+  HEADER_USER_BTN_CN,
+  HEADER_USER_SPAN_CN,
   FOOTER_RS_LOGO_CN,
   FOOTER_YEAR_CN,
-  FOOTER_BTN_CN,
+  FOOTER_AUTHORS_CN,
 } from './constants.PageLayout';
 import { LOGIN, SETTINGS, STATISTICS } from '../../Constants/routes';
 import { PRIMARY_TEXT_CLASS, WRAPPER_CLASS } from '../../Constants/classNames';
@@ -27,16 +29,24 @@ const createUserDropdown = (observer: Observer, router: Router) => {
   const { langData, name } = observer.getState();
   const { LOGOUT, STATISTICS: STAT, SETTINGS: SETS } = langData;
 
-  const userDropdownBtn = createElement(
-    'div',
-    [PRIMARY_TEXT_CLASS, HEADER_BTN_CN],
+  const userNameSpan = createElement(
+    'span',
+    HEADER_USER_SPAN_CN,
     null,
     null,
     name
   );
+  const userDropdownBtn = createElement(
+    'div',
+    [PRIMARY_TEXT_CLASS, HEADER_USER_BTN_CN],
+    null,
+    [userNameSpan]
+  );
+
   const statLink = createLink(router, STATISTICS, PRIMARY_TEXT_CLASS, STAT);
   const settingsLink = createLink(router, SETTINGS, PRIMARY_TEXT_CLASS, SETS);
   const signOutBtn = createLink(router, LOGIN, PRIMARY_TEXT_CLASS, LOGOUT);
+
   const userDropdown = createDropdown(userDropdownBtn, [
     statLink,
     settingsLink,
@@ -60,7 +70,7 @@ const createHeader = (observer: Observer, router: Router) => {
 
   const menuContainer = createElement('nav', HEADER_NAV_CN);
 
-  const langDropdown = createLangDropdown(observer, HEADER_BTN_CN);
+  const langDropdown = createLangDropdown(observer, HEADER_LANG_BTN_CN);
   menuContainer.append(langDropdown);
 
   const userDropdown = createUserDropdown(observer, router);
@@ -79,7 +89,7 @@ const createAuthors = (observer: Observer) => {
 
   const authorsBtn = createElement(
     'div',
-    [PRIMARY_TEXT_CLASS, FOOTER_BTN_CN],
+    [PRIMARY_TEXT_CLASS, FOOTER_AUTHORS_CN],
     null,
     null,
     AUTHORS
