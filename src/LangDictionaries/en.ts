@@ -22,4 +22,5 @@ export default {
   STATISTICS: 'Statistics',
   SETTINGS: 'Settings',
   AUTHORS: 'authors',
+  GAME: 'Game',
 };

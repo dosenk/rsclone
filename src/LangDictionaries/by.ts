@@ -22,4 +22,5 @@ export default {
   STATISTICS: 'Статыстыка',
   SETTINGS: 'Усталёўкі',
   AUTHORS: 'аўтары',
+  GAME: 'Гульня',
 };

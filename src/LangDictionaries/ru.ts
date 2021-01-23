@@ -22,4 +22,5 @@ export default {
   STATISTICS: 'Статистика',
   SETTINGS: 'Настройки',
   AUTHORS: 'авторы',
+  GAME: 'Игра',
 };
