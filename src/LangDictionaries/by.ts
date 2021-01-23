@@ -23,4 +23,13 @@ export default {
   SETTINGS: 'Усталёўкі',
   AUTHORS: 'аўтары',
   GAME: 'Гульня',
+  REGISTER: 'Зарэгістраваць',
+  PASSWORDS_NOT_EQUAL: 'Паролі не супадаюць!',
+  ENTER_LOGIN: 'Увядзіце лагін',
+  ENTER_PASSWORD: 'Увядзіце пароль',
+  REPEAT_PASSWORD: 'Паўтарыце пароль',
+  SUCCESS: 'Паспяхова!',
+  LOGIN_EXISTS: 'Імя карыстальніка ўжо існуе',
+  ERROR: 'Памылка',
+  LOGIN: 'Лагін',
 };
