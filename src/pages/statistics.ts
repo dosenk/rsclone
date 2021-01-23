@@ -1,3 +1,5 @@
+import Statistics from '../Components/Statistics/index.Statistics';
+
 export default (parent: HTMLElement): void => {
-  parent.append('stat');
+  const statistics = new Statistics(parent);
 };
