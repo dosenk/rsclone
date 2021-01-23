@@ -1,10 +1,13 @@
 import { APP_NAME } from '../Constants/index.Constants';
+import '../assets/images/blr.svg';
 
 export default {
+  lang: 'Беларуская',
+  flag: './blr.svg',
   ANSWER_SUBMIT_LABEL: 'АДПРАВІЦЬ',
   ANSWER_INPUT_PLACEHOLDER: 'Увядзіце адказ',
   CREATE_AN_ACCOUNT: 'Зрабить аккаўнт.',
-  NEW_TO_GAME: `Упершыню ${APP_NAME}? `,
+  NEW_TO_GAME: `Упершыню ў ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Ужо ёсць аккаунт? ',
   SING_IN: 'УВАЙСЦІ.',
   SELECT_A_WORD: 'Выбярыце слова:',
@@ -15,4 +18,8 @@ export default {
   WORD: 'Слова',
   NO_ONE_GAVE_ANSWER: 'Ніхто не даў правільны адказ',
   WAITING_ANOTHER_GAMERS: 'Чаканне іншых гульцоў...',
+  LOGOUT: 'Выйсці',
+  STATISTICS: 'Статыстыка',
+  SETTINGS: 'Усталёўкі',
+  AUTHORS: 'аўтары',
 };

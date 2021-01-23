@@ -1,6 +1,9 @@
 import { APP_NAME } from '../Constants/index.Constants';
+import '../assets/images/gbr.svg';
 
 export default {
+  lang: 'English',
+  flag: './gbr.svg',
   ANSWER_SUBMIT_LABEL: 'SEND',
   ANSWER_INPUT_PLACEHOLDER: 'Enter your answer',
   CREATE_AN_ACCOUNT: 'Create an account.',
@@ -15,4 +18,8 @@ export default {
   WORD: 'Word',
   NO_ONE_GAVE_ANSWER: 'No one gave the right answer',
   WAITING_ANOTHER_GAMERS: 'Waiting for another players...',
+  LOGOUT: 'Logout',
+  STATISTICS: 'Statistics',
+  SETTINGS: 'Settings',
+  AUTHORS: 'authors',
 };

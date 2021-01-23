@@ -1,6 +1,5 @@
 @import '~reset-css', '~normalize.css', '~animate.css';
 @import './constants.scss';
-@import './shared.scss';
 @import './main.scss';
 @import '../Components/Board/board.scss', '../Components/Panel/panel.scss';
 @import '../Components/Users/users.scss';
@@ -9,3 +8,4 @@
 @import '../Components/Preloader/preloader.scss';
 @import '../Components/SelectWord/index.SelectWord.scss';
 @import '../Components/GameEnd/index.GameEnd.scss';
+@import '../Components/PageLayout/styles.PageLayout.scss';
