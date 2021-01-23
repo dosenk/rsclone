@@ -73,12 +73,18 @@ export default class Login {
   }
 
   public render() {
+    const {
+      ENTER_LOGIN,
+      ENTER_PASSWORD,
+      LOGIN,
+    } = this.observer.getState().langData;
+
     this.loginForm.classList.add(FORM_CN);
 
     this.login = createInput(
       ['login-input', FORM_ITEM_CN],
       'text',
-      'Enter Login',
+      ENTER_LOGIN,
       'login',
       true
     );
@@ -87,7 +93,7 @@ export default class Login {
     this.password = createInput(
       ['password', FORM_ITEM_CN],
       'password',
-      'Enter Password',
+      ENTER_PASSWORD,
       'password',
       true
     );
@@ -96,7 +102,7 @@ export default class Login {
     this.loginBtn = document.createElement('button');
     this.loginBtn.classList.add(PRIMARY_BTN_CLASS, FORM_BTN_CN);
     this.loginBtn.setAttribute('type', 'submit');
-    this.loginBtn.textContent = 'Login';
+    this.loginBtn.textContent = LOGIN;
     this.loginForm.append(this.loginBtn);
 
     const langDropdown = createLangDropdown(this.observer);

@@ -30,4 +30,5 @@ export default {
   SUCCESS: 'Repeat Password',
   LOGIN_EXISTS: 'This login already exists',
   ERROR: 'Error',
+  LOGIN: 'Login',
 };

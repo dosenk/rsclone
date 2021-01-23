@@ -30,4 +30,5 @@ export default {
   SUCCESS: 'Успешно!',
   LOGIN_EXISTS: 'Имя пользователя уже существует',
   ERROR: 'Ошибка',
+  LOGIN: 'Логин',
 };
