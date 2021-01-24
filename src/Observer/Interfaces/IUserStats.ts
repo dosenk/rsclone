@@ -1,7 +1,7 @@
 interface IUserStats {
   gameCount: number;
-  drawWords: number;
-  guessWords: number;
+  drawWordsNum: number;
+  guessWordsNum: number;
   dayInGame: number;
 }
 
