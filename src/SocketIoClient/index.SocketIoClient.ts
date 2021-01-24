@@ -27,7 +27,9 @@ import {
   FORM_BTN_CLASS,
   FORM_INPUT_CLASS,
   CHAT_CLASS,
+  CHAT_MSG_BLOCK_CLASS,
   CHAT_MSG_CLASS,
+  CHAT_LIKE_CLASS,
 } from '../Constants/classNames';
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
@@ -158,8 +160,10 @@ export default class SocketIoClient {
 
   printMessage(nikname: string, text: string): void {
     const msgText = `${nikname}: ${text}`;
-    const p = createElement('p', CHAT_MSG_CLASS, null, null, msgText);
-    this.chat?.prepend(p);
+    const msgBlock = createElement('div', CHAT_MSG_BLOCK_CLASS);
+    createElement('div', CHAT_LIKE_CLASS, msgBlock);
+    createElement('div', CHAT_MSG_CLASS, msgBlock, null, msgText);
+    this.chat?.prepend(msgBlock);
   }
 
   static createChat(): HTMLElement {

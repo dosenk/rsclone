@@ -1,0 +1,15 @@
+.client-chat {
+  &__msg-block {
+    display: flex;
+    &_like {
+      width: 30px;
+      height: 100%;
+      &-good {
+        background-color: green;
+      }
+      &-bad {
+        background-color: red;
+      }
+    }
+  }
+}

@@ -20,7 +20,9 @@ export const GUESSER_AVATAR_CLASS = `${GUESSER_CLASS}_user-avatar`;
 export const GUESSER_NICKNAME_CLASS = `${GUESSER_CLASS}_user-nickname`;
 
 export const CHAT_CLASS = 'client-chat';
-export const CHAT_MSG_CLASS = `${CHAT_CLASS}__msg`;
+export const CHAT_MSG_BLOCK_CLASS = `${CHAT_CLASS}__msg-block`;
+export const CHAT_MSG_CLASS = `${CHAT_CLASS}__msg-block_msg`;
+export const CHAT_LIKE_CLASS = `${CHAT_CLASS}__msg-block_like`;
 
 export const FORM_CLASS = 'client-form';
 export const FORM_INPUT_CLASS = `${FORM_CLASS}__info`;
