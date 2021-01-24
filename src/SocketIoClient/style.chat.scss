@@ -1,15 +1,31 @@
 .client-chat {
   &__msg-block {
     display: flex;
+    &-info {
+      display: flex;
+      &_sender {
+        &::after {
+          content: ':';
+        }
+      }
+    }
     &_like {
-      width: 30px;
-      height: 100%;
-      &-good {
-        background-color: green;
-      }
-      &-bad {
-        background-color: red;
-      }
+      display: none;
+      width: 15px;
+      height: 15px;
+      background: url('../assets/images/like.png') no-repeat;
+      background-size: cover;
+    }
+    &_dislike {
+      display: none;
+      width: 15px;
+      height: 15px;
+      background: url('../assets/images/dislike.png') no-repeat;
+      background-size: cover;
+    }
+    .active {
+      cursor: pointer;
+      display: block;
     }
   }
 }

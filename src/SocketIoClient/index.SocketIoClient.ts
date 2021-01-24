@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import { createElement } from '../Utils/index.Utils';
-import { SOCKET_SERVER } from '../Constants/index.Constants';
+import { SOCKET_SERVER, ROLE_PAINTER } from '../Constants/index.Constants';
 import {
   EVENT_BROADCAST,
   EVENT_CONNECT,
@@ -10,6 +10,8 @@ import {
   START_GAME,
   STOP_GAME,
   ANSWER_INPUT,
+  BROADCAST_MSG,
+  BROADCAST_LIKE,
 } from './constants';
 import {
   DRAW,
@@ -28,8 +30,13 @@ import {
   FORM_INPUT_CLASS,
   CHAT_CLASS,
   CHAT_MSG_BLOCK_CLASS,
+  CHAT_MSG_BLOCK_INFO_CLASS,
   CHAT_MSG_CLASS,
+  CHAT_SENDER_CLASS,
   CHAT_LIKE_CLASS,
+  CHAT_DISLIKE_CLASS,
+  CHAT_LIKE_ALL_CLASS,
+  CHAT_LIKE_ACTIVE_CLASS,
 } from '../Constants/classNames';
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
@@ -51,12 +58,15 @@ export default class SocketIoClient {
 
   observer: Observer;
 
+  chatMsgCounter: number;
+
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
     this.socket = io(SOCKET_SERVER);
     this.observer = observer;
     this.listenSocketEvents();
     this.chat = SocketIoClient.createChat();
+    this.chatMsgCounter = 0;
     this.form = this.createForm();
   }
 
@@ -151,19 +161,47 @@ export default class SocketIoClient {
       }
     });
 
-    this.socket.on(EVENT_BROADCAST, (...msg: Array<string>) => {
-      const nikName = msg[0];
-      const message = msg[1];
-      this.printMessage(nikName, message);
-    });
+    this.socket.on(
+      EVENT_BROADCAST,
+      (nikName: string, message: Array<string>, actionType: string) => {
+        if (actionType === BROADCAST_MSG) this.printMessage(nikName, message);
+        // if (actionType === BROADCAST_LIKE) this.addLike(nikName, message);
+      }
+    );
   }
 
-  printMessage(nikname: string, text: string): void {
-    const msgText = `${nikname}: ${text}`;
+  printMessage(nikname: string, data: Array<string>): void {
+    const msg = data[0];
     const msgBlock = createElement('div', CHAT_MSG_BLOCK_CLASS);
-    createElement('div', CHAT_LIKE_CLASS, msgBlock);
-    createElement('div', CHAT_MSG_CLASS, msgBlock, null, msgText);
+    const infoBlock = createElement('div', CHAT_MSG_BLOCK_INFO_CLASS, msgBlock);
+    createElement('p', CHAT_SENDER_CLASS, infoBlock, null, nikname);
+    createElement('p', CHAT_MSG_CLASS, infoBlock, null, msg);
+
+    this.renderLikeBlock(msgBlock);
     this.chat?.prepend(msgBlock);
+  }
+
+  renderLikeBlock(parentElement: HTMLElement) {
+    const { role } = this.observer.getState();
+    const likeImg = createElement('div', [
+      CHAT_LIKE_CLASS,
+      CHAT_LIKE_ALL_CLASS,
+    ]);
+    const disLikeImg = createElement('div', [
+      CHAT_DISLIKE_CLASS,
+      CHAT_LIKE_ALL_CLASS,
+    ]);
+    parentElement.prepend(disLikeImg, likeImg);
+    if (role === ROLE_PAINTER) {
+      likeImg.classList.add(CHAT_LIKE_ACTIVE_CLASS);
+      disLikeImg.classList.add(CHAT_LIKE_ACTIVE_CLASS);
+      parentElement.addEventListener('click', (e) => {
+        if (e.target.closest(`.${CHAT_LIKE_ALL_CLASS}`)) {
+          console.log(parentElement);
+          // this.socket.emit(EVENT_BROADCAST);
+        }
+      });
+    }
   }
 
   static createChat(): HTMLElement {
@@ -195,7 +233,11 @@ export default class SocketIoClient {
 
     if (!input.value) return;
 
-    this.socket.emit(EVENT_BROADCAST, input.value.trim().toLowerCase());
+    this.socket.emit(
+      EVENT_BROADCAST,
+      input.value.trim().toLowerCase(),
+      BROADCAST_MSG
+    );
     input.value = '';
   };
 
