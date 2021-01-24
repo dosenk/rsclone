@@ -35,9 +35,11 @@ import {
   CHAT_MSG_CLASS,
   CHAT_SENDER_CLASS,
   CHAT_LIKE_CLASS,
-  CHAT_DISLIKE_CLASS,
-  CHAT_LIKE_ALL_CLASS,
   CHAT_LIKE_ACTIVE_CLASS,
+  CHAT_DISLIKE_CLASS,
+  CHAT_DISLIKE_ACTIVE_CLASS,
+  CHAT_LIKE_ALL_CLASS,
+  CHAT_NO_ACTIVE_CLASS,
 } from '../Constants/classNames';
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
@@ -167,9 +169,9 @@ export default class SocketIoClient {
       (nikName: string, message: Array<string>, actionType: string) => {
         if (actionType === BROADCAST_MSG) this.printMessage(nikName, message);
         if (actionType === BROADCAST_LIKE)
-          this.addLike(message, CHAT_LIKE_CLASS);
+          this.addLikeGuessers(message, CHAT_LIKE_ACTIVE_CLASS);
         if (actionType === BROADCAST_DISLIKE)
-          this.addLike(message, CHAT_DISLIKE_CLASS);
+          this.addLikeGuessers(message, CHAT_DISLIKE_ACTIVE_CLASS);
       }
     );
   }
@@ -189,40 +191,67 @@ export default class SocketIoClient {
 
   renderLikeBlock(parentElement: HTMLElement, msgId: string) {
     const { role } = this.observer.getState();
-    const likeImg = createElement('div', [
+    const likeImgPainter = createElement('div', [
       CHAT_LIKE_CLASS,
       CHAT_LIKE_ALL_CLASS,
     ]);
-    const disLikeImg = createElement('div', [
+    const disLikeImgPainter = createElement('div', [
       CHAT_DISLIKE_CLASS,
       CHAT_LIKE_ALL_CLASS,
     ]);
-    parentElement.prepend(disLikeImg, likeImg);
+    const likeImgGuesser = createElement('div', [
+      CHAT_LIKE_ACTIVE_CLASS,
+      CHAT_LIKE_ALL_CLASS,
+      CHAT_NO_ACTIVE_CLASS,
+    ]);
+    const disLikeImgGuesser = createElement('div', [
+      CHAT_DISLIKE_ACTIVE_CLASS,
+      CHAT_LIKE_ALL_CLASS,
+      CHAT_NO_ACTIVE_CLASS,
+    ]);
     if (role === ROLE_PAINTER) {
-      likeImg.classList.add(CHAT_LIKE_ACTIVE_CLASS);
-      disLikeImg.classList.add(CHAT_LIKE_ACTIVE_CLASS);
-      parentElement.addEventListener('click', (event: Event) => {
-        if (event.target?.closest(`.${CHAT_LIKE_CLASS}`)) {
-          this.socket.emit(EVENT_BROADCAST, [msgId], BROADCAST_LIKE);
-        }
-        if (event.target?.closest(`.${CHAT_DISLIKE_CLASS}`)) {
-          this.socket.emit(EVENT_BROADCAST, [msgId], BROADCAST_DISLIKE);
-        }
-      });
+      parentElement.prepend(disLikeImgPainter, likeImgPainter);
+      parentElement.addEventListener('click', (event) =>
+        this.addLikePainter(event, likeImgPainter, disLikeImgPainter, msgId)
+      );
+    } else {
+      parentElement.prepend(disLikeImgGuesser, likeImgGuesser);
     }
   }
 
-  addLike(data: Array<string>, className: string) {
+  addLikeGuessers(data: Array<string>, className: string) {
     const msgId = data[0];
     const allLikeBlocks = this.chat.querySelectorAll(
       `#msg_${msgId} .${CHAT_LIKE_ALL_CLASS}`
     );
     allLikeBlocks.forEach((likeBlock) => {
-      likeBlock.classList.remove(CHAT_LIKE_ACTIVE_CLASS);
+      likeBlock.classList.add(CHAT_NO_ACTIVE_CLASS);
       if (likeBlock.classList.contains(className)) {
-        likeBlock.classList.add(CHAT_LIKE_ACTIVE_CLASS);
+        likeBlock.classList.remove(CHAT_NO_ACTIVE_CLASS);
       }
     });
+  }
+
+  addLikePainter(
+    event: Event,
+    likeImgPainter: HTMLElement,
+    disLikeImgPainter: HTMLElement,
+    msgId: string
+  ) {
+    if (event.target?.closest(`.${CHAT_LIKE_CLASS}`)) {
+      disLikeImgPainter.classList.remove(CHAT_DISLIKE_ACTIVE_CLASS);
+      disLikeImgPainter.classList.add(CHAT_DISLIKE_CLASS);
+      likeImgPainter.classList.remove(CHAT_LIKE_CLASS);
+      likeImgPainter.classList.add(CHAT_LIKE_ACTIVE_CLASS);
+      this.socket.emit(EVENT_BROADCAST, [msgId], BROADCAST_LIKE);
+    }
+    if (event.target?.closest(`.${CHAT_DISLIKE_CLASS}`)) {
+      likeImgPainter.classList.remove(CHAT_LIKE_ACTIVE_CLASS);
+      likeImgPainter.classList.add(CHAT_LIKE_CLASS);
+      disLikeImgPainter.classList.remove(CHAT_DISLIKE_CLASS);
+      disLikeImgPainter.classList.add(CHAT_DISLIKE_ACTIVE_CLASS);
+      this.socket.emit(EVENT_BROADCAST, [msgId], BROADCAST_DISLIKE);
+    }
   }
 
   static createChat(): HTMLElement {

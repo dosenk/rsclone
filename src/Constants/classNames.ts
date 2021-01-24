@@ -24,11 +24,12 @@ export const CHAT_MSG_BLOCK_CLASS = `${CHAT_CLASS}__msg-block`;
 export const CHAT_MSG_BLOCK_INFO_CLASS = `${CHAT_CLASS}__msg-block-info`;
 export const CHAT_MSG_CLASS = `${CHAT_MSG_BLOCK_INFO_CLASS}_msg`;
 export const CHAT_SENDER_CLASS = `${CHAT_MSG_BLOCK_INFO_CLASS}_sender`;
-// export const CHAT_TEXT_CLASS = `${CHAT_CLASS}__msg-block_msg`;
-export const CHAT_LIKE_ALL_CLASS = `msg-like`;
-export const CHAT_LIKE_ACTIVE_CLASS = `active`;
+export const CHAT_LIKE_ALL_CLASS = `msg-grade`;
+export const CHAT_NO_ACTIVE_CLASS = `no-active`;
 export const CHAT_LIKE_CLASS = `${CHAT_CLASS}__msg-block_like`;
 export const CHAT_DISLIKE_CLASS = `${CHAT_CLASS}__msg-block_dislike`;
+export const CHAT_LIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_like-active`;
+export const CHAT_DISLIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_dislike-active`;
 
 export const FORM_CLASS = 'client-form';
 export const FORM_INPUT_CLASS = `${FORM_CLASS}__info`;
