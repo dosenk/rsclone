@@ -1,6 +1,7 @@
 import IDraw from './IDraw';
 import type Game from '../../Components/Game/index.Game';
 import IGameEndInfo from './IGameEndInfo';
+import IUserStats from './IUserStats';
 
 interface IState {
   game: Game;
@@ -16,6 +17,7 @@ interface IState {
   wordToGuess: string;
   gameStatus: string;
   gameEndInfo: IGameEndInfo | null;
+  stats: IUserStats;
 }
 
 export default IState;
