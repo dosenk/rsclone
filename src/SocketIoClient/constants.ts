@@ -9,3 +9,4 @@ export const CONNECT_TO_GAME = 'CONNECT_TO_GAME';
 export const ANSWER_INPUT = 'ANSWER_INPUT';
 export const BROADCAST_MSG = 'msg';
 export const BROADCAST_LIKE = 'like';
+export const BROADCAST_DISLIKE = 'dislike';
