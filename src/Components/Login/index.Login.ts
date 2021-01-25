@@ -72,12 +72,19 @@ export default class Login {
     return regContainer;
   }
 
+  private createLoginBtn() {
+    const { LOGIN } = this.observer.getState().langData;
+
+    this.loginBtn = document.createElement('button');
+    this.loginBtn.classList.add(PRIMARY_BTN_CLASS, FORM_BTN_CN);
+    this.loginBtn.setAttribute('type', 'submit');
+    this.loginBtn.textContent = LOGIN;
+
+    return this.loginBtn;
+  }
+
   public render() {
-    const {
-      ENTER_LOGIN,
-      ENTER_PASSWORD,
-      LOGIN,
-    } = this.observer.getState().langData;
+    const { ENTER_LOGIN, ENTER_PASSWORD } = this.observer.getState().langData;
 
     this.loginForm.classList.add(FORM_CN);
 
@@ -99,17 +106,13 @@ export default class Login {
     );
     this.loginForm.append(this.password);
 
-    this.loginBtn = document.createElement('button');
-    this.loginBtn.classList.add(PRIMARY_BTN_CLASS, FORM_BTN_CN);
-    this.loginBtn.setAttribute('type', 'submit');
-    this.loginBtn.textContent = LOGIN;
+    this.loginBtn = this.createLoginBtn();
     this.loginForm.append(this.loginBtn);
 
     const langDropdown = createLangDropdown(this.observer);
     const regBlock = this.createRegBlock();
-    const loginContainer = document.createElement('div');
+    const loginContainer = createElement('div', FORM_CONTAINER_CN);
 
-    loginContainer.classList.add(FORM_CONTAINER_CN);
     loginContainer.append(langDropdown, this.loginForm, regBlock);
 
     this.parentElement.append(loginContainer);

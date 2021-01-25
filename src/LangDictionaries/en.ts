@@ -36,4 +36,5 @@ export default {
   ONLINE_GAME_TEXT: 'One draws, the rest guess in real time.',
   START_GAME: 'Start game',
   STATISTIC: 'In game (d.)/Drawn words/Number of games/Guess the word',
+  START_NEW_GAME: 'start new game',
 };

@@ -1,5 +1,7 @@
 import {
   GUESSER_AVATAR_CLASS,
+  MIDDLE_ELEM_BLOCK_CLASS,
+  MIDDLE_ELEM_CLASS,
   PAINTER_AVATAR_CLASS,
   PRIMARY_BTN_CLASS,
   PRIMARY_TEXT_CLASS,
@@ -49,6 +51,7 @@ const createWinnerBlock = (
 
   return winnerBlock;
 };
+
 const createPainterBlock = (
   langData: { [key: string]: string },
   painter: string
@@ -73,15 +76,39 @@ const createPainterBlock = (
   return painterBlock;
 };
 
+const createContinueBtn = (
+  observer: Observer,
+  nextGameListeners: Array<Function>
+) => {
+  const { NEXT_GAME } = observer.getState().langData;
+
+  const continueBtn = createElement(
+    'button',
+    [PRIMARY_BTN_CLASS, EG_BTN_CN],
+    null,
+    null,
+    NEXT_GAME
+  );
+
+  continueBtn.addEventListener('click', () => {
+    if (nextGameListeners.length) {
+      nextGameListeners.forEach((listener) => listener());
+    }
+  });
+
+  return continueBtn;
+};
+
 const gameEndPopup = (
   parentElem: Element,
   observer: Observer,
   closeListeners: Array<Function>,
+  nextGameListeners: Array<Function>,
   gameEndInfo: IGameEndInfo,
   painter: string
 ) => {
   const { langData } = observer.getState();
-  const { NEXT_GAME, WORD } = langData;
+  const { WORD } = langData;
 
   const wordTitle = createElement('span', EG_TEXT_CN, null, null, `${WORD}: `);
   const wordText = createElement(
@@ -99,19 +126,12 @@ const gameEndPopup = (
   const winnerBlock = createWinnerBlock(langData, gameEndInfo.winnerName);
   const painterBlock = createPainterBlock(langData, painter);
 
-  const continueBtn = createElement(
-    'button',
-    [PRIMARY_BTN_CLASS, EG_BTN_CN],
-    null,
-    null,
-    NEXT_GAME
-  );
+  const continueBtn = createContinueBtn(observer, nextGameListeners);
 
   const container = createElement('div', EG_CONTAINER_CN);
   container.append(wordBlock, winnerBlock, painterBlock, continueBtn);
 
-  const closePopup = createModal(parentElem, container, closeListeners);
-  continueBtn.addEventListener('click', closePopup);
+  createModal(parentElem, container, closeListeners);
 };
 
 const gameStartPopup = (
@@ -119,18 +139,29 @@ const gameStartPopup = (
   observer: Observer,
   closeListeners: Array<Function>
 ) => {
+  const { START_NEW_GAME } = observer.getState().langData;
   const startBtn = createElement(
     'button',
     [PRIMARY_BTN_CLASS, EG_BTN_CN],
     null,
     null,
-    'start new game'
+    START_NEW_GAME
   );
-  const container = createElement('div', EG_CONTAINER_CN);
-  container.append(startBtn);
+  startBtn.addEventListener('click', () => {
+    if (closeListeners.length) {
+      closeListeners.forEach((listener) => listener());
+    }
+  });
 
-  const closePopup = createModal(parentElem, container, closeListeners);
-  startBtn.addEventListener('click', closePopup);
+  const popup = createElement(
+    'div',
+    [EG_CONTAINER_CN, MIDDLE_ELEM_BLOCK_CLASS],
+    null,
+    [startBtn]
+  );
+  const container = createElement('div', MIDDLE_ELEM_CLASS, null, [popup]);
+
+  parentElem.append(container);
 };
 
 export { gameEndPopup, gameStartPopup };
