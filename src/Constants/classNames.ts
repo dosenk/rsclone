@@ -43,3 +43,6 @@ export const DROPDOWN_ITEM_CN = `${DROPDOWN_CN}--item`;
 export const DROPDOWN_LANG_BTN_CN = `${DROPDOWN_CN}--lang_btn`;
 export const DROPDOWN_LANG_ITEM_CN = `${DROPDOWN_CN}--lang_item`;
 export const DROPDOWN_LANG_ICO_CN = `${DROPDOWN_CN}--lang_ico`;
+
+export const GAME_GUESS_WORD_CLASS = 'guess-word';
+export const GAME_GUESS_WORD_TEXT_CLASS = `${GAME_GUESS_WORD_CLASS}__text`;

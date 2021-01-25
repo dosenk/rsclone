@@ -17,7 +17,11 @@ import {
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
 import renderSelectWord from '../SelectWord/index.SelectWord';
-import { gameEndPopup, gameStartPopup } from '../GameEnd/index.GameEnd';
+import {
+  gameEndPopup,
+  gameStartPopup,
+} from './GameEvents/Popaps/index.GamePopaps';
+import renderGuessWord from './GameEvents/GuessWord/index.GameGuessWord';
 import {
   WORD_SELECTION,
   LOADING_GAME,
@@ -74,7 +78,7 @@ export default class Game {
   };
 
   private renderGameElements() {
-    const { role } = this.observer.getState();
+    const { role, wordToGuess } = this.observer.getState();
     this.board.displayBoard();
 
     if (role === ROLE_GUESSER) {
@@ -84,6 +88,7 @@ export default class Game {
     } else if (role === ROLE_PAINTER) {
       this.board.addHost();
       this.panel.displayPanel();
+      renderGuessWord(wordToGuess, this.parenElement);
     }
 
     this.socket.displayChat(this.parenElement);
