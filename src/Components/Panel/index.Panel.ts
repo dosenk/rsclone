@@ -17,7 +17,7 @@ export default class Panel {
 
   observer: Observer;
 
-  parentElement: HTMLElement;
+  parentElement: Element;
 
   private arrayElements: Array<any> = [];
 
@@ -25,7 +25,7 @@ export default class Panel {
 
   private line: any = 1;
 
-  constructor(parentElement: HTMLElement, board: any, observer: Observer) {
+  constructor(parentElement: Element, board: any, observer: Observer) {
     this.board = board;
     this.parentElement = parentElement;
     this.render();
@@ -190,7 +190,8 @@ export default class Panel {
     return this.button;
   }
 
-  public displayPanel() {
+  public displayPanel(parentElement: Element) {
+    this.parentElement = parentElement;
     this.parentElement.append(this.panel);
   }
 
