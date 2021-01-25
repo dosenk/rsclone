@@ -1,5 +1,8 @@
 export const WRAPPER_CLASS = 'wrapper';
 
+export const MIDDLE_ELEM_CLASS = 'middleBlock';
+export const MIDDLE_ELEM_BLOCK_CLASS = `${MIDDLE_ELEM_CLASS}--block`;
+
 export const USERS_CLASS = 'users';
 export const USERS_WRAPPER_CLASS = 'users-wrapper';
 

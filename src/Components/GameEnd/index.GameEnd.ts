@@ -1,5 +1,7 @@
 import {
   GUESSER_AVATAR_CLASS,
+  MIDDLE_ELEM_BLOCK_CLASS,
+  MIDDLE_ELEM_CLASS,
   PAINTER_AVATAR_CLASS,
   PRIMARY_BTN_CLASS,
   PRIMARY_TEXT_CLASS,
@@ -144,11 +146,21 @@ const gameStartPopup = (
     null,
     'start new game'
   );
-  const container = createElement('div', EG_CONTAINER_CN);
-  container.append(startBtn);
+  startBtn.addEventListener('click', () => {
+    if (closeListeners.length) {
+      closeListeners.forEach((listener) => listener());
+    }
+  });
 
-  const closePopup = createModal(parentElem, container, closeListeners);
-  startBtn.addEventListener('click', closePopup);
+  const popup = createElement(
+    'div',
+    [EG_CONTAINER_CN, MIDDLE_ELEM_BLOCK_CLASS],
+    null,
+    [startBtn]
+  );
+  const container = createElement('div', MIDDLE_ELEM_CLASS, null, [popup]);
+
+  parentElem.append(container);
 };
 
 export { gameEndPopup, gameStartPopup };
