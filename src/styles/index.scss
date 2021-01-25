@@ -6,6 +6,7 @@
   '../Components/Registration/registration.scss',
   '../Components/Login/login.scss', '../Components/Preloader/preloader.scss',
   '../Components/SelectWord/index.SelectWord.scss',
-  '../Components/Game/GameEvents/index.GameEvents.scss',
+  '../Components/Game/GameEvents/Popaps/index.GamePopaps.scss',
+  '../Components/Game/GameEvents/GuessWord/index.GameGuessWord.scss',
   '../Components/PageLayout/styles.PageLayout.scss';
 @import '../SocketIoClient/style.chat.scss';

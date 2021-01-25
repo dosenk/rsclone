@@ -3,18 +3,18 @@ import {
   PAINTER_AVATAR_CLASS,
   PRIMARY_BTN_CLASS,
   PRIMARY_TEXT_CLASS,
-} from '../../../Constants/classNames';
-import type Observer from '../../../Observer/index.Observer';
-import IGameEndInfo from '../../../Observer/Interfaces/IGameEndInfo';
+} from '../../../../Constants/classNames';
+import type Observer from '../../../../Observer/index.Observer';
+import IGameEndInfo from '../../../../Observer/Interfaces/IGameEndInfo';
 
-import { createElement } from '../../../Utils/index.Utils';
-import createModal from '../../Modal/index.Modal';
+import { createElement } from '../../../../Utils/index.Utils';
+import createModal from '../../../Modal/index.Modal';
 import {
   EG_BLOCK_CN,
   EG_CONTAINER_CN,
   EG_BTN_CN,
   EG_TEXT_CN,
-} from './constants.GameEvents';
+} from '../constants.GameEvents';
 
 const createWinnerBlock = (
   langData: { [key: string]: string },
