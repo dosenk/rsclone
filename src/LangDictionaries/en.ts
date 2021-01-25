@@ -20,6 +20,10 @@ export default {
   WAITING_ANOTHER_GAMERS: 'Waiting for another players...',
   LOGOUT: 'Logout',
   STATISTICS: 'Statistics',
+  ONLINE_GAME: 'Online game',
+  ONLINE_GAME_TEXT: 'One draws, the rest guess in real time.',
+  START_GAME: 'Start game',
   SETTINGS: 'Settings',
   AUTHORS: 'authors',
+  STATISTIC: 'In game (d.)/Drawn words/Number of games/Guess the word',
 };

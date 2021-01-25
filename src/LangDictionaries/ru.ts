@@ -20,6 +20,11 @@ export default {
   WAITING_ANOTHER_GAMERS: 'Ожидание других игроков...',
   LOGOUT: 'Выйти',
   STATISTICS: 'Статистика',
+  ONLINE_GAME: 'Онлайн игра',
+  ONLINE_GAME_TEXT:
+    'Один рисует, остальные отгадывают в режиме реального времени.',
+  START_GAME: 'Начать игру',
   SETTINGS: 'Настройки',
   AUTHORS: 'авторы',
+  STATISTIC: 'В игре (д.)/Нарисовано слов/Количество игр/Угадано слов',
 };
