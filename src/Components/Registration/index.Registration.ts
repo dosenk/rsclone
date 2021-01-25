@@ -30,7 +30,7 @@ export default class Registration {
 
   private passwordRepeat: HTMLInputElement | undefined;
 
-  private registrationBtn: HTMLElement | undefined;
+  private registrationBtn: HTMLButtonElement | undefined;
 
   private registrationHead: HTMLElement | undefined;
 
@@ -123,7 +123,7 @@ export default class Registration {
     this.registrationHead.innerText = '';
     this.registration.append(this.registrationHead);
 
-    this.registrationBtn = document.createElement('button');
+    this.registrationBtn = <HTMLButtonElement>document.createElement('button');
     this.registrationBtn.classList.add(PRIMARY_BTN_CLASS, REG_BTN_CN);
     this.registrationBtn.setAttribute('type', 'submit');
     this.registrationBtn.textContent = REGISTER;
@@ -146,11 +146,19 @@ export default class Registration {
     this.registrationBtn.addEventListener('click', async (event) => {
       event.preventDefault();
 
+      if (!this.registrationBtn) return;
+
+      this.registrationBtn.disabled = true;
+
       if (this.checkPassword()) {
         const response = await this.setPost();
+
         this.checkResponse(response);
-      } else if (this.registrationHead)
+      } else if (this.registrationHead) {
         this.registrationHead.textContent = PASSWORDS_NOT_EQUAL;
+      }
+
+      this.registrationBtn.disabled = false;
     });
   }
 
