@@ -13,6 +13,8 @@ import {
   GAME,
   GAME_STATUS,
   ROLE,
+  GAME_END_INFO,
+  WORDS_TO_SELECT,
 } from '../../Observer/actionTypes';
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
@@ -135,6 +137,8 @@ export default class Game {
       case GAME:
       case GAME_STATUS:
       case ROLE:
+      case WORDS_TO_SELECT:
+      case GAME_END_INFO:
         this.updateGame();
         break;
 
