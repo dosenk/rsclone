@@ -136,15 +136,16 @@ const gameEndPopup = (
 
 const gameStartPopup = (
   parentElem: Element,
-  _: Observer,
+  observer: Observer,
   closeListeners: Array<Function>
 ) => {
+  const { START_NEW_GAME } = observer.getState().langData;
   const startBtn = createElement(
     'button',
     [PRIMARY_BTN_CLASS, EG_BTN_CN],
     null,
     null,
-    'start new game'
+    START_NEW_GAME
   );
   startBtn.addEventListener('click', () => {
     if (closeListeners.length) {
