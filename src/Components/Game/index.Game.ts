@@ -17,7 +17,7 @@ import {
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
 import renderSelectWord from '../SelectWord/index.SelectWord';
-import { gameEndPopup, gameStartPopup } from '../GameEnd/index.GameEnd';
+import { gameEndPopup, gameStartPopup } from './GameEvents/index.GameEvents';
 import {
   WORD_SELECTION,
   LOADING_GAME,
