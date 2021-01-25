@@ -12,7 +12,7 @@ export default (
   const { main, wholeLayout } = createLayoutElements(observer, router);
 
   if (state.game instanceof Game) {
-    state.game.updateGame(main);
+    state.game.updateGame(state, main);
   } else {
     const game = new Game(observer, main);
 

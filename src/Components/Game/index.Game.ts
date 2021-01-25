@@ -13,6 +13,7 @@ import {
   GAME,
   GAME_STATUS,
   ROLE,
+  WORDS_TO_SELECT,
 } from '../../Observer/actionTypes';
 import { ROLE_GUESSER, ROLE_PAINTER } from '../../Constants/index.Constants';
 import IState from '../../Observer/Interfaces/IState';
@@ -133,9 +134,10 @@ export default class Game {
         this.sendInfo(state, actionType);
         break;
       case GAME:
+      case WORDS_TO_SELECT:
       case GAME_STATUS:
       case ROLE:
-        this.updateGame();
+        this.updateGame(state);
         break;
 
       default:
@@ -147,13 +149,14 @@ export default class Game {
     this.socket.start();
   }
 
-  public updateGame(parenElement: HTMLElement = this.parenElement) {
+  public updateGame(
+    state: IState,
+    parenElement: HTMLElement = this.parenElement
+  ) {
     this.parenElement = parenElement;
-    const { gameStatus } = this.observer.getState();
-
     this.parenElement.textContent = '';
 
-    switch (gameStatus) {
+    switch (state.gameStatus) {
       case WORD_SELECTION:
         renderSelectWord(this.parenElement, this.observer, this.wordSelected);
         break;
