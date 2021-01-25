@@ -32,4 +32,8 @@ export default {
   LOGIN_EXISTS: 'This login already exists',
   ERROR: 'Error',
   LOGIN: 'Login',
+  ONLINE_GAME: 'Online game',
+  ONLINE_GAME_TEXT: 'One draws, the rest guess in real time.',
+  START_GAME: 'Start game',
+  STATISTIC: 'In game (d.)/Drawn words/Number of games/Guess the word',
 };
