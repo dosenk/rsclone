@@ -4,6 +4,7 @@ import { APP_NAME } from '../../Constants/index.Constants';
 import {
   createDropdown,
   createDropup,
+  createLangDropdown,
   createElement,
   createLink,
 } from '../../Utils/index.Utils';
@@ -13,102 +14,74 @@ import {
   FOOTER_CN,
   MAIN_CN,
   HEADER_NAV_CN,
-  HEADER_BTN_CN,
-  HEADER_LANG_ITEM_CN,
-  HEADER_LANG_ICO_CN,
+  HEADER_LANG_BTN_CN,
+  HEADER_USER_BTN_CN,
+  HEADER_USER_SPAN_CN,
   FOOTER_RS_LOGO_CN,
   FOOTER_YEAR_CN,
-  FOOTER_BTN_CN,
+  FOOTER_AUTHORS_CN,
 } from './constants.PageLayout';
-import { LOGIN, SETTINGS, STATISTICS } from '../../Constants/routes';
+import { LOGIN, SETTINGS, STATISTICS, GAME } from '../../Constants/routes';
 import { PRIMARY_TEXT_CLASS, WRAPPER_CLASS } from '../../Constants/classNames';
-import languages from '../../langDictionaries/index.langDictionaries';
 import '../../assets/images/rs_logo.svg';
 
 const createUserDropdown = (observer: Observer, router: Router) => {
   const { langData, name } = observer.getState();
-  const { LOGOUT, STATISTICS: STAT, SETTINGS: SETS } = langData;
-
-  const userDropdownBtn = createElement(
-    'div',
-    [PRIMARY_TEXT_CLASS, HEADER_BTN_CN],
-    null,
-    null,
-    name
-  );
-  const statLink = createLink(router, STATISTICS, PRIMARY_TEXT_CLASS, STAT);
-  const settingsLink = createLink(router, SETTINGS, PRIMARY_TEXT_CLASS, SETS);
-  const signOutBtn = createLink(router, LOGIN, PRIMARY_TEXT_CLASS, LOGOUT);
-  const userDropdown = createDropdown(userDropdownBtn, [
-    statLink,
-    settingsLink,
-    signOutBtn,
-  ]);
-
-  return userDropdown;
-};
-
-const createLangDropdown = (observer: Observer) => {
-  const { lang: currentLang, flag: currentFlag } = observer.getState().langData;
-
-  const currentIco = <HTMLImageElement>createElement('img', HEADER_LANG_ICO_CN);
-  currentIco.alt = currentLang;
-  currentIco.src = currentFlag;
-
-  const dropdownBtn = createElement(
-    'div',
-    [PRIMARY_TEXT_CLASS, HEADER_BTN_CN, HEADER_LANG_ITEM_CN],
-    null,
-    [currentIco],
-    currentLang
-  );
-
-  const langList = Object.values(languages);
+  const {
+    LOGOUT,
+    STATISTICS: statTitle,
+    SETTINGS: settingsTitle,
+    GAME: gameTitle,
+  } = langData;
   const dropdownItems: Array<Element> = [];
+  const itemsData = [
+    { route: GAME, title: gameTitle },
+    { route: SETTINGS, title: settingsTitle },
+    { route: STATISTICS, title: statTitle },
+    { route: LOGIN, title: LOGOUT },
+  ];
 
-  langList.forEach((langDict) => {
-    const { lang, flag } = langDict;
-    if (lang === currentLang) return;
+  itemsData.forEach(({ route, title }) => {
+    if (route === window.location.pathname) return;
 
-    const ico = <HTMLImageElement>createElement('img', HEADER_LANG_ICO_CN);
-    ico.alt = lang;
-    ico.src = flag;
-
-    const dropdownItem = createElement(
-      'div',
-      [PRIMARY_TEXT_CLASS, HEADER_LANG_ITEM_CN],
-      null,
-      [ico],
-      lang
-    );
-
-    dropdownItem.addEventListener('click', () => {
-      observer.actions.setLang(langDict);
-    });
+    const dropdownItem = createLink(router, route, PRIMARY_TEXT_CLASS, title);
 
     dropdownItems.push(dropdownItem);
   });
 
-  const dropdown = createDropdown(dropdownBtn, dropdownItems);
+  const userNameSpan = createElement(
+    'span',
+    HEADER_USER_SPAN_CN,
+    null,
+    null,
+    name
+  );
+  const userDropdownBtn = createElement(
+    'div',
+    [PRIMARY_TEXT_CLASS, HEADER_USER_BTN_CN],
+    null,
+    [userNameSpan]
+  );
 
-  return dropdown;
+  const userDropdown = createDropdown(userDropdownBtn, dropdownItems);
+
+  return userDropdown;
 };
 
 const createHeader = (observer: Observer, router: Router) => {
   const wrapper = createElement('div', WRAPPER_CLASS);
 
-  const title = createElement(
-    'h1',
+  const gameLink = createLink(
+    router,
+    GAME,
     HEADER_TITLE_CN,
-    null,
-    null,
     APP_NAME.toUpperCase()
   );
-  wrapper.append(title);
+  wrapper.append(gameLink);
 
   const menuContainer = createElement('nav', HEADER_NAV_CN);
 
-  const langDropdown = createLangDropdown(observer);
+  const langDropdown = createLangDropdown(observer, HEADER_LANG_BTN_CN);
   menuContainer.append(langDropdown);
 
   const userDropdown = createUserDropdown(observer, router);
@@ -127,7 +100,7 @@ const createAuthors = (observer: Observer) => {
 
   const authorsBtn = createElement(
     'div',
-    [PRIMARY_TEXT_CLASS, FOOTER_BTN_CN],
+    [PRIMARY_TEXT_CLASS, FOOTER_AUTHORS_CN],
     null,
     null,
     AUTHORS
@@ -137,16 +110,20 @@ const createAuthors = (observer: Observer) => {
     createElement('a', PRIMARY_TEXT_CLASS, null, null, 'dosenk')
   );
   dosenk.href = 'https://github.com/dosenk/';
-  const vladimir = <HTMLLinkElement>(
-    createElement('a', PRIMARY_TEXT_CLASS, null, null, 'vladimir6332')
+  const vladislavgribkov = <HTMLLinkElement>(
+    createElement('a', PRIMARY_TEXT_CLASS, null, null, 'vladislavgribkov')
   );
-  vladimir.href = 'https://github.com/vladimir6332';
+  vladislavgribkov.href = 'https://github.com/vladislavgribkov';
   const krohnic = <HTMLLinkElement>(
     createElement('a', PRIMARY_TEXT_CLASS, null, null, 'KrohNic')
   );
   krohnic.href = 'https://github.com/KrohNic';
 
-  const authorsMenu = createDropup(authorsBtn, [dosenk, vladimir, krohnic]);
+  const authorsMenu = createDropup(authorsBtn, [
+    dosenk,
+    vladislavgribkov,
+    krohnic,
+  ]);
 
   return authorsMenu;
 };

@@ -107,12 +107,12 @@ body {
   &--menu {
     $shadow_size: 5px;
 
-    width: 200px;
     background-color: $color_bg_primary;
     display: none;
     flex-direction: column;
     position: absolute;
     top: 100%;
+    left: 0;
     right: 0;
     box-shadow: 0 $shadow_size $shadow_size 0 $shadow_color;
   }
@@ -120,8 +120,6 @@ body {
   .dropup--menu {
     @extend .dropdown--menu;
 
-    left: 0;
-    right: auto;
     top: auto;
     bottom: 100%;
   }
@@ -143,6 +141,29 @@ body {
 
   &--item:not(:first-child) {
     margin-top: -$border_thickness;
+  }
+
+  &--lang_item {
+    padding: 0 1em;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    z-index: 1;
+  }
+
+  &--lang_ico {
+    width: 20px;
+    height: 20px;
+  }
+
+  &--lang_btn {
+    width: 9em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
   }
 
   &:hover {

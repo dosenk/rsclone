@@ -20,7 +20,16 @@ export const GUESSER_AVATAR_CLASS = `${GUESSER_CLASS}_user-avatar`;
 export const GUESSER_NICKNAME_CLASS = `${GUESSER_CLASS}_user-nickname`;
 
 export const CHAT_CLASS = 'client-chat';
-export const CHAT_MSG_CLASS = `${CHAT_CLASS}__msg`;
+export const CHAT_MSG_BLOCK_CLASS = `${CHAT_CLASS}__msg-block`;
+export const CHAT_MSG_BLOCK_INFO_CLASS = `${CHAT_CLASS}__msg-block-info`;
+export const CHAT_MSG_CLASS = `${CHAT_MSG_BLOCK_INFO_CLASS}_msg`;
+export const CHAT_SENDER_CLASS = `${CHAT_MSG_BLOCK_INFO_CLASS}_sender`;
+export const CHAT_LIKE_ALL_CLASS = `msg-grade`;
+export const CHAT_NO_ACTIVE_CLASS = `no-active`;
+export const CHAT_LIKE_CLASS = `${CHAT_CLASS}__msg-block_like`;
+export const CHAT_DISLIKE_CLASS = `${CHAT_CLASS}__msg-block_dislike`;
+export const CHAT_LIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_like-active`;
+export const CHAT_DISLIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_dislike-active`;
 
 export const FORM_CLASS = 'client-form';
 export const FORM_INPUT_CLASS = `${FORM_CLASS}__info`;
@@ -31,3 +40,6 @@ export const DROPDOWN_BTN_CN = `${DROPDOWN_CN}--btn`;
 export const DROPDOWN_MENU_CN = `${DROPDOWN_CN}--menu`;
 export const DROPUP_MENU_CN = 'dropup--menu';
 export const DROPDOWN_ITEM_CN = `${DROPDOWN_CN}--item`;
+export const DROPDOWN_LANG_BTN_CN = `${DROPDOWN_CN}--lang_btn`;
+export const DROPDOWN_LANG_ITEM_CN = `${DROPDOWN_CN}--lang_item`;
+export const DROPDOWN_LANG_ICO_CN = `${DROPDOWN_CN}--lang_ico`;

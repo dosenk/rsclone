@@ -15,10 +15,12 @@ import {
   WORD_TO_GUESS,
   GAME_STATUS,
   GAME_END_INFO,
+  USER_STATS,
 } from './actionTypes';
 import langItem from '../langDictionaries/en';
 import IDraw from './Interfaces/IDraw';
 import IGameEndInfo from './Interfaces/IGameEndInfo';
+import IUserStats from './Interfaces/IUserStats';
 
 export default class ActionCreator {
   private observer: Observer;
@@ -128,6 +130,13 @@ export default class ActionCreator {
     this.observer.dispatch({
       type: GAME_END_INFO,
       payload: info,
+    });
+  }
+
+  setUserStats(stats: IUserStats) {
+    this.observer.dispatch({
+      type: USER_STATS,
+      payload: stats,
     });
   }
 }

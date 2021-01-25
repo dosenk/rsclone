@@ -16,6 +16,7 @@
     font-size: 22px;
     font-weight: 900;
     letter-spacing: 0.2em;
+    text-decoration: none;
   }
 
   &--nav {
@@ -23,12 +24,13 @@
     display: flex;
   }
 
-  &--btn {
+  &--lang_btn,
+  &--user_btn {
     height: 100%;
-    padding: 0 1em;
+    padding: 0;
     display: flex;
     align-items: center;
-    justify-items: center;
+    justify-content: center;
 
     &:hover {
       background-color: $color_header_hover_bg;
@@ -36,17 +38,16 @@
     }
   }
 
-  &--lang_item {
-    padding: 0 1em;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5em;
+  &--user_btn {
+    width: 110px;
+    padding: 0 10px;
   }
 
-  &--lang_ico {
-    width: 20px;
-    height: 20px;
+  &--user_span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
   }
 }
 
@@ -63,16 +64,18 @@
     justify-content: space-between;
   }
 
-  &--btn {
+  &--authors {
+    width: 7em;
     height: 100%;
-      display: flex;
-      align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &--year {
     font-weight: 600;
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
   }
 
   &--rs_logo {
@@ -82,8 +85,17 @@
 }
 
 
-@media (max-width: 420px) {
-  .header--title {
-    font-size: 14px;
+@media (max-width: 500px) {
+  .header {
+    height: 100px;
+
+    &--title {
+      font-size: 14px;
+    }
+
+    &--nav {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
   }
 }

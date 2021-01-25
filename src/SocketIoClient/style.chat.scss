@@ -1,0 +1,39 @@
+.client-chat {
+  &__msg-block {
+    display: flex;
+    &-info {
+      display: flex;
+      &_sender {
+        &::after {
+          content: ':';
+        }
+      }
+    }
+
+    .msg-grade {
+      cursor: pointer;
+      width: 15px;
+      height: 15px;
+    }
+    &_like {
+      background: url('../assets/images/like.png') no-repeat;
+      background-size: cover;
+    }
+    &_dislike {
+      background: url('../assets/images/dislike.png') no-repeat;
+      background-size: cover;
+    }
+    &_like-active {
+      background: url('../assets/images/like_active.png') no-repeat;
+      background-size: cover;
+    }
+    &_dislike-active {
+      background: url('../assets/images/dislike_active.png') no-repeat;
+      background-size: cover;
+    }
+
+    .no-active {
+      display: none;
+    }
+  }
+}

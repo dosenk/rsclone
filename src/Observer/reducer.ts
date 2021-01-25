@@ -19,6 +19,7 @@ import {
   WORD_TO_GUESS,
   GAME_STATUS,
   GAME_END_INFO,
+  USER_STATS,
 } from './actionTypes';
 import IAction from './Interfaces/IAction';
 import IState from './Interfaces/IState';
@@ -63,6 +64,8 @@ export default (state: IState, action: IAction): IState => {
       return { ...state, gameStatus: action.payload };
     case GAME_END_INFO:
       return { ...state, gameEndInfo: action.payload, gameStatus: GAME_END };
+    case USER_STATS:
+      return { ...state, stats: action.payload };
     default:
       return state;
   }

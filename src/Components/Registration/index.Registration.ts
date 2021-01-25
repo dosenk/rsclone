@@ -1,8 +1,12 @@
-import Router from '../../Router/index.Router';
+import type Router from '../../Router/index.Router';
+import type Observer from '../../Observer/index.Observer';
 import { LANDING, LOGIN } from '../../Constants/routes';
-import { createElement, createInput } from '../../Utils/index.Utils';
 import {
-  REG_CLOSE_CN,
+  createElement,
+  createInput,
+  createLangDropdown,
+} from '../../Utils/index.Utils';
+import {
   REG_FORM_CN,
   REG_ITEM_CN,
   REG_CONTAINER_CN,
@@ -14,7 +18,6 @@ import {
   PRIMARY_LINK_CLASS,
   PRIMARY_TEXT_CLASS,
 } from '../../Constants/classNames';
-import Observer from '../../Observer/index.Observer';
 
 export default class Registration {
   private registration: HTMLFormElement | undefined;
@@ -47,10 +50,16 @@ export default class Registration {
   }
 
   private appendInputsTo(parent: Element) {
+    const {
+      ENTER_LOGIN,
+      ENTER_PASSWORD,
+      REPEAT_PASSWORD,
+    } = this.observer.getState().langData;
+
     this.login = createInput(
       ['login', REG_ITEM_CN],
       'text',
-      'Enter Login',
+      ENTER_LOGIN,
       'login',
       true
     );
@@ -59,7 +68,7 @@ export default class Registration {
     this.password = createInput(
       ['password', REG_ITEM_CN],
       'password',
-      'Enter Password',
+      ENTER_PASSWORD,
       'password',
       true
     );
@@ -68,7 +77,7 @@ export default class Registration {
     this.passwordRepeat = createInput(
       ['password', REG_ITEM_CN],
       'password',
-      'Repeat Password',
+      REPEAT_PASSWORD,
       'password-repeat',
       true
     );
@@ -104,10 +113,9 @@ export default class Registration {
   }
 
   private render() {
-    this.registration = <HTMLFormElement>createElement('form', REG_FORM_CN);
+    const { REGISTER } = this.observer.getState().langData;
 
-    const closeBtn = createElement('span', REG_CLOSE_CN);
-    this.registration.append(closeBtn);
+    this.registration = <HTMLFormElement>createElement('form', REG_FORM_CN);
 
     this.appendInputsTo(this.registration);
 
@@ -118,42 +126,46 @@ export default class Registration {
     this.registrationBtn = document.createElement('button');
     this.registrationBtn.classList.add(PRIMARY_BTN_CLASS, REG_BTN_CN);
     this.registrationBtn.setAttribute('type', 'submit');
-    this.registrationBtn.textContent = 'Register';
+    this.registrationBtn.textContent = REGISTER;
     this.registration.append(this.registrationBtn);
 
     const registrationContainer = createElement('div', REG_CONTAINER_CN);
     const loginBlock = this.createLoginBlock();
 
-    registrationContainer.append(this.registration, loginBlock);
+    const langDropdown = createLangDropdown(this.observer);
+
+    registrationContainer.append(langDropdown, this.registration, loginBlock);
     this.parentElement.append(registrationContainer);
   }
 
   private listener() {
     if (!this.registrationBtn) return;
 
-    this.registrationBtn.addEventListener(
-      'click',
-      async (event: MouseEvent) => {
-        event.preventDefault();
-        if (this.checkPassword()) {
-          const response = await this.setPost();
-          this.checkResponse(response);
-        } else if (this.registrationBtn)
-          this.registrationHead.textContent = 'Пароли не совпадают!';
-      }
-    );
+    const { PASSWORDS_NOT_EQUAL } = this.observer.getState().langData;
+
+    this.registrationBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      if (this.checkPassword()) {
+        const response = await this.setPost();
+        this.checkResponse(response);
+      } else if (this.registrationHead)
+        this.registrationHead.textContent = PASSWORDS_NOT_EQUAL;
+    });
   }
 
   private checkResponse(response: string) {
-    if (!this.registrationBtn) return;
+    if (!this.registrationHead) return;
+
+    const { SUCCESS, LOGIN_EXISTS, ERROR } = this.observer.getState().langData;
 
     if (response === 'success') {
-      this.registrationHead.textContent = 'Успешно!';
+      this.registrationHead.textContent = SUCCESS;
       this.goToLandingPage();
     } else if (response === 'login_exists') {
-      this.registrationHead.textContent = 'Имя пользователя существует';
+      this.registrationHead.textContent = LOGIN_EXISTS;
     } else {
-      this.registrationHead.textContent = 'Ошибка';
+      this.registrationHead.textContent = ERROR;
     }
   }
 
