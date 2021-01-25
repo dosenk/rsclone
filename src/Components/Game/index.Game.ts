@@ -100,6 +100,10 @@ export default class Game {
       this.parenElement,
       this.observer,
       [
+        this.observer.actions.setGameStatus.bind(this, LOADING_GAME),
+        this.observer.actions.setLoading,
+      ],
+      [
         this.newGame,
         this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
         this.observer.actions.setLoading,

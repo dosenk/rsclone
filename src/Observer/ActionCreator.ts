@@ -36,14 +36,14 @@ export default class ActionCreator {
     });
   }
 
-  setLoading(isLoading: boolean = true): void {
+  setLoading = (isLoading: boolean = true): void => {
     if (this.observer.getState().loading === isLoading) return;
 
     this.observer.dispatch({
       type: LOADING,
       payload: isLoading,
     });
-  }
+  };
 
   setLang(lang: typeof langItem): void {
     this.observer.dispatch({
