@@ -11,6 +11,7 @@ import {
   FORM_ITEM_CN,
   FORM_CONTAINER_CN,
   FORM_BTN_CN,
+  FORM_TITLE_CN,
 } from './constants';
 import {
   PRIMARY_LINK_CLASS,
@@ -83,10 +84,8 @@ export default class Login {
     return this.loginBtn;
   }
 
-  public render() {
+  private createInputs() {
     const { ENTER_LOGIN, ENTER_PASSWORD } = this.observer.getState().langData;
-
-    this.loginForm.classList.add(FORM_CN);
 
     this.login = createInput(
       ['login-input', FORM_ITEM_CN],
@@ -95,8 +94,6 @@ export default class Login {
       'login',
       true
     );
-    this.loginForm.append(this.login);
-
     this.password = createInput(
       ['password', FORM_ITEM_CN],
       'password',
@@ -104,10 +101,25 @@ export default class Login {
       'password',
       true
     );
-    this.loginForm.append(this.password);
+  }
 
+  public render() {
+    const { LOGIN } = this.observer.getState().langData;
+
+    const title = createElement(
+      'h1',
+      FORM_TITLE_CN,
+      null,
+      null,
+      LOGIN.toUpperCase()
+    );
+
+    this.loginForm.classList.add(FORM_CN);
+
+    this.createInputs();
     this.loginBtn = this.createLoginBtn();
-    this.loginForm.append(this.loginBtn);
+
+    this.loginForm.append(title, this.login!, this.password!, this.loginBtn);
 
     const langDropdown = createLangDropdown(this.observer);
     const regBlock = this.createRegBlock();

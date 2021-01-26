@@ -9,7 +9,7 @@ import '../assets/images/crocodile.png';
 const LANDING_CN = 'landing';
 
 const createButtons = (router: Router, observer: Observer): Element => {
-  const { LOGIN: LOGIN_LABEL, SING_UP } = observer.getState().langData;
+  const { LOGIN: LOGIN_LABEL, SIGN_UP } = observer.getState().langData;
 
   const loginBtn = createElement('button', [
     'primary_btn',
@@ -19,7 +19,7 @@ const createButtons = (router: Router, observer: Observer): Element => {
   loginBtn.addEventListener('click', () => router.goToPage(LOGIN));
 
   const regBtn = createElement('button', ['primary_btn', `${LANDING_CN}--btn`]);
-  regBtn.textContent = SING_UP;
+  regBtn.textContent = SIGN_UP;
   regBtn.addEventListener('click', () => router.goToPage(REGISTRATION));
 
   const buttons = createElement('div', [`${LANDING_CN}--buttons`], null, [
