@@ -1,4 +1,4 @@
-import Observer from '../../Observer/index.Observer';
+import type Observer from '../../Observer/index.Observer';
 import { createElement } from '../../Utils/index.Utils';
 import {
   USERS_CLASS,
@@ -14,7 +14,6 @@ import {
   GUESSER_AVATAR_CLASS,
   GUESSER_NICKNAME_CLASS,
 } from '../../Constants/classNames';
-import { PAINTER_INFO_TEXT, GUESSER_INFO_TEXT } from './constants';
 import IState from '../../Observer/Interfaces/IState';
 
 export default class Users {
@@ -30,15 +29,16 @@ export default class Users {
 
   guesserBlock!: Element;
 
-  userBlock: HTMLElement;
+  userBlock: HTMLElement | undefined;
 
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
     this.observer = observer;
-    this.userBlock = this.createUsersBlock();
   }
 
   public displayUsers(parentElement: HTMLElement) {
+    this.userBlock = this.createUsersBlock();
+    this.renderUsers(this.guessers, this.painter);
     parentElement.append(this.userBlock);
   }
 
@@ -47,14 +47,16 @@ export default class Users {
     const newPainter = state.users.painter;
     this.painter = newPainter;
     this.guessers = newGuessers;
-    this.renderUsers(newGuessers, newPainter);
+
+    if (this.userBlock) this.renderUsers(newGuessers, newPainter);
   }
 
   static removeUsers(...usersParams: any) {
     usersParams.forEach((param: any[]) => {
-      param[0]
-        .querySelectorAll(`.${param[1]}`)
-        .forEach((node: { remove: () => any }) => node.remove());
+      if (param[0])
+        param[0]
+          .querySelectorAll(`.${param[1]}`)
+          .forEach((node: { remove: () => any }) => node.remove());
     });
   }
 
@@ -64,7 +66,7 @@ export default class Users {
       [this.guesserBlock, USER_GUESSER_CLASS],
       [this.painterBlock, USER_PAINTER_CLASS]
     );
-    const guessorClasses = {
+    const guesserClasses = {
       main: USER_GUESSER_CLASS,
       avatar: GUESSER_AVATAR_CLASS,
       nickName: GUESSER_NICKNAME_CLASS,
@@ -76,7 +78,7 @@ export default class Users {
     };
     this.createUser(painter.name, painterClasses, true);
     guessers.forEach((guesser: { name: string }) => {
-      this.createUser(guesser.name, guessorClasses);
+      this.createUser(guesser.name, guesserClasses);
     });
   }
 
@@ -92,11 +94,13 @@ export default class Users {
   }
 
   createUsersBlock(): HTMLElement {
+    const { GUESSER, PAINTER } = this.observer.getState().langData;
+
     this.painterBlock = createElement('div', PAINTER_CLASS, null, [
-      createElement('p', PAINTER_INFO_CLASS, null, null, PAINTER_INFO_TEXT),
+      createElement('p', PAINTER_INFO_CLASS, null, null, `${PAINTER}:`),
     ]);
     this.guesserBlock = createElement('div', GUESSER_CLASS, null, [
-      createElement('p', GUESSER_INFO_CLASS, null, null, GUESSER_INFO_TEXT),
+      createElement('p', GUESSER_INFO_CLASS, null, null, `${GUESSER}:`),
     ]);
     const usersWrapper = createElement('div', USERS_WRAPPER_CLASS, null, [
       this.painterBlock,
