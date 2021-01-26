@@ -121,10 +121,18 @@ export default class Login {
   private listener() {
     this.loginBtn?.addEventListener('click', async (event: MouseEvent) => {
       event.preventDefault();
+
+      if (!this.loginBtn) return;
+
+      this.loginBtn.disabled = true;
+
       if (this.checkLoginAndPassword()) {
         const response = await this.setPost();
+
         this.checkResponse(response);
       }
+
+      this.loginBtn.disabled = false;
     });
   }
 

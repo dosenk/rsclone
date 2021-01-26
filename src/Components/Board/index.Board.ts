@@ -23,7 +23,7 @@ export default class Board {
 
   private panel!: Panel;
 
-  private readonly parentElement: HTMLElement;
+  private parentElement: Element;
 
   private img: HTMLImageElement = document.createElement('img');
 
@@ -32,7 +32,7 @@ export default class Board {
     this.observer = observer;
     this.panel = new Panel(this.parentElement, this, observer);
     this.start();
-    this.rederImage(parentElement);
+    this.renderImage(parentElement);
   }
 
   public start() {
@@ -43,7 +43,7 @@ export default class Board {
     this.listener();
   }
 
-  private rederImage(parentElement: HTMLElement) {
+  private renderImage(parentElement: HTMLElement) {
     this.img.classList.add('cursorImg');
     this.img.src = './src/assets/images/cursor1.png';
     this.img.alt = 'cursor';
@@ -59,7 +59,9 @@ export default class Board {
     return this.panel;
   }
 
-  displayBoard() {
+  displayBoard(parentElement: Element) {
+    this.parentElement = parentElement;
+
     this.parentElement.append(this.board);
   }
 

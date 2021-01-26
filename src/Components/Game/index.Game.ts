@@ -43,11 +43,11 @@ export default class Game {
 
   panel: Panel;
 
-  parenElement: HTMLElement;
+  parentElement: HTMLElement;
 
   constructor(observer: Observer, parenElement: HTMLElement) {
     this.observer = observer;
-    this.parenElement = parenElement;
+    this.parentElement = parenElement;
 
     this.socket = new SocketIoClient(parenElement, observer);
     this.users = new Users(parenElement, observer);
@@ -68,7 +68,6 @@ export default class Game {
   }
 
   private wordSelected = (word: string) => {
-    this.parenElement.textContent = '';
     this.socket.sendGuessedWord(word);
     this.observer.actions.wordToGuess(word);
   };
@@ -81,20 +80,20 @@ export default class Game {
 
   private renderGameElements() {
     const { role, wordToGuess } = this.observer.getState();
-    this.board.displayBoard();
+    this.board.displayBoard(this.parentElement);
 
     if (role === ROLE_GUESSER) {
       this.board.addPlayer();
-      this.socket.displayForm(this.parenElement);
+      this.socket.displayForm(this.parentElement);
       this.panel.hidePanel();
     } else if (role === ROLE_PAINTER) {
       this.board.addHost();
-      this.panel.displayPanel();
-      renderGuessWord(wordToGuess, this.parenElement);
+      this.panel.displayPanel(this.parentElement);
+      renderGuessWord(wordToGuess, this.parentElement);
     }
 
-    this.socket.displayChat(this.parenElement);
-    this.users.displayUsers(this.parenElement);
+    this.socket.displayChat(this.parentElement);
+    this.users.displayUsers(this.parentElement);
     this.observer.actions.setLoading(false);
   }
 
@@ -102,7 +101,7 @@ export default class Game {
     const { gameEndInfo, users } = this.observer.getState();
 
     gameEndPopup(
-      this.parenElement,
+      this.parentElement,
       this.observer,
       [
         this.observer.actions.setGameStatus.bind(this, LOADING_GAME),
@@ -122,11 +121,11 @@ export default class Game {
     const { langData } = this.observer.getState();
     const { WAITING_ANOTHER_GAMERS } = langData;
 
-    preloader(this.parenElement, WAITING_ANOTHER_GAMERS);
+    preloader(this.parentElement, WAITING_ANOTHER_GAMERS);
   }
 
   private renderStartScreen() {
-    gameStartPopup(this.parenElement, this.observer, [
+    gameStartPopup(this.parentElement, this.observer, [
       this.socket.sendReadyToGame.bind(this.socket),
       this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
     ]);
@@ -157,18 +156,19 @@ export default class Game {
   }
 
   public startGame() {
+    this.updateGame();
     this.socket.start();
   }
 
-  public updateGame(parenElement: HTMLElement = this.parenElement) {
-    this.parenElement = parenElement;
+  public updateGame(parenElement: HTMLElement = this.parentElement) {
+    this.parentElement = parenElement;
     const { gameStatus } = this.observer.getState();
 
-    this.parenElement.textContent = '';
+    this.parentElement.textContent = '';
 
     switch (gameStatus) {
       case WORD_SELECTION:
-        renderSelectWord(this.parenElement, this.observer, this.wordSelected);
+        renderSelectWord(this.parentElement, this.observer, this.wordSelected);
         break;
       case LOADING_GAME:
         this.renderStartScreen();
