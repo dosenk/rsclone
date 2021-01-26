@@ -37,4 +37,5 @@ export default {
   START_GAME: 'Start game',
   STATISTIC: 'In game (d.)/Drawn words/Number of games/Guess the word',
   START_NEW_GAME: 'start new game',
+  GENDER: 'male/female',
 };

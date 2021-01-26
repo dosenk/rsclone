@@ -1,7 +1,25 @@
-const basicFetcher = async (url: URL | string): Promise<JSON> => {
-  const response: Response = await fetch(url.toString());
+export default class Fetcher {
+  static async post(route: URL | string, body: string) {
+    const url = `https://rsclone-node-js.herokuapp.com/${route}`;
+    const response = await fetch(url, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body,
+    })
+      .then((res) => res.json())
+      .then((res) => res);
+    return response;
+  }
 
-  if (response.status >= 200 && response.status < 300) return response.json();
-
-  throw new Error(response.status.toString());
-};
+  static async get(route: URL | string) {
+    const response = await fetch(
+      `https://rsclone-node-js.herokuapp.com/${route}`
+    )
+      .then((res) => res.json())
+      .then((js) => js);
+    return response;
+  }
+}
