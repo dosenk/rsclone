@@ -10,6 +10,7 @@ export default {
   NEW_TO_GAME: `New to ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Already have an account? ',
   SING_IN: 'SING IN.',
+  SING_UP: 'SING UP',
   SELECT_A_WORD: 'Select a word:',
   NEXT_GAME: 'Next game',
   PAINTER: 'Painter',
@@ -37,4 +38,5 @@ export default {
   START_GAME: 'Start game',
   STATISTIC: 'In game (d.)/Drawn words/Number of games/Guess the word',
   START_NEW_GAME: 'start new game',
+  LOGIN_OR_REG: 'Please login or register before playing',
 };

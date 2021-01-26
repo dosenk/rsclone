@@ -10,6 +10,7 @@ export default {
   NEW_TO_GAME: `Впервые в ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Уже есть аккаунт? ',
   SING_IN: 'ВОЙТИ.',
+  SING_UP: 'Зарегистрироваться',
   SELECT_A_WORD: 'Выберите слово:',
   NEXT_GAME: 'Играть еще',
   PAINTER: 'Художник',
@@ -38,4 +39,5 @@ export default {
   START_GAME: 'Начать игру',
   STATISTIC: 'В игре (д.)/Нарисовано слов/Количество игр/Угадано слов',
   START_NEW_GAME: 'Начать новую игру',
+  LOGIN_OR_REG: 'Пожалуйста, войдите или зарегистрируйтесь',
 };
