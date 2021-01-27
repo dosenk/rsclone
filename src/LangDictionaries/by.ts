@@ -9,7 +9,8 @@ export default {
   CREATE_AN_ACCOUNT: 'Зрабить аккаўнт.',
   NEW_TO_GAME: `Упершыню ў ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Ужо ёсць аккаунт? ',
-  SING_IN: 'УВАЙСЦІ.',
+  SIGN_IN: 'УВАЙСЦІ.',
+  SIGN_UP: 'Зарэгістравацца',
   SELECT_A_WORD: 'Выбярыце слова:',
   NEXT_GAME: 'Граць яшчэ',
   PAINTER: 'Маляўник',
@@ -24,6 +25,7 @@ export default {
   AUTHORS: 'аўтары',
   GAME: 'Гульня',
   REGISTER: 'Зарэгістраваць',
+  REGISTRATION: 'Рэгістрацыя',
   PASSWORDS_NOT_EQUAL: 'Паролі не супадаюць!',
   ENTER_LOGIN: 'Увядзіце лагін',
   ENTER_PASSWORD: 'Увядзіце пароль',
@@ -37,4 +39,5 @@ export default {
   START_GAME: 'Пачаць гульню',
   STATISTIC: 'У гульні (д.)/Намалявана слоў/Колькасць гульняў/Адгадаў слова',
   START_NEW_GAME: 'пачаць новую гульню',
+  LOGIN_OR_REG: 'Калі ласка, увайдзіце або зарэгіструйцеся',
 };

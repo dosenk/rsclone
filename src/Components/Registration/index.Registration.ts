@@ -12,6 +12,7 @@ import {
   REG_CONTAINER_CN,
   REG_BTN_CN,
   REG_TEXT_CN,
+  REG_TITLE_CN,
 } from './constants';
 import {
   PRIMARY_BTN_CLASS,
@@ -32,7 +33,7 @@ export default class Registration {
 
   private registrationBtn: HTMLButtonElement | undefined;
 
-  private registrationHead: HTMLElement | undefined;
+  private regErrorElem: HTMLElement | undefined;
 
   private readonly router: Router;
 
@@ -49,7 +50,9 @@ export default class Registration {
     this.listener();
   }
 
-  private appendInputsTo(parent: Element) {
+  private createInputs() {
+    const fragment = new DocumentFragment();
+
     const {
       ENTER_LOGIN,
       ENTER_PASSWORD,
@@ -63,7 +66,7 @@ export default class Registration {
       'login',
       true
     );
-    parent.append(this.login);
+    fragment.append(this.login);
 
     this.password = createInput(
       ['password', REG_ITEM_CN],
@@ -72,7 +75,7 @@ export default class Registration {
       'password',
       true
     );
-    parent.append(this.password);
+    fragment.append(this.password);
 
     this.passwordRepeat = createInput(
       ['password', REG_ITEM_CN],
@@ -81,17 +84,19 @@ export default class Registration {
       'password-repeat',
       true
     );
-    parent.append(this.passwordRepeat);
+    fragment.append(this.passwordRepeat);
+
+    return fragment;
   }
 
   private createLoginBlock() {
     const {
       ALREADY_HAVE_AN_ACCOUNT,
-      SING_IN,
+      SIGN_IN,
     } = this.observer.getState().langData;
 
     const regLink = <HTMLLinkElement>(
-      createElement('a', PRIMARY_LINK_CLASS, null, null, SING_IN)
+      createElement('a', PRIMARY_LINK_CLASS, null, null, SIGN_IN)
     );
     regLink.href = LOGIN;
     regLink.addEventListener('click', (e) => {
@@ -113,21 +118,32 @@ export default class Registration {
   }
 
   private render() {
-    const { REGISTER } = this.observer.getState().langData;
+    const { REGISTER, REGISTRATION } = this.observer.getState().langData;
 
-    this.registration = <HTMLFormElement>createElement('form', REG_FORM_CN);
+    const title = createElement(
+      'h1',
+      REG_TITLE_CN,
+      null,
+      null,
+      REGISTRATION.toUpperCase()
+    );
 
-    this.appendInputsTo(this.registration);
+    const inputs = this.createInputs();
 
-    this.registrationHead = createElement('h1', REG_TEXT_CN);
-    this.registrationHead.innerText = '';
-    this.registration.append(this.registrationHead);
+    this.regErrorElem = createElement('h1', REG_TEXT_CN);
 
     this.registrationBtn = <HTMLButtonElement>document.createElement('button');
     this.registrationBtn.classList.add(PRIMARY_BTN_CLASS, REG_BTN_CN);
     this.registrationBtn.setAttribute('type', 'submit');
     this.registrationBtn.textContent = REGISTER;
-    this.registration.append(this.registrationBtn);
+
+    this.registration = <HTMLFormElement>createElement('form', REG_FORM_CN);
+    this.registration.append(
+      title,
+      inputs,
+      this.regErrorElem,
+      this.registrationBtn
+    );
 
     const registrationContainer = createElement('div', REG_CONTAINER_CN);
     const loginBlock = this.createLoginBlock();
@@ -154,8 +170,8 @@ export default class Registration {
         const response = await this.setPost();
 
         this.checkResponse(response);
-      } else if (this.registrationHead) {
-        this.registrationHead.textContent = PASSWORDS_NOT_EQUAL;
+      } else if (this.regErrorElem) {
+        this.regErrorElem.textContent = PASSWORDS_NOT_EQUAL;
       }
 
       this.registrationBtn.disabled = false;
@@ -163,17 +179,17 @@ export default class Registration {
   }
 
   private checkResponse(response: string) {
-    if (!this.registrationHead) return;
+    if (!this.regErrorElem) return;
 
     const { SUCCESS, LOGIN_EXISTS, ERROR } = this.observer.getState().langData;
 
     if (response === 'success') {
-      this.registrationHead.textContent = SUCCESS;
+      this.regErrorElem.textContent = SUCCESS;
       this.goToLandingPage();
     } else if (response === 'login_exists') {
-      this.registrationHead.textContent = LOGIN_EXISTS;
+      this.regErrorElem.textContent = LOGIN_EXISTS;
     } else {
-      this.registrationHead.textContent = ERROR;
+      this.regErrorElem.textContent = ERROR;
     }
   }
 
