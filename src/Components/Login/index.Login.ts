@@ -137,9 +137,12 @@ export default class Login {
     });
   }
 
-  private checkResponse(response: string) {
+  private async checkResponse(response: string) {
     if (response === 'good') {
-      this.observer.actions.setName(this.login?.value || '');
+      const name = this.login?.value;
+      this.observer.actions.setName(name || '');
+      const res = await Fetcher.get(`stats/stat?name=${name}`);
+      this.observer.actions.setUserStats(res);
       this.router.goToPage(GAME);
     } else {
       this.router.goToPage(REGISTRATION);

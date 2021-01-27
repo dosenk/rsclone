@@ -125,9 +125,8 @@ export default class MainPage {
   }
 
   private async renderStatisticsProfileStatItem(parentElement: HTMLElement) {
-    this.name = this.observer.getState().name;
-    const response = await Fetcher.get(`stats/stat?name=${this.name}`);
-    const statisticsObjectKeys = Object.keys(response);
+    const { stats } = this.observer.getState();
+    const statisticsObjectValues = Object.values(stats);
     const lang = this.observer.getState().langData.STATISTIC.split('/');
     lang.forEach((word: string, index: number) => {
       const statItem = createElement(
@@ -143,7 +142,7 @@ export default class MainPage {
         null,
         statItem,
         null,
-        `${response[statisticsObjectKeys[index]]}`
+        `${statisticsObjectValues[index]}`
       );
     });
   }
