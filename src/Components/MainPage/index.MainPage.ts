@@ -94,7 +94,7 @@ export default class MainPage {
     );
   }
 
-  private renderStatisticsProfileBlock() {
+  private async renderStatisticsProfileBlock() {
     const statisticsProfile = createElement(
       'div',
       'statistics--profile',
@@ -110,7 +110,14 @@ export default class MainPage {
       null,
       null
     );
-    statisticsAvatar.setAttribute('src', './src/assets/images/avatar.jpg');
+    const sex = await Fetcher.get(
+      `users/user/${this.observer.getState().name}`
+    );
+    if (sex.sex === 'male') {
+      statisticsAvatar.setAttribute('src', './src/assets/images/man.png');
+    } else {
+      statisticsAvatar.setAttribute('src', './src/assets/images/woman.png');
+    }
     statisticsAvatar.setAttribute('alt', 'avatar');
 
     const statisticsProfileStat = createElement(
