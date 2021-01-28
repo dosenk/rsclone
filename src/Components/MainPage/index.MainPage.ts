@@ -94,7 +94,7 @@ export default class MainPage {
     );
   }
 
-  private renderStatisticsProfileBlock() {
+  private async renderStatisticsProfileBlock() {
     const statisticsProfile = createElement(
       'div',
       'statistics--profile',
@@ -110,7 +110,14 @@ export default class MainPage {
       null,
       null
     );
-    statisticsAvatar.setAttribute('src', './src/assets/images/avatar.jpg');
+    const sex = await Fetcher.get(
+      `users/user/${this.observer.getState().name}`
+    );
+    if (sex.sex === 'male') {
+      statisticsAvatar.setAttribute('src', './src/assets/images/man.png');
+    } else {
+      statisticsAvatar.setAttribute('src', './src/assets/images/woman.png');
+    }
     statisticsAvatar.setAttribute('alt', 'avatar');
 
     const statisticsProfileStat = createElement(
@@ -125,8 +132,9 @@ export default class MainPage {
   }
 
   private async renderStatisticsProfileStatItem(parentElement: HTMLElement) {
-    const { stats } = this.observer.getState();
-    const statisticsObjectValues = Object.values(stats);
+    this.name = this.observer.getState().name;
+    const response = await Fetcher.get(`stats/stat?name=${this.name}`);
+    const statisticsObjectKeys = Object.keys(response);
     const lang = this.observer.getState().langData.STATISTIC.split('/');
     lang.forEach((word: string, index: number) => {
       const statItem = createElement(
@@ -142,7 +150,7 @@ export default class MainPage {
         null,
         statItem,
         null,
-        `${statisticsObjectValues[index]}`
+        `${response[statisticsObjectKeys[index]]}`
       );
     });
   }

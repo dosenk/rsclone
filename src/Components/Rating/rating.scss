@@ -1,0 +1,31 @@
+.rating {
+  &--item {
+    display: flex;
+    height: 100px;
+    justify-content: space-around;
+    align-items: center;
+    border: #000000 solid 1px;
+    margin: 0 0 1px 0;
+    font-size: 21px;
+    background-color: cadetblue;
+    &-avatar {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      border: #ff8c00 solid 1px;
+      background-color: #58becc;
+      box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+    }
+    &-rating {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      border: #ff8c00 solid 1px;
+      background-color: #ffd700;
+      box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+    }
+  }
+}
