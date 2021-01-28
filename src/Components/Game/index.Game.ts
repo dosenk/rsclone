@@ -93,12 +93,10 @@ export default class Game {
       this.socket.displayForm(this.parentElement);
       this.panel.hidePanel();
     } else if (role === ROLE_PAINTER) {
-      this.stats.drawWordsNum += 1;
       this.board.addHost();
       this.panel.displayPanel(this.parentElement);
       renderGuessWord(wordToGuess, this.parentElement);
     }
-    this.stats.gameCount += 1;
     this.socket.displayChat(this.parentElement);
     this.users.displayUsers(this.parentElement);
     this.observer.actions.setLoading(false);
@@ -187,8 +185,7 @@ export default class Game {
         this.renderGameElements();
         break;
       case GAME_END:
-        this.checkWinner();
-        this.updateStatisticsInTheDatabase();
+        this.setStatistics();
         this.renderEndScreen();
         break;
 
@@ -197,10 +194,16 @@ export default class Game {
     }
   }
 
-  private checkWinner() {
+  private setStatistics() {
     const state = this.observer.getState();
-    if (state.name === state.gameEndInfo?.winnerName)
+    if (state.name === state.gameEndInfo?.winnerName) {
       this.stats.guessWordsNum += 1;
+    }
+    if (state.role === ROLE_PAINTER) {
+      this.stats.drawWordsNum += 1;
+    }
+    this.stats.gameCount += 1;
+    this.updateStatisticsInTheDatabase();
   }
 
   private async updateStatisticsInTheDatabase() {
