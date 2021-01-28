@@ -30,7 +30,7 @@ export default {
   ENTER_LOGIN: 'Enter Login',
   ENTER_PASSWORD: 'Enter Password',
   REPEAT_PASSWORD: 'Repeat Password',
-  SUCCESS: 'Repeat Password',
+  SUCCESS: 'Success!',
   LOGIN_EXISTS: 'This login already exists',
   ERROR: 'Error',
   LOGIN: 'Login',
