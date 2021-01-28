@@ -23,7 +23,7 @@ export default class Board {
 
   private panel!: Panel;
 
-  private parentElement: Element;
+  private parentElement: HTMLElement;
 
   private img: HTMLImageElement = document.createElement('img');
 
@@ -32,7 +32,6 @@ export default class Board {
     this.observer = observer;
     this.panel = new Panel(this.parentElement, this, observer);
     this.start();
-    this.renderImage(parentElement);
   }
 
   public start() {
@@ -59,7 +58,7 @@ export default class Board {
     return this.panel;
   }
 
-  displayBoard(parentElement: Element) {
+  displayBoard(parentElement: HTMLElement) {
     this.parentElement = parentElement;
 
     this.parentElement.append(this.board);
@@ -76,6 +75,7 @@ export default class Board {
   }
 
   public addPlayer() {
+    this.renderImage(this.parentElement);
     this.board.style.cursor = 'auto';
     this.player = true;
   }

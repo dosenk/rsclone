@@ -1,8 +1,15 @@
-.registration {
+.userEntrance {
   @extend .middleBlock;
 
   &--form {
     @extend .middleBlock--block;
+  }
+
+  &--title {
+    text-align: center;
+    font-weight: 900;
+    font-size: 1.3em;
+    letter-spacing: 0.2em;
   }
 
   &--text {

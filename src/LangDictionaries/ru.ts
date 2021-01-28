@@ -9,7 +9,8 @@ export default {
   CREATE_AN_ACCOUNT: 'Создать аккаунт.',
   NEW_TO_GAME: `Впервые в ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Уже есть аккаунт? ',
-  SING_IN: 'ВОЙТИ.',
+  SIGN_IN: 'ВОЙТИ.',
+  SIGN_UP: 'Зарегистрироваться',
   SELECT_A_WORD: 'Выберите слово:',
   NEXT_GAME: 'Играть еще',
   PAINTER: 'Художник',
@@ -24,6 +25,7 @@ export default {
   AUTHORS: 'авторы',
   GAME: 'Игра',
   REGISTER: 'Зарегистрировать',
+  REGISTRATION: 'Регистрация',
   PASSWORDS_NOT_EQUAL: 'Пароли не совпадают!',
   ENTER_LOGIN: 'Введите логин',
   ENTER_PASSWORD: 'Введите пароль',
@@ -39,4 +41,5 @@ export default {
   STATISTIC: 'В игре (д.)/Нарисовано слов/Угадано слов/Количество игр',
   START_NEW_GAME: 'Начать новую игру',
   GENDER: 'мужской/женский',
+  LOGIN_OR_REG: 'Пожалуйста, войдите или зарегистрируйтесь',
 };

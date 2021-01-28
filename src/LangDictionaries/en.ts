@@ -9,7 +9,8 @@ export default {
   CREATE_AN_ACCOUNT: 'Create an account.',
   NEW_TO_GAME: `New to ${APP_NAME}? `,
   ALREADY_HAVE_AN_ACCOUNT: 'Already have an account? ',
-  SING_IN: 'SING IN.',
+  SIGN_IN: 'SIGN IN.',
+  SIGN_UP: 'SIGN UP',
   SELECT_A_WORD: 'Select a word:',
   NEXT_GAME: 'Next game',
   PAINTER: 'Painter',
@@ -24,6 +25,7 @@ export default {
   AUTHORS: 'authors',
   GAME: 'Game',
   REGISTER: 'Register',
+  REGISTRATION: 'Registration',
   PASSWORDS_NOT_EQUAL: 'Passwords do not equal!',
   ENTER_LOGIN: 'Enter Login',
   ENTER_PASSWORD: 'Enter Password',
@@ -38,4 +40,5 @@ export default {
   STATISTIC: 'In game (d.)/Drawn words/Words guessed/Number of games',
   START_NEW_GAME: 'start new game',
   GENDER: 'male/female',
+  LOGIN_OR_REG: 'Please login or register before playing',
 };
