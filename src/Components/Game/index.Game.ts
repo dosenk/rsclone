@@ -31,6 +31,8 @@ import {
   GAME_END,
   READY_TO_GAME,
 } from './statuses';
+import IUserStats from '../../Observer/Interfaces/IUserStats';
+import Fetcher from '../../Fetcher/index.Fetcher';
 
 export default class Game {
   observer: Observer;
@@ -43,6 +45,8 @@ export default class Game {
 
   panel: Panel;
 
+  stats: IUserStats;
+
   parentElement: HTMLElement;
 
   constructor(observer: Observer, parenElement: HTMLElement) {
@@ -54,6 +58,8 @@ export default class Game {
 
     this.board = new Board(parenElement, observer);
     this.panel = this.board.getPanel();
+
+    this.stats = this.observer.getState().stats;
 
     observer.subscribe(this);
     observer.actions.setGame(this);
@@ -91,7 +97,6 @@ export default class Game {
       this.panel.displayPanel(this.parentElement);
       renderGuessWord(wordToGuess, this.parentElement);
     }
-
     this.socket.displayChat(this.parentElement);
     this.users.displayUsers(this.parentElement);
     this.observer.actions.setLoading(false);
@@ -180,11 +185,31 @@ export default class Game {
         this.renderGameElements();
         break;
       case GAME_END:
+        this.setStatistics();
         this.renderEndScreen();
         break;
 
       default:
         break;
     }
+  }
+
+  private setStatistics() {
+    const state = this.observer.getState();
+    if (state.name === state.gameEndInfo?.winnerName) {
+      this.stats.guessWordsNum += 1;
+    }
+    if (state.role === ROLE_PAINTER) {
+      this.stats.drawWordsNum += 1;
+    }
+    this.stats.gameCount += 1;
+    this.updateStatisticsInTheDatabase();
+  }
+
+  private async updateStatisticsInTheDatabase() {
+    const { name } = this.observer.getState();
+    const statisticsObject = { name, ...this.stats };
+    const body = JSON.stringify(statisticsObject);
+    await Fetcher.put('stats/setstat', body);
   }
 }

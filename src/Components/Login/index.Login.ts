@@ -18,6 +18,7 @@ import {
   PRIMARY_TEXT_CLASS,
   PRIMARY_BTN_CLASS,
 } from '../../Constants/classNames';
+import Fetcher from '../../Fetcher/index.Fetcher';
 
 export default class Login {
   private loginForm: HTMLElement = document.createElement('form');
@@ -148,9 +149,12 @@ export default class Login {
     });
   }
 
-  private checkResponse(response: string) {
+  private async checkResponse(response: string) {
     if (response === 'good') {
-      this.observer.actions.setName(this.login?.value || '');
+      const name = this.login?.value;
+      this.observer.actions.setName(name || '');
+      const res = await Fetcher.get(`stats/stat?name=${name}`);
+      this.observer.actions.setUserStats(res);
       this.router.goToPage(GAME);
     } else {
       this.router.goToPage(REGISTRATION);
@@ -167,22 +171,11 @@ export default class Login {
   }
 
   private async setPost() {
-    const response = await fetch(
-      'https://rsclone-node-js.herokuapp.com/users/userPass',
-      {
-        method: 'post',
-        headers: {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          login: this.login?.value,
-          password: this.password?.value,
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => res);
+    const body = JSON.stringify({
+      login: this.login?.value,
+      password: this.password?.value,
+    });
+    const response = await Fetcher.post('users/userPass', body);
     return response;
   }
 }

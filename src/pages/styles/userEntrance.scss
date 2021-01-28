@@ -17,4 +17,20 @@
     font-size: 1.2em;
     color: $color_error;
   }
+
+  &--gender {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: $color_header_hover_bg solid 1px;
+    border-radius: 3px;
+    height: 25px;
+    & label {
+      display: flex;
+      align-items: center;
+      & input {
+        margin: 0 0 0 5px;
+      }
+    }
+  }
 }

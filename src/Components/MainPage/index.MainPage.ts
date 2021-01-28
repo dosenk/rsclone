@@ -3,6 +3,7 @@ import { createElement } from '../../Utils/index.Utils';
 import { PRIMARY_BTN_CLASS } from '../../Constants/classNames';
 import Router from '../../Router/index.Router';
 import { GAME } from '../../Constants/routes';
+import Fetcher from '../../Fetcher/index.Fetcher';
 
 export default class MainPage {
   private statisticsBlock!: HTMLElement;
@@ -124,9 +125,8 @@ export default class MainPage {
   }
 
   private async renderStatisticsProfileStatItem(parentElement: HTMLElement) {
-    const { name } = this.observer.getState();
-    const response = await this.getResponse(name);
-    const statisticsObjectKeys = Object.keys(response);
+    const { stats } = this.observer.getState();
+    const statisticsObjectValues = Object.values(stats);
     const lang = this.observer.getState().langData.STATISTIC.split('/');
     lang.forEach((word: string, index: number) => {
       const statItem = createElement(
@@ -142,18 +142,8 @@ export default class MainPage {
         null,
         statItem,
         null,
-        `${response[statisticsObjectKeys[index]]}`
+        `${statisticsObjectValues[index]}`
       );
     });
-  }
-
-  private async getResponse(name: string) {
-    this.name = name;
-    const response = await fetch(
-      `https://rsclone-node-js.herokuapp.com/stats/stat?name=${this.name}`
-    )
-      .then((res) => res.json())
-      .then((js) => js);
-    return response;
   }
 }

@@ -12,6 +12,7 @@ import {
   REG_CONTAINER_CN,
   REG_BTN_CN,
   REG_TEXT_CN,
+  REG_GENDER_CN,
   REG_TITLE_CN,
 } from './constants';
 import {
@@ -19,6 +20,7 @@ import {
   PRIMARY_LINK_CLASS,
   PRIMARY_TEXT_CLASS,
 } from '../../Constants/classNames';
+import Fetcher from '../../Fetcher/index.Fetcher';
 
 export default class Registration {
   private registration: HTMLFormElement | undefined;
@@ -34,6 +36,10 @@ export default class Registration {
   private registrationBtn: HTMLButtonElement | undefined;
 
   private regErrorElem: HTMLElement | undefined;
+
+  private man: HTMLInputElement | undefined;
+
+  private women: HTMLInputElement | undefined;
 
   private readonly router: Router;
 
@@ -85,8 +91,45 @@ export default class Registration {
       true
     );
     fragment.append(this.passwordRepeat);
-
+    this.appendGenderBlock(fragment);
     return fragment;
+  }
+
+  private appendGenderBlock(fragment: DocumentFragment) {
+    const genderArray = this.observer.getState().langData.GENDER.split('/');
+    const genderBlock = createElement(
+      'div',
+      ['gender', REG_GENDER_CN],
+      null,
+      null,
+      null
+    );
+    fragment.append(genderBlock);
+    const labelForMan = createElement(
+      'label',
+      null,
+      genderBlock,
+      null,
+      genderArray[0]
+    );
+    this.man = createInput('man', 'radio', '', 'gender', true);
+    this.man.checked = true;
+    labelForMan.append(this.man);
+
+    this.women = createInput('women', 'radio', '', 'gender', false);
+    this.women.checked = false;
+    const labelForWoman = createElement(
+      'label',
+      null,
+      genderBlock,
+      null,
+      genderArray[1]
+    );
+    labelForWoman.append(this.women);
+  }
+
+  private checkedGender() {
+    return this.man?.checked ? 'male' : 'female';
   }
 
   private createLoginBlock() {
@@ -168,7 +211,6 @@ export default class Registration {
 
       if (this.checkPassword()) {
         const response = await this.setPost();
-
         this.checkResponse(response);
       } else if (this.regErrorElem) {
         this.regErrorElem.textContent = PASSWORDS_NOT_EQUAL;
@@ -200,22 +242,13 @@ export default class Registration {
   }
 
   private async setPost() {
-    const response = await fetch(
-      'https://rsclone-node-js.herokuapp.com/users/user',
-      {
-        method: 'post',
-        headers: {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          login: this.login?.value,
-          password: this.password?.value,
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then((res) => res);
+    const sex = this.checkedGender();
+    const body = JSON.stringify({
+      login: this.login?.value,
+      password: this.password?.value,
+      sex,
+    });
+    const response = await Fetcher.post('users/user', body);
     return response;
   }
 
