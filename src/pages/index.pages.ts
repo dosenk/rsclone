@@ -1,15 +1,15 @@
 import landingRender from './landing';
 import registrationRender from './registration';
 import loginRender from './login';
-import settingsRender from './settings';
+import ratingRender from './rating';
 import gameRender from './game';
-import statisticsRender from './statistics';
+import mainRender from './main';
 
 export default {
   landingRender,
   registrationRender,
   loginRender,
-  settingsRender,
+  settingsRender: ratingRender,
   gameRender,
-  statisticsRender,
+  statisticsRender: mainRender,
 };

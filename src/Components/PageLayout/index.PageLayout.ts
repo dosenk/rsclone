@@ -15,29 +15,29 @@ import {
   MAIN_CN,
   HEADER_NAV_CN,
   HEADER_LANG_BTN_CN,
-  HEADER_USER_BTN_CN,
-  HEADER_USER_SPAN_CN,
+  HEADER_PAGES_BTN_CN,
+  HEADER_PAGES_SPAN_CN,
   FOOTER_RS_LOGO_CN,
   FOOTER_YEAR_CN,
   FOOTER_AUTHORS_CN,
 } from './constants.PageLayout';
-import { LOGIN, SETTINGS, STATISTICS, GAME } from '../../Constants/routes';
+import { LOGIN, RATING, MAIN, GAME } from '../../Constants/routes';
 import { PRIMARY_TEXT_CLASS, WRAPPER_CLASS } from '../../Constants/classNames';
 import '../../assets/images/rs_logo.svg';
 
-const createUserDropdown = (observer: Observer, router: Router) => {
-  const { langData, name } = observer.getState();
+const createPagesDropdown = (observer: Observer, router: Router) => {
   const {
     LOGOUT,
-    STATISTICS: statTitle,
-    SETTINGS: settingsTitle,
+    PAGES,
+    MAIN: mainTitle,
+    RATING: ratingTitle,
     GAME: gameTitle,
-  } = langData;
+  } = observer.getState().langData;
   const dropdownItems: Array<Element> = [];
   const itemsData = [
     { route: GAME, title: gameTitle },
-    { route: SETTINGS, title: settingsTitle },
-    { route: STATISTICS, title: statTitle },
+    { route: RATING, title: ratingTitle },
+    { route: MAIN, title: mainTitle },
     { route: LOGIN, title: LOGOUT },
   ];
 
@@ -49,23 +49,17 @@ const createUserDropdown = (observer: Observer, router: Router) => {
     dropdownItems.push(dropdownItem);
   });
 
-  const userNameSpan = createElement(
-    'span',
-    HEADER_USER_SPAN_CN,
-    null,
-    null,
-    name
-  );
-  const userDropdownBtn = createElement(
+  const pagesDropdownBtn = createElement(
     'div',
-    [PRIMARY_TEXT_CLASS, HEADER_USER_BTN_CN],
+    [PRIMARY_TEXT_CLASS, HEADER_PAGES_BTN_CN],
     null,
-    [userNameSpan]
+    null,
+    PAGES
   );
 
-  const userDropdown = createDropdown(userDropdownBtn, dropdownItems);
+  const pagesDropdown = createDropdown(pagesDropdownBtn, dropdownItems);
 
-  return userDropdown;
+  return pagesDropdown;
 };
 
 const createHeader = (observer: Observer, router: Router) => {
@@ -84,8 +78,8 @@ const createHeader = (observer: Observer, router: Router) => {
   const langDropdown = createLangDropdown(observer, HEADER_LANG_BTN_CN);
   menuContainer.append(langDropdown);
 
-  const userDropdown = createUserDropdown(observer, router);
-  menuContainer.append(userDropdown);
+  const pagesDropdown = createPagesDropdown(observer, router);
+  menuContainer.append(pagesDropdown);
 
   wrapper.append(menuContainer);
 
