@@ -187,6 +187,7 @@ body {
     .dropdown--menu,
     .dropup--menu {
       display: flex;
+      z-index: 3;
     }
   }
 }
