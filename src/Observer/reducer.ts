@@ -1,6 +1,5 @@
 import {
   GAME_IN_PROGRESS,
-  LOADING_GAME,
   WORD_SELECTION,
   GAME_END,
 } from '../Components/Game/statuses';

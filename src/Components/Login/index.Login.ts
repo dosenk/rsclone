@@ -1,5 +1,5 @@
 import Router from '../../Router/index.Router';
-import { GAME, REGISTRATION } from '../../Constants/routes';
+import { MAIN, REGISTRATION } from '../../Constants/routes';
 import Observer from '../../Observer/index.Observer';
 import {
   createElement,
@@ -155,7 +155,7 @@ export default class Login {
       this.observer.actions.setName(name || '');
       const res = await Fetcher.get(`stats/stat?name=${name}`);
       this.observer.actions.setUserStats(res);
-      this.router.goToPage(GAME);
+      this.router.goToPage(MAIN);
     } else {
       this.router.goToPage(REGISTRATION);
     }

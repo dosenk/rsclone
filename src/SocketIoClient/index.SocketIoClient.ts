@@ -44,7 +44,6 @@ import {
 import type Observer from '../Observer/index.Observer';
 import IState from '../Observer/Interfaces/IState';
 import {
-  GAME_END,
   GAME_IN_PROGRESS,
   LOADING_GAME,
   READY_TO_GAME,

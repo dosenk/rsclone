@@ -41,4 +41,7 @@ export default {
   START_NEW_GAME: 'start new game',
   GENDER: 'male/female',
   LOGIN_OR_REG: 'Please login or register before playing',
+  MAIN: 'Main',
+  RATING: 'Rating',
+  PAGES: 'Pages',
 };
