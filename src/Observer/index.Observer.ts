@@ -7,14 +7,16 @@ import reducer from './reducer';
 import { LOADING_GAME } from '../Components/Game/statuses';
 
 export default class Observer {
-  private state: IState;
+  private state!: IState;
 
   private subscribers: Array<ISubscriber> = [];
 
   public readonly actions: ActionCreator;
 
+  initState: IState;
+
   constructor(initialState: Partial<IState> = {}) {
-    const state: IState = {
+    this.initState = {
       game: {},
       loading: true,
       langData: {},
@@ -30,9 +32,12 @@ export default class Observer {
       gameEndInfo: null,
       ...initialState,
     };
-
-    this.state = reducer(state, { type: INIT });
+    this.setDefaultState();
     this.actions = new ActionCreator(this);
+  }
+
+  public setDefaultState() {
+    this.state = reducer(this.initState, { type: INIT });
   }
 
   dispatch(action: IAction): void {
