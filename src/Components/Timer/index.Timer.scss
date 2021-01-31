@@ -1,0 +1,8 @@
+.timer {
+  display: flex;
+  &_min {
+    &::after {
+      content: ':';
+    }
+  }
+}
