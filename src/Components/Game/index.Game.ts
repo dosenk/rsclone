@@ -33,6 +33,7 @@ import {
 } from './statuses';
 import IUserStats from '../../Observer/Interfaces/IUserStats';
 import Fetcher from '../../Fetcher/index.Fetcher';
+import Timer from '../Timer/imdex.Timer';
 
 export default class Game {
   observer: Observer;
@@ -49,6 +50,8 @@ export default class Game {
 
   parentElement: HTMLElement;
 
+  timer: Timer;
+
   constructor(observer: Observer, parenElement: HTMLElement) {
     this.observer = observer;
     this.parentElement = parenElement;
@@ -60,6 +63,7 @@ export default class Game {
     this.panel = this.board.getPanel();
 
     this.stats = this.observer.getState().stats;
+    this.timer = new Timer(this.parentElement, 1, observer);
 
     observer.subscribe(this);
     observer.actions.setGame(this);

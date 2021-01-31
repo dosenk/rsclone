@@ -44,17 +44,26 @@ export default class Timer {
   updateTimer() {
     const { min } = this;
     const { sec } = this;
-    if (this.sec !== 0 && this.min !== 0) {
-    } else {
+    if (this.sec === 0 && this.min === 0) {
       const state = this.observer.getState();
       if (state.role === ROLE_PAINTER) state.game.stopGame(state.wordToGuess);
+    } else {
+      if (this.sec === 0) {
+        this.min -= 1;
+        this.sec = 60;
+      }
+      this.sec -= 1;
     }
-    this.minBlock.textContent = `${min}`;
-    this.secBlock.textContent = `${sec}`;
+    this.minBlock.textContent = `0${min}`;
+    this.secBlock.textContent = `${sec < 10 ? 0 + sec : sec}`;
   }
 
   start() {
     this.render();
-    this.timerId = setInterval(() => {}, 1000);
+    this.timerId = setInterval(this.updateTimer, 1000);
+  }
+
+  stop() {
+    clearInterval(this.timerId);
   }
 }
