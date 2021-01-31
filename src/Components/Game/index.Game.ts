@@ -166,6 +166,10 @@ export default class Game {
     this.socket.start();
   }
 
+  public stopGame(word: string) {
+    this.socket.sendStopGame(word);
+  }
+
   public updateGame(parenElement: HTMLElement = this.parentElement) {
     this.parentElement = parenElement;
     const { gameStatus } = this.observer.getState();

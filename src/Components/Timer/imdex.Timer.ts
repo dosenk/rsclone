@@ -5,6 +5,7 @@ import {
   TIMER_SEC_CLASS,
 } from '../../Constants/classNames';
 import Observer from '../../Observer/index.Observer';
+import { ROLE_PAINTER } from '../../Constants/index.Constants';
 
 export default class Timer {
   parentElement: HTMLElement;
@@ -44,9 +45,9 @@ export default class Timer {
     const { min } = this;
     const { sec } = this;
     if (this.sec !== 0 && this.min !== 0) {
-
     } else {
-        this.observer.actions.setGameEndInfo({guessWord: })
+      const state = this.observer.getState();
+      if (state.role === ROLE_PAINTER) state.game.stopGame(state.wordToGuess);
     }
     this.minBlock.textContent = `${min}`;
     this.secBlock.textContent = `${sec}`;
