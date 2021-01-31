@@ -130,7 +130,7 @@ export default class SocketIoClient {
             }: { winnerName: string; guessWord: string } = info;
 
             this.observer.actions.setGameEndInfo({
-              winnerName: winnerName ?? 'nobody',
+              winnerName,
               guessWord,
             });
           }
