@@ -103,6 +103,7 @@ export default class Game {
   }
 
   private renderEndScreen() {
+    console.log(this.observer.getState());
     const { gameEndInfo, users } = this.observer.getState();
 
     gameEndPopup(
