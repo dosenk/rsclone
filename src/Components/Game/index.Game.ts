@@ -63,7 +63,7 @@ export default class Game {
     this.panel = this.board.getPanel();
 
     this.stats = this.observer.getState().stats;
-    this.timer = new Timer(this.parentElement, 1, observer);
+    this.timer = new Timer(this.parentElement, observer);
 
     observer.subscribe(this);
     observer.actions.setGame(this);
@@ -103,11 +103,11 @@ export default class Game {
     }
     this.socket.displayChat(this.parentElement);
     this.users.displayUsers(this.parentElement);
+    this.timer.start(3);
     this.observer.actions.setLoading(false);
   }
 
   private renderEndScreen() {
-    console.log(this.observer.getState());
     const { gameEndInfo, users } = this.observer.getState();
 
     gameEndPopup(
@@ -194,6 +194,7 @@ export default class Game {
         this.renderGameElements();
         break;
       case GAME_END:
+        this.timer.stop();
         this.setStatistics();
         this.renderEndScreen();
         break;
