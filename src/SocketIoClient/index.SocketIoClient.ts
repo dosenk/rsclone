@@ -76,6 +76,10 @@ export default class SocketIoClient {
     this.sendName();
   }
 
+  public stop() {
+    this.socket.disconnect();
+  }
+
   public displayForm(parentElement: HTMLElement) {
     parentElement.append(this.form);
   }
