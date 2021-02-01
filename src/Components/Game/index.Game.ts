@@ -182,7 +182,7 @@ export default class Game {
 
     this.parentElement.textContent = '';
     this.wrapper.textContent = '';
-    console.log(gameStatus);
+
     switch (gameStatus) {
       case WORD_SELECTION:
         renderSelectWord(this.parentElement, this.observer, this.wordSelected);

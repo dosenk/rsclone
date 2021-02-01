@@ -61,7 +61,6 @@ export default class Users {
   }
 
   renderUsers(guessers: any, painter: any) {
-    // toDo неправильно указаны типы данных guessers и painter
     Users.removeUsers(
       [this.guesserBlock, USER_GUESSER_CLASS],
       [this.painterBlock, USER_PAINTER_CLASS]
