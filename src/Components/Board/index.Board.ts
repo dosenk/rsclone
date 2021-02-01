@@ -68,6 +68,7 @@ export default class Board {
   }
 
   displayBoard(parentElement: HTMLElement = this.parentElement) {
+    this.boardWrapper.textContent = '';
     this.boardWrapper.append(this.board);
     parentElement.append(this.boardWrapper);
   }

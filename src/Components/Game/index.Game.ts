@@ -38,13 +38,13 @@ import { createElement } from '../../Utils/index.Utils';
 export default class Game {
   observer: Observer;
 
-  socket: SocketIoClient;
+  socket!: SocketIoClient;
 
-  board: Board;
+  board!: Board;
 
-  users: Users;
+  users!: Users;
 
-  panel: Panel;
+  panel!: Panel;
 
   stats: IUserStats;
 
@@ -139,6 +139,7 @@ export default class Game {
     gameStartPopup(this.parentElement, this.observer, [
       this.socket.sendReadyToGame.bind(this.socket),
       this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
+      this.newGame,
     ]);
   }
 
@@ -181,7 +182,7 @@ export default class Game {
 
     this.parentElement.textContent = '';
     this.wrapper.textContent = '';
-
+    console.log(gameStatus);
     switch (gameStatus) {
       case WORD_SELECTION:
         renderSelectWord(this.parentElement, this.observer, this.wordSelected);
