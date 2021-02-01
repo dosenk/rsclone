@@ -1,8 +1,16 @@
 .client-chat {
+  width: 200px;
+  overflow: hidden;
+  height: 100%;
+
   &__msg-block {
     display: flex;
+    position: relative;
+    height: 22px;
     &-info {
       display: flex;
+      left: 35px;
+      position: absolute;
       &_sender {
         &::after {
           content: ':';
@@ -14,10 +22,12 @@
       cursor: pointer;
       width: 15px;
       height: 15px;
+      position: relative;
     }
     &_like {
       background: url('../assets/images/like.png') no-repeat;
       background-size: cover;
+      // left: 17px;
     }
     &_dislike {
       background: url('../assets/images/dislike.png') no-repeat;
@@ -26,6 +36,7 @@
     &_like-active {
       background: url('../assets/images/like_active.png') no-repeat;
       background-size: cover;
+      // left: 17px;
     }
     &_dislike-active {
       background: url('../assets/images/dislike_active.png') no-repeat;

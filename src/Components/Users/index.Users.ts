@@ -36,7 +36,7 @@ export default class Users {
     this.observer = observer;
   }
 
-  public displayUsers(parentElement: HTMLElement) {
+  public displayUsers(parentElement: HTMLElement = this.parentElement) {
     this.userBlock = this.createUsersBlock();
     this.renderUsers(this.guessers, this.painter);
     parentElement.append(this.userBlock);

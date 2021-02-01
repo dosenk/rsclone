@@ -7,6 +7,7 @@ import {
   DRAW_THICKNESS,
   CLEAR_BOARD,
 } from '../../Observer/actionTypes';
+import { createElement } from '../../Utils/index.Utils';
 
 export default class Board {
   private board: HTMLCanvasElement = document.createElement('canvas');
@@ -27,10 +28,13 @@ export default class Board {
 
   private img: HTMLImageElement = document.createElement('img');
 
+  boardWrapper: HTMLElement;
+
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
+    this.boardWrapper = createElement('div', 'board-wrapper');
     this.observer = observer;
-    this.panel = new Panel(this.parentElement, this, observer);
+    this.panel = new Panel(this.boardWrapper, this, observer);
     this.start();
   }
 
@@ -42,11 +46,12 @@ export default class Board {
     this.listener();
   }
 
-  private renderImage(parentElement: HTMLElement) {
+  private renderImage(parentElement: HTMLElement = this.parentElement) {
     this.img.classList.add('cursorImg');
     this.img.src = './src/assets/images/cursor1.png';
     this.img.alt = 'cursor';
-    parentElement.append(this.img);
+    this.boardWrapper.append(this.img);
+    parentElement.append(this.boardWrapper);
   }
 
   private displayCursor(x: number, y: number) {
@@ -58,10 +63,13 @@ export default class Board {
     return this.panel;
   }
 
-  displayBoard(parentElement: HTMLElement) {
-    this.parentElement = parentElement;
+  getBoardWrapper() {
+    return this.boardWrapper;
+  }
 
-    this.parentElement.append(this.board);
+  displayBoard(parentElement: HTMLElement = this.parentElement) {
+    this.boardWrapper.append(this.board);
+    parentElement.append(this.boardWrapper);
   }
 
   private create() {

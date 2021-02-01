@@ -33,6 +33,7 @@ import {
 } from './statuses';
 import IUserStats from '../../Observer/Interfaces/IUserStats';
 import Fetcher from '../../Fetcher/index.Fetcher';
+import { createElement } from '../../Utils/index.Utils';
 
 export default class Game {
   observer: Observer;
@@ -49,20 +50,25 @@ export default class Game {
 
   parentElement: HTMLElement;
 
+  wrapper!: HTMLElement;
+
   constructor(observer: Observer, parenElement: HTMLElement) {
     this.observer = observer;
     this.parentElement = parenElement;
-
-    this.socket = new SocketIoClient(parenElement, observer);
-    this.users = new Users(parenElement, observer);
-
-    this.board = new Board(parenElement, observer);
-    this.panel = this.board.getPanel();
-
+    this.wrapper = createElement('div', 'game');
+    this.start();
     this.stats = this.observer.getState().stats;
 
     observer.subscribe(this);
     observer.actions.setGame(this);
+  }
+
+  private start() {
+    this.parentElement.append(this.wrapper);
+    this.socket = new SocketIoClient(this.wrapper, this.observer);
+    this.users = new Users(this.parentElement, this.observer);
+    this.board = new Board(this.wrapper, this.observer);
+    this.panel = this.board.getPanel();
   }
 
   private sendInfo(state: IState, actionType: string) {
@@ -86,20 +92,20 @@ export default class Game {
 
   private renderGameElements() {
     const { role, wordToGuess } = this.observer.getState();
-    this.board.displayBoard(this.parentElement);
-
+    this.socket.displayChat();
+    this.board.displayBoard();
     if (role === ROLE_GUESSER) {
       this.board.addPlayer();
-      this.socket.displayForm(this.parentElement);
+      this.socket.displayForm(this.board.getBoardWrapper());
       this.panel.hidePanel();
     } else if (role === ROLE_PAINTER) {
       this.board.addHost();
-      this.panel.displayPanel(this.parentElement);
-      renderGuessWord(wordToGuess, this.parentElement);
+      this.panel.displayPanel();
+      renderGuessWord(wordToGuess, this.wrapper);
     }
-    this.socket.displayChat(this.parentElement);
-    this.users.displayUsers(this.parentElement);
+    this.users.displayUsers(this.wrapper);
     this.observer.actions.setLoading(false);
+    this.parentElement.append(this.wrapper);
   }
 
   private renderEndScreen() {
@@ -170,6 +176,7 @@ export default class Game {
     const { gameStatus } = this.observer.getState();
 
     this.parentElement.textContent = '';
+    this.wrapper.textContent = '';
 
     switch (gameStatus) {
       case WORD_SELECTION:

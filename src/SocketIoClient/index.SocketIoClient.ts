@@ -76,11 +76,11 @@ export default class SocketIoClient {
     this.sendName();
   }
 
-  public displayForm(parentElement: HTMLElement) {
+  public displayForm(parentElement: HTMLElement = this.parentElement) {
     parentElement.append(this.form);
   }
 
-  public displayChat(parentElement: HTMLElement) {
+  public displayChat(parentElement: HTMLElement = this.parentElement) {
     parentElement.append(this.chat);
   }
 
