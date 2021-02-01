@@ -1,4 +1,5 @@
-@import '~reset-css', '~normalize.css', '~animate.css', '~bootstrap';
+@import '~reset-css', '~normalize.css', '~animate.css',
+  '~bootstrap/scss/bootstrap';
 @import './constants.scss';
 @import './main.scss';
 @import '../Components/Board/board.scss', '../Components/Panel/panel.scss',

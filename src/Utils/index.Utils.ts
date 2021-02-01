@@ -72,7 +72,7 @@ export const createLink = (
 };
 
 export const createDropdown = (dropdownBtn: Element, items: Array<Element>) => {
-  dropdownBtn.classList.add(DROPDOWN_BTN_CN);
+  dropdownBtn.classList.add(...DROPDOWN_BTN_CN);
 
   const dropdownMenu = createElement('div', DROPDOWN_MENU_CN);
   items.forEach((item) => {
