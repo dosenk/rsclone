@@ -147,6 +147,7 @@ export default class Game {
       this.socket.sendReadyToGame.bind(this.socket),
       this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
       this.newGame,
+      this.timer.stop.bind(this.timer),
     ]);
   }
 
@@ -193,7 +194,6 @@ export default class Game {
 
     this.parentElement.textContent = '';
     this.wrapper.textContent = '';
-
     switch (gameStatus) {
       case WORD_SELECTION:
         renderSelectWord(this.parentElement, this.observer, this.wordSelected);

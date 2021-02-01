@@ -22,34 +22,49 @@ export default class Timer {
 
   observer: Observer;
 
+  isStarted: boolean;
+
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
     this.sec = 0;
     this.observer = observer;
+    this.isStarted = false;
   }
 
   start(min: number) {
-    this.min = min;
-    this.render();
-    this.updateTimer();
-    this.timerId = setInterval(this.updateTimer.bind(this), 1000);
+    if (!this.isStarted) {
+      this.isStarted = true;
+      this.min = min;
+      this.render(min);
+      this.updateTimer();
+      this.timerId = setInterval(this.updateTimer.bind(this), 1000);
+    } else {
+      this.render(this.min);
+    }
   }
 
   stop() {
+    this.isStarted = false;
     this.sec = 0;
     clearInterval(this.timerId);
   }
 
-  render() {
+  render(min: number) {
     const mainBlock = createElement('div', TIMER_CLASS);
     this.minBlock = createElement(
       'p',
       TIMER_MIN_CLASS,
       mainBlock,
       null,
-      `0${this.min}`
+      `0${min}`
     );
-    this.secBlock = createElement('p', TIMER_SEC_CLASS, mainBlock, null, '00');
+    this.secBlock = createElement(
+      'p',
+      TIMER_SEC_CLASS,
+      mainBlock,
+      null,
+      this.getSec()
+    );
     this.parentElement.append(mainBlock);
   }
 
@@ -61,7 +76,11 @@ export default class Timer {
       this.calculateTime();
     }
     this.minBlock.innerText = `0${this.min}`;
-    this.secBlock.innerText = `${this.sec < 10 ? `0${this.sec}` : this.sec}`;
+    this.secBlock.innerText = this.getSec();
+  }
+
+  getSec() {
+    return `${this.sec < 10 ? `0${this.sec}` : this.sec}`;
   }
 
   setTimeIsOver() {
