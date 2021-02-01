@@ -33,6 +33,7 @@ import {
 } from './statuses';
 import IUserStats from '../../Observer/Interfaces/IUserStats';
 import Fetcher from '../../Fetcher/index.Fetcher';
+import Timer from '../Timer/imdex.Timer';
 
 export default class Game {
   observer: Observer;
@@ -49,6 +50,8 @@ export default class Game {
 
   parentElement: HTMLElement;
 
+  timer: Timer;
+
   constructor(observer: Observer, parenElement: HTMLElement) {
     this.observer = observer;
     this.parentElement = parenElement;
@@ -60,6 +63,7 @@ export default class Game {
     this.panel = this.board.getPanel();
 
     this.stats = this.observer.getState().stats;
+    this.timer = new Timer(this.parentElement, observer);
 
     observer.subscribe(this);
     observer.actions.setGame(this);
@@ -99,6 +103,7 @@ export default class Game {
     }
     this.socket.displayChat(this.parentElement);
     this.users.displayUsers(this.parentElement);
+    this.timer.start(3);
     this.observer.actions.setLoading(false);
   }
 
@@ -165,8 +170,8 @@ export default class Game {
     this.socket.start();
   }
 
-  public disconnect() {
-    this.socket.stop();
+  public stopGame(word: string) {
+    this.socket.sendStopGame(word);
   }
 
   public updateGame(parenElement: HTMLElement = this.parentElement) {
@@ -189,6 +194,7 @@ export default class Game {
         this.renderGameElements();
         break;
       case GAME_END:
+        this.timer.stop();
         this.setStatistics();
         this.renderEndScreen();
         break;

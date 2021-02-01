@@ -108,6 +108,10 @@ export default class SocketIoClient {
     this.socket.emit(EVENT_GAME, true, READY_TO_GAME);
   }
 
+  public sendStopGame(data: string) {
+    this.socket.emit(EVENT_GAME, data, STOP_GAME);
+  }
+
   listenSocketEvents(): void {
     this.socket.on(EVENT_CONNECT, () => {
       // событи будет сробатывать при подключении к сокету
@@ -129,7 +133,10 @@ export default class SocketIoClient {
               guessWord,
             }: { winnerName: string; guessWord: string } = info;
 
-            this.observer.actions.setGameEndInfo({ winnerName, guessWord });
+            this.observer.actions.setGameEndInfo({
+              winnerName,
+              guessWord,
+            });
           }
           break;
         default:
