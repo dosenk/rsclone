@@ -14,7 +14,7 @@ export default {
   SELECT_A_WORD: 'Выберите слово:',
   NEXT_GAME: 'Играть еще',
   PAINTER: 'Художник',
-  GUESSER: 'Игрок',
+  GUESSER: 'Игроки',
   WINNER: 'Победитель',
   WORD: 'Слово',
   NO_ONE_GAVE_ANSWER: 'Никто не дал правильный ответ',

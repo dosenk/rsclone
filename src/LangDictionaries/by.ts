@@ -14,7 +14,7 @@ export default {
   SELECT_A_WORD: 'Выбярыце слова:',
   NEXT_GAME: 'Граць яшчэ',
   PAINTER: 'Маляўник',
-  GUESSER: 'Грок',
+  GUESSER: 'Гульцы',
   WINNER: 'Пабядзіцель',
   WORD: 'Слова',
   NO_ONE_GAVE_ANSWER: 'Ніхто не даў правільны адказ',

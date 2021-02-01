@@ -1,6 +1,10 @@
 .users {
   width: 200px;
+  margin: 5px;
   &__guesser {
+    p {
+      border-bottom: 1px solid black;
+    }
     &_user {
       display: flex;
       &-avatar {
@@ -16,6 +20,9 @@
     }
   }
   &__painter {
+    p {
+      border-bottom: 1px solid black;
+    }
     &_user {
       display: flex;
       &-avatar {

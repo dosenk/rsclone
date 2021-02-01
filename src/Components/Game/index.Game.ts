@@ -101,7 +101,7 @@ export default class Game {
     } else if (role === ROLE_PAINTER) {
       this.board.addHost();
       this.panel.displayPanel();
-      renderGuessWord(wordToGuess, this.wrapper);
+      renderGuessWord(wordToGuess, this.board.getBoardWrapper());
     }
     this.users.displayUsers(this.wrapper);
     this.observer.actions.setLoading(false);

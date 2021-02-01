@@ -14,7 +14,7 @@ export default {
   SELECT_A_WORD: 'Select a word:',
   NEXT_GAME: 'Next game',
   PAINTER: 'Painter',
-  GUESSER: 'Guesser',
+  GUESSER: 'Guessers',
   WINNER: 'Winner',
   WORD: 'Word',
   NO_ONE_GAVE_ANSWER: 'No one gave the right answer',
