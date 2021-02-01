@@ -31,6 +31,7 @@ import {
 } from '../Observer/actionTypes';
 import {
   FORM_CLASS,
+  FORM_WRAPPER_CLASS,
   FORM_BTN_CLASS,
   FORM_INPUT_CLASS,
   CHAT_CLASS,
@@ -272,15 +273,25 @@ export default class SocketIoClient {
   }
 
   createForm(): HTMLElement {
+    //     <div class="input-group mb-3">
+    //   <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+    //   <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+    // </div>
+
     const input = createElement('input', FORM_INPUT_CLASS);
     input.setAttribute('name', ANSWER_INPUT);
 
     const btn = createElement('button', FORM_BTN_CLASS, null, null, 'send');
     btn.setAttribute('type', 'submit');
 
-    const form = createElement('form', FORM_CLASS, null, [input, btn]);
+    const wrapper = createElement('div', FORM_WRAPPER_CLASS, null, [
+      input,
+      btn,
+    ]);
+    const form = createElement('form', FORM_CLASS);
     form.addEventListener('submit', this.sendMessage);
 
+    form.append(wrapper);
     return form;
   }
 
