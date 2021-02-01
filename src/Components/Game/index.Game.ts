@@ -183,6 +183,10 @@ export default class Game {
     this.socket.sendStopGame(word);
   }
 
+  public disconnect() {
+    this.socket.stop();
+  }
+
   public updateGame(parenElement: HTMLElement = this.parentElement) {
     this.parentElement = parenElement;
     const { gameStatus } = this.observer.getState();

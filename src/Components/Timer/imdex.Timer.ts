@@ -65,8 +65,8 @@ export default class Timer {
   }
 
   setTimeIsOver() {
-    const state = this.observer.getState();
-    if (state.role === ROLE_PAINTER) state.game.stopGame(state.wordToGuess);
+    const { role, wordToGuess, game } = this.observer.getState();
+    if (role === ROLE_PAINTER) game.stopGame(wordToGuess);
   }
 
   calculateTime() {
