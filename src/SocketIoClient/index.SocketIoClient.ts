@@ -1,6 +1,10 @@
 import io from 'socket.io-client';
 import { createElement } from '../Utils/index.Utils';
-import { SOCKET_SERVER, ROLE_PAINTER } from '../Constants/index.Constants';
+import {
+  SOCKET_SERVER,
+  ROLE_PAINTER,
+  CHAT_COUNT_MSG,
+} from '../Constants/index.Constants';
 import {
   EVENT_BROADCAST,
   EVENT_CONNECT,
@@ -189,7 +193,9 @@ export default class SocketIoClient {
     createElement('p', CHAT_MSG_CLASS, infoBlock, null, msg);
 
     this.renderLikeBlock(msgBlock, msgId);
-    this.chat?.prepend(msgBlock);
+    this.chat?.append(msgBlock);
+    if (this.chat.childNodes.length > CHAT_COUNT_MSG)
+      this.chat.childNodes[0].remove();
   }
 
   renderLikeBlock(parentElement: HTMLElement, msgId: string) {
