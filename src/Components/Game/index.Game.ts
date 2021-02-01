@@ -171,6 +171,10 @@ export default class Game {
     this.socket.start();
   }
 
+  public disconnect() {
+    this.socket.stop();
+  }
+
   public updateGame(parenElement: HTMLElement = this.parentElement) {
     this.parentElement = parenElement;
     const { gameStatus } = this.observer.getState();
