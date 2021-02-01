@@ -6,6 +6,7 @@
   flex-direction: column;
   justify-content: flex-end;
   flex-wrap: wrap;
+  margin-left: 10px;
 
   &__msg-block {
     display: flex;
@@ -17,9 +18,13 @@
       left: 35px;
       position: absolute;
       &_sender {
+        font-weight: 600;
         &::after {
-          content: ':';
+          content: ': ';
         }
+      }
+      &_msg {
+        padding-left: 2px;
       }
     }
 
