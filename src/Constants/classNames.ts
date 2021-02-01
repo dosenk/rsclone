@@ -54,3 +54,7 @@ export const DROPDOWN_LANG_ICO_CN = `${DROPDOWN_CN}--lang_ico`;
 
 export const GAME_GUESS_WORD_CLASS = 'guess-word';
 export const GAME_GUESS_WORD_TEXT_CLASS = `${GAME_GUESS_WORD_CLASS}__text`;
+
+export const TIMER_CLASS = 'timer';
+export const TIMER_MIN_CLASS = `${TIMER_CLASS}_min`;
+export const TIMER_SEC_CLASS = `${TIMER_CLASS}_sec`;
