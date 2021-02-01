@@ -4,6 +4,8 @@
   &__guesser {
     p {
       border-bottom: 1px solid black;
+      font-weight: 600;
+      font-size: large;
     }
     &_user {
       display: flex;
@@ -14,6 +16,7 @@
         background-size: contain;
       }
       &-nickname {
+        margin-left: 5px;
         display: flex;
         align-items: center;
       }
@@ -22,6 +25,7 @@
   &__painter {
     p {
       border-bottom: 1px solid black;
+      font-weight: 600;
     }
     &_user {
       display: flex;
@@ -32,6 +36,7 @@
         background-size: contain;
       }
       &-nickname {
+        margin-left: 5px;
         display: flex;
         align-items: center;
       }
