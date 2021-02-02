@@ -50,8 +50,14 @@ export default class Board {
   }
 
   private displayCursor(x: number, y: number) {
-    this.img.style.top = `${this.board.offsetTop + y}px`;
-    this.img.style.left = `${this.board.offsetLeft + x}px`;
+    console.log(this.board.height, this.board.clientHeight, y);
+    console.log(this.board.width, this.board.clientWidth, x);
+    this.img.style.top = `${
+      (this.board.clientHeight * y) / this.board.height + this.board.offsetTop
+    }px`;
+    this.img.style.left = `${
+      (this.board.clientWidth * x) / this.board.width + this.board.offsetLeft
+    }px`;
   }
 
   getPanel() {
