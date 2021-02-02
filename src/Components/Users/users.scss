@@ -1,6 +1,8 @@
 .users {
   width: 200px;
-  margin: 5px;
+  margin: 0 auto;
+  padding: 5px 10px;
+
   &__guesser {
     p {
       border-bottom: 1px solid black;

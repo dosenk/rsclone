@@ -1,14 +1,28 @@
 .board {
-  margin-top: 12px;
   border: 1px solid #000;
   width: 100%;
+  min-width: 500px;
   height: 100%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-color: #ffffff;
+
+  &-wrapper {
+    padding: 5px 0 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 .cursorImg {
   display: none;
   position: absolute;
   left: 0;
   top: 0;
+}
+
+@media (max-width: 500px) {
+  .board {
+    border-left: none;
+    border-right: none;
+  }
 }
