@@ -105,9 +105,24 @@ export default class Board {
         this.draw = false;
       }
     });
+    this.board.addEventListener('touchstart', (event) => {
+      if (!this.player) {
+        this.getXandY(event);
+      }
+    });
+    this.board.addEventListener('touchmove', (event) => {
+      if (!this.player) {
+        this.getXandY(event);
+      }
+    });
+    this.board.addEventListener('touchend', (event) => {
+      if (!this.player) {
+        this.getXandY(event);
+      }
+    });
   }
 
-  private getXandY(event: MouseEvent) {
+  private getXandY(event: any) {
     this.mouse.x =
       ((event.clientX - this.board.offsetLeft) * this.board.width) /
       this.board.clientWidth;
@@ -171,16 +186,19 @@ export default class Board {
   }
 
   public drawLine(
-    mouseEvent: string,
+    event: string,
     x: number,
     y: number,
     painterFlag: boolean = true
   ) {
-    if (mouseEvent === 'mousedown') this.mousedown(x, y);
-    if (mouseEvent === 'mousemove') this.mousemove(x, y);
-    if (mouseEvent === 'mouseup') this.mouseup(x, y);
+    if (event === 'mousedown') this.mousedown(x, y);
+    if (event === 'mousemove') this.mousemove(x, y);
+    if (event === 'mouseup') this.mouseup(x, y);
+    if (event === 'touchstart') this.mousedown(x, y);
+    if (event === 'touchmove') this.mousemove(x, y);
+    if (event === 'touchend') this.mouseup(x, y);
     if (painterFlag) {
-      this.setDraw(mouseEvent, this.mouse.x, this.mouse.y, mouseEvent);
+      this.setDraw(event, this.mouse.x, this.mouse.y, event);
     }
   }
 
