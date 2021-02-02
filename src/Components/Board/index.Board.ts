@@ -115,19 +115,27 @@ export default class Board {
         this.getXandY(event);
       }
     });
-    this.board.addEventListener('touchend', (event) => {
+    this.board.addEventListener('touchend', () => {
       if (!this.player) {
-        this.getXandY(event);
+        this.mouseup(this.mouse.x, this.mouse.y);
       }
     });
   }
 
+  private static checkTypeOfEvent(event: any) {
+    if (event instanceof TouchEvent) {
+      return event.touches[0];
+    }
+    return event;
+  }
+
   private getXandY(event: any) {
+    const e = Board.checkTypeOfEvent(event);
     this.mouse.x =
-      ((event.clientX - this.board.offsetLeft) * this.board.width) /
+      ((e.clientX - this.board.offsetLeft) * this.board.width) /
       this.board.clientWidth;
     this.mouse.y =
-      ((event.clientY - this.board.offsetTop) * this.board.height) /
+      ((e.clientY - this.board.offsetTop) * this.board.height) /
       this.board.clientHeight;
     this.drawLine(event.type, this.mouse.x, this.mouse.y, true);
   }
@@ -196,7 +204,6 @@ export default class Board {
     if (event === 'mouseup') this.mouseup(x, y);
     if (event === 'touchstart') this.mousedown(x, y);
     if (event === 'touchmove') this.mousemove(x, y);
-    if (event === 'touchend') this.mouseup(x, y);
     if (painterFlag) {
       this.setDraw(event, this.mouse.x, this.mouse.y, event);
     }
