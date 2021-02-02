@@ -201,9 +201,9 @@ export default class SocketIoClient {
     createElement('p', CHAT_MSG_CLASS, infoBlock, null, msg);
 
     this.renderLikeBlock(msgBlock, msgId);
-    this.chat?.append(msgBlock);
+    this.chat?.prepend(msgBlock);
     if (this.chat.childNodes.length > CHAT_COUNT_MSG)
-      this.chat.childNodes[0].remove();
+      this.chat.childNodes[CHAT_COUNT_MSG].remove();
   }
 
   renderLikeBlock(parentElement: HTMLElement, msgId: string) {

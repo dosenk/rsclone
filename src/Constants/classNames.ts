@@ -3,7 +3,7 @@ export const WRAPPER_CLASS = 'wrapper';
 export const MIDDLE_ELEM_CLASS = 'middleBlock';
 export const MIDDLE_ELEM_BLOCK_CLASS = `${MIDDLE_ELEM_CLASS}--block`;
 
-export const USERS_CLASS = 'users';
+export const USERS_CLASS = ['users', 'col-xl-3', 'col-md-3', 'col-xs-12'];
 export const USERS_WRAPPER_CLASS = 'users-wrapper';
 
 export const PRIMARY_LINK_CLASS = 'primary_link';
@@ -22,17 +22,17 @@ export const GUESSER_INFO_CLASS = `${GUESSER_CLASS}_user-info`;
 export const GUESSER_AVATAR_CLASS = `${GUESSER_CLASS}_user-avatar`;
 export const GUESSER_NICKNAME_CLASS = `${GUESSER_CLASS}_user-nickname`;
 
-export const CHAT_CLASS = 'client-chat';
-export const CHAT_MSG_BLOCK_CLASS = `${CHAT_CLASS}__msg-block`;
-export const CHAT_MSG_BLOCK_INFO_CLASS = `${CHAT_CLASS}__msg-block-info`;
+export const CHAT_CLASS = ['client-chat', 'col-xl-3', 'col-md-3', 'col-xs-12'];
+export const CHAT_MSG_BLOCK_CLASS = `${CHAT_CLASS[0]}__msg-block`;
+export const CHAT_MSG_BLOCK_INFO_CLASS = `${CHAT_CLASS[0]}__msg-block-info`;
 export const CHAT_MSG_CLASS = `${CHAT_MSG_BLOCK_INFO_CLASS}_msg`;
 export const CHAT_SENDER_CLASS = `${CHAT_MSG_BLOCK_INFO_CLASS}_sender`;
 export const CHAT_LIKE_ALL_CLASS = `msg-grade`;
 export const CHAT_NO_ACTIVE_CLASS = `no-active`;
-export const CHAT_LIKE_CLASS = `${CHAT_CLASS}__msg-block_like`;
-export const CHAT_DISLIKE_CLASS = `${CHAT_CLASS}__msg-block_dislike`;
-export const CHAT_LIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_like-active`;
-export const CHAT_DISLIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_dislike-active`;
+export const CHAT_LIKE_CLASS = `${CHAT_CLASS[0]}__msg-block_like`;
+export const CHAT_DISLIKE_CLASS = `${CHAT_CLASS[0]}__msg-block_dislike`;
+export const CHAT_LIKE_ACTIVE_CLASS = `${CHAT_CLASS[0]}__msg-block_like-active`;
+export const CHAT_DISLIKE_ACTIVE_CLASS = `${CHAT_CLASS[0]}__msg-block_dislike-active`;
 
 export const FORM_CLASS = 'client-form';
 export const FORM_WRAPPER_CLASS = ['input-group', 'mb-3'];
@@ -58,3 +58,11 @@ export const GAME_GUESS_WORD_TEXT_CLASS = `${GAME_GUESS_WORD_CLASS}__text`;
 export const TIMER_CLASS = 'timer';
 export const TIMER_MIN_CLASS = `${TIMER_CLASS}_min`;
 export const TIMER_SEC_CLASS = `${TIMER_CLASS}_sec`;
+
+export const GAME_CLASS = ['game', 'row'];
+export const BOARD_WRAPPER_CLASS = [
+  'board-wrapper',
+  'col-xl-6',
+  'col-md-6',
+  'col-xs-12',
+];

@@ -1,18 +1,21 @@
 .client-chat {
-  width: 200px;
   overflow: hidden;
-  height: 500px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  margin-left: 10px;
+  min-height: 510px;
+  @media screen and (max-width: 768px) {
+    height: 109px;
+    min-height: 59px;
+  }
 
   &__msg-block {
     display: flex;
     position: relative;
     height: 22px;
     width: 100%;
+    margin: 0 5px;
     &-info {
       display: flex;
       left: 35px;

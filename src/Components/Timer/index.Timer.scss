@@ -1,6 +1,7 @@
 .timer {
   display: flex;
   position: absolute;
+  pointer-events: none;
 
   &_min {
     &::after {
