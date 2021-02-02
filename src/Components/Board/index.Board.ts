@@ -50,8 +50,6 @@ export default class Board {
   }
 
   private displayCursor(x: number, y: number) {
-    console.log(this.board.height, this.board.clientHeight, y);
-    console.log(this.board.width, this.board.clientWidth, x);
     this.img.style.top = `${
       (this.board.clientHeight * y) / this.board.height + this.board.offsetTop
     }px`;
