@@ -1,6 +1,10 @@
 import io from 'socket.io-client';
 import { createElement } from '../Utils/index.Utils';
-import { SOCKET_SERVER, ROLE_PAINTER } from '../Constants/index.Constants';
+import {
+  SOCKET_SERVER,
+  ROLE_PAINTER,
+  CHAT_COUNT_MSG,
+} from '../Constants/index.Constants';
 import {
   EVENT_BROADCAST,
   EVENT_CONNECT,
@@ -27,6 +31,7 @@ import {
 } from '../Observer/actionTypes';
 import {
   FORM_CLASS,
+  FORM_WRAPPER_CLASS,
   FORM_BTN_CLASS,
   FORM_INPUT_CLASS,
   CHAT_CLASS,
@@ -84,7 +89,7 @@ export default class SocketIoClient {
     parentElement.append(this.form);
   }
 
-  public displayChat(parentElement: HTMLElement) {
+  public displayChat(parentElement: HTMLElement = this.parentElement) {
     parentElement.append(this.chat);
   }
 
@@ -196,7 +201,9 @@ export default class SocketIoClient {
     createElement('p', CHAT_MSG_CLASS, infoBlock, null, msg);
 
     this.renderLikeBlock(msgBlock, msgId);
-    this.chat?.prepend(msgBlock);
+    this.chat?.append(msgBlock);
+    if (this.chat.childNodes.length > CHAT_COUNT_MSG)
+      this.chat.childNodes[0].remove();
   }
 
   renderLikeBlock(parentElement: HTMLElement, msgId: string) {
@@ -279,9 +286,14 @@ export default class SocketIoClient {
     const btn = createElement('button', FORM_BTN_CLASS, null, null, 'send');
     btn.setAttribute('type', 'submit');
 
-    const form = createElement('form', FORM_CLASS, null, [input, btn]);
+    const wrapper = createElement('div', FORM_WRAPPER_CLASS, null, [
+      input,
+      btn,
+    ]);
+    const form = createElement('form', FORM_CLASS);
     form.addEventListener('submit', this.sendMessage);
 
+    form.append(wrapper);
     return form;
   }
 

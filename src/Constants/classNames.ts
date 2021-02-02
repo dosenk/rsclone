@@ -35,11 +35,16 @@ export const CHAT_LIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_like-active`;
 export const CHAT_DISLIKE_ACTIVE_CLASS = `${CHAT_CLASS}__msg-block_dislike-active`;
 
 export const FORM_CLASS = 'client-form';
-export const FORM_INPUT_CLASS = `${FORM_CLASS}__info`;
-export const FORM_BTN_CLASS = `${FORM_CLASS}__btn`;
+export const FORM_WRAPPER_CLASS = ['input-group', 'mb-3'];
+export const FORM_INPUT_CLASS = [`${FORM_CLASS}__info`, 'form-control'];
+export const FORM_BTN_CLASS = [
+  `${FORM_CLASS}__btn`,
+  'btn',
+  'btn-outline-secondary',
+];
 
 export const DROPDOWN_CN = 'dropdown';
-export const DROPDOWN_BTN_CN = `${DROPDOWN_CN}--btn`;
+export const DROPDOWN_BTN_CN = ['nav-link', 'dropdown-toggle'];
 export const DROPDOWN_MENU_CN = `${DROPDOWN_CN}--menu`;
 export const DROPUP_MENU_CN = 'dropup--menu';
 export const DROPDOWN_ITEM_CN = `${DROPDOWN_CN}--item`;

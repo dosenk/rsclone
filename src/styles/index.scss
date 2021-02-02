@@ -1,9 +1,10 @@
-@import '~reset-css', '~normalize.css', '~animate.css';
+@import '~reset-css', '~normalize.css', '~animate.css',
+  '~bootstrap/scss/bootstrap';
 @import './constants.scss';
 @import './main.scss';
-@import '../Components/Board/board.scss', '../Components/Panel/panel.scss',
-  '../Components/Users/users.scss', '../pages/styles/userEntrance.scss',
-  '../Components/Preloader/preloader.scss',
+@import '../Components/Game/game.scss', '../Components/Board/board.scss',
+  '../Components/Panel/panel.scss', '../Components/Users/users.scss',
+  '../pages/styles/userEntrance.scss', '../Components/Preloader/preloader.scss',
   '../Components/SelectWord/index.SelectWord.scss',
   '../Components/Game/GameEvents/Popaps/index.GamePopaps.scss',
   '../Components/Game/GameEvents/GuessWord/index.GameGuessWord.scss',

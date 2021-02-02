@@ -1,7 +1,6 @@
 import type Observer from '../Observer/index.Observer';
 import type Router from '../Router/index.Router';
 import Login from '../Components/Login/index.Login';
-import { LOADING_GAME } from '../Components/Game/statuses';
 import Game from '../Components/Game/index.Game';
 
 export default (

@@ -33,40 +33,46 @@ import {
 } from './statuses';
 import IUserStats from '../../Observer/Interfaces/IUserStats';
 import Fetcher from '../../Fetcher/index.Fetcher';
+import { createElement } from '../../Utils/index.Utils';
 import Timer from '../Timer/imdex.Timer';
 
 export default class Game {
   observer: Observer;
 
-  socket: SocketIoClient;
+  socket!: SocketIoClient;
 
-  board: Board;
+  board!: Board;
 
-  users: Users;
+  users!: Users;
 
-  panel: Panel;
+  panel!: Panel;
 
   stats: IUserStats;
 
   parentElement: HTMLElement;
+
+  wrapper!: HTMLElement;
 
   timer: Timer;
 
   constructor(observer: Observer, parenElement: HTMLElement) {
     this.observer = observer;
     this.parentElement = parenElement;
-
-    this.socket = new SocketIoClient(parenElement, observer);
-    this.users = new Users(parenElement, observer);
-
-    this.board = new Board(parenElement, observer);
-    this.panel = this.board.getPanel();
-
+    this.wrapper = createElement('div', 'game');
+    this.start();
     this.stats = this.observer.getState().stats;
-    this.timer = new Timer(this.parentElement, observer);
+    this.timer = new Timer(this.wrapper, observer);
 
     observer.subscribe(this);
     observer.actions.setGame(this);
+  }
+
+  private start() {
+    this.parentElement.append(this.wrapper);
+    this.socket = new SocketIoClient(this.wrapper, this.observer);
+    this.users = new Users(this.parentElement, this.observer);
+    this.board = new Board(this.wrapper, this.observer);
+    this.panel = this.board.getPanel();
   }
 
   private sendInfo(state: IState, actionType: string) {
@@ -90,21 +96,23 @@ export default class Game {
 
   private renderGameElements() {
     const { role, wordToGuess } = this.observer.getState();
-    this.board.displayBoard(this.parentElement);
-
+    this.socket.displayChat(this.wrapper);
+    this.board.displayBoard();
     if (role === ROLE_GUESSER) {
       this.board.addPlayer();
-      this.socket.displayForm(this.parentElement);
+      this.socket.displayForm(this.board.getBoardWrapper());
       this.panel.hidePanel();
     } else if (role === ROLE_PAINTER) {
       this.board.addHost();
-      this.panel.displayPanel(this.parentElement);
-      renderGuessWord(wordToGuess, this.parentElement);
+      this.panel.displayPanel();
+      renderGuessWord(wordToGuess, this.board.getBoardWrapper());
     }
-    this.socket.displayChat(this.parentElement);
-    this.users.displayUsers(this.parentElement);
+
+    this.users.displayUsers(this.wrapper);
     this.timer.start(3);
+
     this.observer.actions.setLoading(false);
+    this.parentElement.append(this.wrapper);
   }
 
   private renderEndScreen() {
@@ -138,6 +146,8 @@ export default class Game {
     gameStartPopup(this.parentElement, this.observer, [
       this.socket.sendReadyToGame.bind(this.socket),
       this.observer.actions.setGameStatus.bind(this, READY_TO_GAME),
+      this.newGame,
+      this.timer.stop.bind(this.timer),
     ]);
   }
 
@@ -174,12 +184,16 @@ export default class Game {
     this.socket.sendStopGame(word);
   }
 
+  public disconnect() {
+    this.socket.stop();
+  }
+
   public updateGame(parenElement: HTMLElement = this.parentElement) {
     this.parentElement = parenElement;
     const { gameStatus } = this.observer.getState();
 
     this.parentElement.textContent = '';
-
+    this.wrapper.textContent = '';
     switch (gameStatus) {
       case WORD_SELECTION:
         renderSelectWord(this.parentElement, this.observer, this.wordSelected);

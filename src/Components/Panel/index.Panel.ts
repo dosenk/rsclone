@@ -190,7 +190,7 @@ export default class Panel {
     return this.button;
   }
 
-  public displayPanel(parentElement: Element) {
+  public displayPanel(parentElement: Element = this.parentElement) {
     this.parentElement = parentElement;
     this.parentElement.append(this.panel);
   }
