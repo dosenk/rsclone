@@ -55,8 +55,12 @@ export default class Board {
   }
 
   private displayCursor(x: number, y: number) {
-    this.img.style.top = `${this.board.offsetTop + y}px`;
-    this.img.style.left = `${this.board.offsetLeft + x}px`;
+    this.img.style.top = `${
+      (this.board.clientHeight * y) / this.board.height + this.board.offsetTop
+    }px`;
+    this.img.style.left = `${
+      (this.board.clientWidth * x) / this.board.width + this.board.offsetLeft
+    }px`;
   }
 
   getPanel() {
@@ -114,14 +118,37 @@ export default class Board {
         this.draw = false;
       }
     });
+    this.board.addEventListener('touchstart', (event) => {
+      if (!this.player) {
+        this.getXandY(event);
+      }
+    });
+    this.board.addEventListener('touchmove', (event) => {
+      if (!this.player) {
+        this.getXandY(event);
+      }
+    });
+    this.board.addEventListener('touchend', () => {
+      if (!this.player) {
+        this.mouseup(this.mouse.x, this.mouse.y);
+      }
+    });
   }
 
-  private getXandY(event: MouseEvent) {
+  private static checkTypeOfEvent(event: any) {
+    if (event instanceof TouchEvent) {
+      return event.touches[0];
+    }
+    return event;
+  }
+
+  private getXandY(event: any) {
+    const e = Board.checkTypeOfEvent(event);
     this.mouse.x =
-      ((event.clientX - this.board.offsetLeft) * this.board.width) /
+      ((e.clientX - this.board.offsetLeft) * this.board.width) /
       this.board.clientWidth;
     this.mouse.y =
-      ((event.clientY - this.board.offsetTop) * this.board.height) /
+      ((e.clientY - this.board.offsetTop) * this.board.height) /
       this.board.clientHeight;
     this.drawLine(event.type, this.mouse.x, this.mouse.y, true);
   }
@@ -180,16 +207,18 @@ export default class Board {
   }
 
   public drawLine(
-    mouseEvent: string,
+    event: string,
     x: number,
     y: number,
     painterFlag: boolean = true
   ) {
-    if (mouseEvent === 'mousedown') this.mousedown(x, y);
-    if (mouseEvent === 'mousemove') this.mousemove(x, y);
-    if (mouseEvent === 'mouseup') this.mouseup(x, y);
+    if (event === 'mousedown') this.mousedown(x, y);
+    if (event === 'mousemove') this.mousemove(x, y);
+    if (event === 'mouseup') this.mouseup(x, y);
+    if (event === 'touchstart') this.mousedown(x, y);
+    if (event === 'touchmove') this.mousemove(x, y);
     if (painterFlag) {
-      this.setDraw(mouseEvent, this.mouse.x, this.mouse.y, mouseEvent);
+      this.setDraw(event, this.mouse.x, this.mouse.y, event);
     }
   }
 
