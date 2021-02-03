@@ -13,9 +13,12 @@
   }
 
   &--text {
-    height: 1em;
-    font-size: 1.2em;
-    color: $color_error;
+    display: flex;
+    align-items: center;
+    background-color: red;
+    height: 30px;
+    border-radius: 3px;
+    color: #fff;
   }
 
   &--gender {

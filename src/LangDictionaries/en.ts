@@ -44,4 +44,5 @@ export default {
   MAIN: 'Main',
   RATING: 'Rating',
   PAGES: 'Pages',
+  LOGIN_ERROR: 'Incorrect username or password entered',
 };

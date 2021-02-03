@@ -45,4 +45,5 @@ export default {
   MAIN: 'Главная',
   RATING: 'Рейтинг',
   PAGES: 'Страницы',
+  LOGIN_ERROR: 'Введен неверный логин или пароль',
 };
