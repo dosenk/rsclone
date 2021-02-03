@@ -15,15 +15,17 @@ import {
   GUESSER_NICKNAME_CLASS,
 } from '../../Constants/classNames';
 import IState from '../../Observer/Interfaces/IState';
+import IGuessers from './Interfaces/IGuessers';
+import IPainter from './Interfaces/IPainter';
 
 export default class Users {
   observer: Observer;
 
   parentElement: HTMLElement;
 
-  guessers!: Array<Object>;
+  guessers!: Array<IGuessers>;
 
-  painter!: Object;
+  painter!: IPainter;
 
   painterBlock!: Element;
 
@@ -60,7 +62,7 @@ export default class Users {
     });
   }
 
-  renderUsers(guessers: any, painter: any) {
+  renderUsers(guessers: Array<IGuessers>, painter: IPainter) {
     Users.removeUsers(
       [this.guesserBlock, USER_GUESSER_CLASS],
       [this.painterBlock, USER_PAINTER_CLASS]
@@ -75,12 +77,12 @@ export default class Users {
       avatar: PAINTER_AVATAR_CLASS,
       nickName: PAINTER_NICKNAME_CLASS,
     };
-    if (painter.name && guessers.length > 0) {
-      this.createUser(painter.name, painterClasses, true);
-      guessers.forEach((guesser: { name: string }) => {
-        this.createUser(guesser.name, guesserClasses);
-      });
-    }
+    // if (painter !== undefined && guessers.length > 0) {
+    this.createUser(painter.name, painterClasses, true);
+    guessers.forEach((guesser: { name: string }) => {
+      this.createUser(guesser.name, guesserClasses);
+    });
+    // }
   }
 
   createUser(

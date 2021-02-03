@@ -2,6 +2,8 @@ import IDraw from './IDraw';
 import type Game from '../../Components/Game/index.Game';
 import IGameEndInfo from './IGameEndInfo';
 import IUserStats from './IUserStats';
+import IGuessers from '../../Components/Users/Interfaces/IGuessers';
+import IPainter from '../../Components/Users/Interfaces/IPainter';
 
 interface IState {
   game: Game;
@@ -9,7 +11,7 @@ interface IState {
   langData: { [key: string]: string };
   role: string;
   name: string;
-  users: { painter: { name: string }; guessers: Array<Object> };
+  users: { painter: IPainter; guessers: Array<IGuessers> };
   draw: IDraw | null;
   drawThickness: number;
   drawColor: string;
