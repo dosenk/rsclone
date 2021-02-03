@@ -151,7 +151,10 @@ export default class Board {
         this.board.width) /
       this.board.clientWidth;
     this.mouse.y =
-      ((e.clientY - parentElement.offsetTop - this.board.offsetTop) *
+      ((e.clientY -
+        parentElement.offsetTop -
+        this.board.offsetTop +
+        window.scrollY) *
         this.board.height) /
       this.board.clientHeight;
     this.drawLine(event.type, this.mouse.x, this.mouse.y, true);
