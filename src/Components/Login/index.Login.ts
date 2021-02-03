@@ -12,6 +12,7 @@ import {
   FORM_CONTAINER_CN,
   FORM_BTN_CN,
   FORM_TITLE_CN,
+  FORM_TXT_CN,
 } from './constants';
 import {
   PRIMARY_LINK_CLASS,
@@ -30,6 +31,8 @@ export default class Login {
   private password: HTMLInputElement | undefined;
 
   private loginBtn: HTMLButtonElement | undefined;
+
+  private loginText: HTMLElement | undefined;
 
   private router: Router;
 
@@ -104,8 +107,13 @@ export default class Login {
     );
   }
 
+  private createErrorBlock(error: string) {
+    this.loginText = createElement('div', FORM_TXT_CN, null, null, error);
+    this.loginText.style.display = 'none';
+  }
+
   public render() {
-    const { LOGIN } = this.observer.getState().langData;
+    const { LOGIN, LOGIN_ERROR } = this.observer.getState().langData;
 
     const title = createElement(
       'h1',
@@ -119,8 +127,15 @@ export default class Login {
 
     this.createInputs();
     this.loginBtn = this.createLoginBtn();
+    this.createErrorBlock(LOGIN_ERROR);
 
-    this.loginForm.append(title, this.login!, this.password!, this.loginBtn);
+    this.loginForm.append(
+      title,
+      this.login!,
+      this.password!,
+      this.loginText!,
+      this.loginBtn
+    );
 
     const langDropdown = createLangDropdown(this.observer);
     const regBlock = this.createRegBlock();
@@ -157,7 +172,7 @@ export default class Login {
       this.observer.actions.setUserStats(res);
       this.router.goToPage(MAIN);
     } else {
-      this.router.goToPage(REGISTRATION);
+      this.loginText!.style.display = 'flex';
     }
   }
 
