@@ -7,8 +7,7 @@
     "dev": "npx cross-env NODE_ENV=development webpack --mode development",
     "build": "npx cross-env NODE_ENV=production webpack --mode production",
     "start": "npx cross-env NODE_ENV=development webpack serve --mode development",
-    "lint": "npx eslint --fix src/**/*.[jt]s",
-    "test": "npx jest "
+    "lint": "npx eslint --fix src/**/*.[jt]s"
   },
   "repository": {
     "type": "git",
