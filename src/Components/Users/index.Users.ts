@@ -63,6 +63,7 @@ export default class Users {
   }
 
   renderUsers(guessers: Array<IGuessers>, painter: IPainter) {
+    if (!painter && !guessers) return;
     Users.removeUsers(
       [this.guesserBlock, USER_GUESSER_CLASS],
       [this.painterBlock, USER_PAINTER_CLASS]
@@ -77,12 +78,10 @@ export default class Users {
       avatar: PAINTER_AVATAR_CLASS,
       nickName: PAINTER_NICKNAME_CLASS,
     };
-    // if (painter !== undefined && guessers.length > 0) {
     this.createUser(painter.name, painterClasses, true);
     guessers.forEach((guesser: { name: string }) => {
       this.createUser(guesser.name, guesserClasses);
     });
-    // }
   }
 
   createUser(
