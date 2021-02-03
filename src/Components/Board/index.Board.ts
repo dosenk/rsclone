@@ -7,6 +7,7 @@ import {
   DRAW_THICKNESS,
   CLEAR_BOARD,
 } from '../../Observer/actionTypes';
+import { BOARD_WRAPPER_CLASS } from '../../Constants/classNames';
 import { createElement } from '../../Utils/index.Utils';
 
 export default class Board {
@@ -32,7 +33,7 @@ export default class Board {
 
   constructor(parentElement: HTMLElement, observer: Observer) {
     this.parentElement = parentElement;
-    this.boardWrapper = createElement('div', 'board-wrapper');
+    this.boardWrapper = createElement('div', BOARD_WRAPPER_CLASS);
     this.observer = observer;
     this.panel = new Panel(this.boardWrapper, this, observer);
     this.start();

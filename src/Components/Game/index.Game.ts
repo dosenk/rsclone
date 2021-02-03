@@ -31,6 +31,7 @@ import {
   GAME_END,
   READY_TO_GAME,
 } from './statuses';
+import { GAME_CLASS } from '../../Constants/classNames';
 import IUserStats from '../../Observer/Interfaces/IUserStats';
 import Fetcher from '../../Fetcher/index.Fetcher';
 import { createElement } from '../../Utils/index.Utils';
@@ -58,7 +59,7 @@ export default class Game {
   constructor(observer: Observer, parenElement: HTMLElement) {
     this.observer = observer;
     this.parentElement = parenElement;
-    this.wrapper = createElement('div', 'game');
+    this.wrapper = createElement('div', GAME_CLASS);
     this.start();
     this.stats = this.observer.getState().stats;
     this.timer = new Timer(this.wrapper, observer);

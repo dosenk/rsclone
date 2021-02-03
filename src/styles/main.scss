@@ -6,11 +6,15 @@ body {
 }
 
 .main {
+  width: 95%;
+  height: calc(100% - #{$header_h} - #{$footer_h});
   flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 5px;
+  @media screen and (max-width: 768px) {
+    height: calc(100% + #{$footer_h});
+  }
 }
 
 .middleBlock {
@@ -146,6 +150,7 @@ body {
     box-shadow: inset 0 0 0 $border_thickness $color_hover_bg;
 
     &:hover {
+      color: $color_secondary;
       background-color: $color_hover_bg;
       cursor: pointer;
     }

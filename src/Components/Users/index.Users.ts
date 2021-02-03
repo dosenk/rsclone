@@ -75,10 +75,12 @@ export default class Users {
       avatar: PAINTER_AVATAR_CLASS,
       nickName: PAINTER_NICKNAME_CLASS,
     };
-    this.createUser(painter.name, painterClasses, true);
-    guessers.forEach((guesser: { name: string }) => {
-      this.createUser(guesser.name, guesserClasses);
-    });
+    if (painter.name && guessers.length > 0) {
+      this.createUser(painter.name, painterClasses, true);
+      guessers.forEach((guesser: { name: string }) => {
+        this.createUser(guesser.name, guesserClasses);
+      });
+    }
   }
 
   createUser(

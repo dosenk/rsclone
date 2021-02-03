@@ -1,18 +1,26 @@
 .client-chat {
-  width: 200px;
   overflow: hidden;
-  height: 500px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  margin-left: 10px;
+  min-height: 510px;
+  height: 75%;
+  @media screen and (max-width: 768px) {
+    height: 109px;
+    min-height: 59px;
+  }
+
+  @media screen and (min-width: 1400px) {
+    min-height: 570px;
+  }
 
   &__msg-block {
     display: flex;
     position: relative;
     height: 22px;
     width: 100%;
+    margin: 0 5px;
     &-info {
       display: flex;
       left: 35px;
@@ -25,6 +33,7 @@
       }
       &_msg {
         padding-left: 2px;
+        white-space: nowrap;
       }
     }
 
@@ -37,7 +46,6 @@
     &_like {
       background: url('../assets/images/like.png') no-repeat;
       background-size: cover;
-      // left: 17px;
     }
     &_dislike {
       background: url('../assets/images/dislike.png') no-repeat;
@@ -46,7 +54,6 @@
     &_like-active {
       background: url('../assets/images/like_active.png') no-repeat;
       background-size: cover;
-      // left: 17px;
     }
     &_dislike-active {
       background: url('../assets/images/dislike_active.png') no-repeat;
