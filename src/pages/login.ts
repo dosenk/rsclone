@@ -9,8 +9,11 @@ export default (
   router: Router
 ): void => {
   const { game } = observer.getState();
-  if (game instanceof Game) game.disconnect();
-  observer.setDefaultState();
+
+  if (game instanceof Game) {
+    game.disconnect();
+    observer.setDefaultState();
+  }
 
   const login = new Login(parent, observer, router);
   login.start();
