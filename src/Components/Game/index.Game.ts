@@ -110,7 +110,7 @@ export default class Game {
     }
 
     this.users.displayUsers(this.wrapper);
-    this.timer.start(30);
+    this.timer.start(3);
 
     this.observer.actions.setLoading(false);
     this.parentElement.append(this.wrapper);
