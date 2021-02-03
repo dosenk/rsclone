@@ -145,11 +145,14 @@ export default class Board {
 
   private getXandY(event: any) {
     const e = Board.checkTypeOfEvent(event);
+    const parentElement: any = this.board.offsetParent;
     this.mouse.x =
-      ((e.clientX - this.board.offsetLeft) * this.board.width) /
+      ((e.clientX - parentElement.offsetLeft - this.board.offsetLeft) *
+        this.board.width) /
       this.board.clientWidth;
     this.mouse.y =
-      ((e.clientY - this.board.offsetTop) * this.board.height) /
+      ((e.clientY - parentElement.offsetTop - this.board.offsetTop) *
+        this.board.height) /
       this.board.clientHeight;
     this.drawLine(event.type, this.mouse.x, this.mouse.y, true);
   }
